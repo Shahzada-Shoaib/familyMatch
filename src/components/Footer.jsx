@@ -15,9 +15,9 @@ function Footer() {
     //       This is Footer
     //   </div>
     <div className='border'>
-        <div className='container'>
+        <div className='container pb-4'>
               <h1 className='font-bold text-2xl'>Quick Links</h1>
-              <div className='flex gap-44 leading-8'>
+              <div className='md:flex gap-44 leading-8'>
                   <div>
                       <p>Number 1</p>
                       <p>Number 2</p>
