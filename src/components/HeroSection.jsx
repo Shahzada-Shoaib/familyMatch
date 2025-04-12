@@ -53,7 +53,7 @@ function HeroSection() {
                                 Family For Yours
                             </h1>
                             <div className="text-left mt-4">
-                                <button className="border-2 px-8 py-2 rounded-3xl bg-[#CD185B] text-white hover:border-[#CD185B]">GET STARTED</button>
+                                <button className="border-2 px-10 font-bold py-1 rounded-3xl bg-[#CD185B] text-white hover:border-[#CD185B]">GET STARTED</button>
                             </div>
                         </div>
                     </div>
