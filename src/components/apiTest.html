@@ -1,0 +1,25 @@
+var settings = {
+"url": "http://localhost/familymatch/api/signup",
+"method": "POST",
+"timeout": 0,
+"headers": {
+"X-API-KEY": "123456",
+"Content-Type": "application/x-www-form-urlencoded"
+},
+"data": {
+"full_name": "Raheel",
+"email": "raheel@test.com",
+"password": "12345",
+"username": "raheel.shehzad5",
+"age": "31",
+"gender": "Malwe",
+"family_preference": "test",
+"bio": "test bio",
+"city": "Lahore",
+"country": "pakistan"
+}
+};
+
+$.ajax(settings).done(function (response) {
+console.log(response);
+});
