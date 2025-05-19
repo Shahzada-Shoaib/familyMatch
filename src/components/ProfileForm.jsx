@@ -1,20 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ImageUploader from './ImageUploader';
+import GalleryStyle from './GalleryStyle';
+import TestComponent from './TestComponent';
 
+
+// const questions = [
+//     { id: 1, apiname:"number0", question: "Hi, Let's get started. When's your Birthday?0",input: 'text' },
+//     { id: 2, apiname: "number1", question: "What's your first name?1", input: 'text' },
+//     { id: 3, apiname: "number2", question: "Almost done. What's your email?2", input: 'text' },
+//     { id: 4, apiname: "number3", question: "Now let's get you set up with a password.3", input: 'text' },
+//     { id: 5, apiname: "number4", question: "How did you hear about FamilyMatch?4", input: 'text' },
+//     { id: 6, apiname: "number5", question: "How would you describe your body type?5", input: 'text' },
+//     { id: 7, apiname: "number6", question: "Have you ever been married?6", input: 'text' },
+//     { id: 8, apiname: "number7", question: "Do you have kids?7", input: 'text' },
+//     { id: 9, apiname: "number8", question: 'Do you want kids?8', input: 'text' },
+//     { id: 10, apiname: "number9", question: "Which ethnicity best describe you?9", input: 'text' },
+//     { id: 11, apiname: "number10", question: "What interests you?10", input: 'text' },
+//     { id: 12, apiname: "number11", question: "Add a topic to your profile.11", input: 'text' },
+//     { id: 13, apiname: "number12", question: "Add a topic to your profile.12", input: 'text' },
+//     { id: 14, apiname: "number13", question: "Add a topic to your profile.13", input: 'file' },
+//     { id: 15, apiname: "number14", question: "Add a topic to your profile.14", input: 'text' },
+//     { id: 16, apiname: "number15", question: "Add a topic to your profile.15", input: 'text' },
+//     { id: 17, apiname: "number16", question: "Add a topic to your profile.16", input: 'text' },
+
+// ];
 
 const questions = [
-    { id: 1, apiname:"number0", question: "Hi, Let's get started. When's your Birthday?0",input: 'text' },
-    { id: 2, apiname: "number1", question: "What's your first name?1", input: 'text' },
-    { id: 3, apiname: "number2", question: "Almost done. What's your email?2", input: 'text' },
-    { id: 4, apiname: "number3", question: "Now let's get you set up with a password.3", input: 'text' },
+    //signup data
+    { id: 1, apiname: "dob", question: "Hi, Let's get started. When's your Birthday?0", input: 'text' },
+    { id: 2, apiname: "full_name", question: "What's your Full name?1", input: 'text' },
+    { id: 3, apiname: "email", question: "Almost done. What's your email?2", input: 'text' },
+    { id: 4, apiname: "password", question: "Now let's get you set up with a password.3", input: 'text' },
+    //yhn tk signup ho k token aa jae ga
     { id: 5, apiname: "number4", question: "How did you hear about FamilyMatch?4", input: 'text' },
+
+
     { id: 6, apiname: "number5", question: "How would you describe your body type?5", input: 'text' },
+    //suervy started
     { id: 7, apiname: "number6", question: "Have you ever been married?6", input: 'text' },
     { id: 8, apiname: "number7", question: "Do you have kids?7", input: 'text' },
     { id: 9, apiname: "number8", question: 'Do you want kids?8', input: 'text' },
+    //yhn survey khtm ab blue screeb nthen get profile detail
     { id: 10, apiname: "number9", question: "Which ethnicity best describe you?9", input: 'text' },
     { id: 11, apiname: "number10", question: "What interests you?10", input: 'text' },
     { id: 12, apiname: "number11", question: "Add a topic to your profile.11", input: 'text' },
-];
+    { id: 13, apiname: "number12", question: "Imge upload", input: 'text' },
+    { id: 14, apiname: "number13", question: "Values selection", input: 'text' },
+
+]
+
+
 
 const ProfileForm = () => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -54,6 +89,12 @@ const ProfileForm = () => {
                     'X-API-KEY': '123456' // Change header key & value as needed
                 },
                 body: JSON.stringify(answers)
+                // body: JSON.stringify({
+                //     name: "John Doe",
+                //     email: "john10@example.com",
+                //     password: "securepassword",
+                //     // username: "johndoe"
+                // })
             });
 
             if (!response.ok) throw new Error('Network error');
@@ -61,11 +102,28 @@ const ProfileForm = () => {
             const data = await response.json();
             console.log("this is data", data);
             console.log("this is data.message", data.message);
+            console.log("this is data.token", data.token);
+
+            // Store the token in localStorage here:
+            localStorage.setItem('authToken', data.token);
+            console.log("Token stored in localStorage");
+            // if (data.token) {
+            //     localStorage.setItem('authToken', data.token);
+            //     console.log("Token stored in localStorage");
+            // }
+
 
         } catch (error) {
             console.error('Error fetching data:', error);
         };
         
+    };
+
+
+    //test
+    const receiveFromChild = (data) => {
+        console.log("Received from child:", data);
+        setAnswers({ ...answers, [questions[currentStep].apiname]: data });
     };
 
 
@@ -92,40 +150,43 @@ const ProfileForm = () => {
     ];
 
 
+    // const singleSelectQuestions = [
+    //     { id: 1, name: "one" },
+    //     { id: 2, name: "two" },
+    //     { id: 6, name: "three three three three" },
+    //     { id: 3, name: "three" },
+    //     { id: 4, name: "one one" },
+    //     { id: 5, name: "two two two" },
+
+    // ]
+
     const singleSelectQuestions = [
-        { id: 1, name: "one" },
-        { id: 2, name: "two" },
-        { id: 6, name: "three three three three" },
-        { id: 3, name: "three" },
-        { id: 4, name: "one one" },
-        { id: 5, name: "two two two" },
-    
-    ]
+        [{ id: 1, name: "Option 1-A" }, { id: 2, name: "Option 1-B" }],     // For step 4
+        [{ id: 3, name: "Option 2-A" }, { id: 4, name: "Option 2-B" }],     // For step 5
+        [{ id: 5, name: "Option 3-A" }, { id: 6, name: "Option 3-B" }],     // For step 6
+        [{ id: 7, name: "Option 4-A" }, { id: 8, name: "Option 4-B" }]      // For step 7
+    ];
 
 
-    //test onclick handle select option 
-    // const handleOptionSelect = (qName, currentStep, questions, answers, setAnswers, setSelectedOptions) => {
-    //     const currentApiName = questions[currentStep].apiname;
-    //     const currentAnswers = answers[currentApiName] || [];
 
-    //     const updatedAnswers = currentAnswers.includes(qName)
-    //         ? currentAnswers.filter((item) => item !== qName) // Remove if already selected
-    //         : [...currentAnswers, qName]; // Add if not selected
 
-    //     const newAnswers = {
-    //         ...answers,
-    //         [currentApiName]: updatedAnswers,
-    //     };
 
-    //     // Console for debugging
-    //     console.log("Updated Answers Object:", newAnswers);
-    //     console.log("Current Question's Selected Options:", updatedAnswers);
-
-    //     setAnswers(newAnswers);
-    //     setSelectedOptions(updatedAnswers); // optional: depends on your use case
-    // };
-
-    
+    //Api in useEffect
+    useEffect(() => {
+        fetch('http://192.168.0.169/familymatch/api/questions', {
+            headers: {
+                'Content-Type': 'application/json',
+                'X-API-KEY': '123456'// or 'x-api-key': 'YOUR_API_KEY_HERE' depending on your API requirements
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log("use effect questions data", data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }, []);
 
 
     return (
@@ -155,24 +216,23 @@ const ProfileForm = () => {
 
                                 {
                                     currentStep >= 4 && currentStep <= 7 ? (
-                                        singleSelectQuestions.map((q) => (   
-                                            <span className={currentStep === 4 ? 'flex justify-center' : ''}>
+                                        singleSelectQuestions[currentStep - 4]?.map((q) => (
+                                            <span key={q.id} className={currentStep === 4 ? 'flex justify-center' : ''}>
                                                 <button
-                                                    key={q.id}
                                                     className={`text-[#AE2456] border m-2 py-2 px-6 rounded-3xl w-full sm:w-auto 
-                                                 ${answers[questions[currentStep].apiname] === q.name ? 'bg-[#AE2456] text-white' : ''}
-                                                `}
+                                             ${answers[questions[currentStep].apiname] === q.name ? 'bg-[#AE2456] text-white' : ''}
+                                             `}
                                                     onClick={() => {
                                                         setAnswers({ ...answers, [questions[currentStep].apiname]: q.name });
-                                                        handleNext(); // ye function bhi ab chalega
+                                                        handleNext();
                                                     }}
                                                 >
                                                     {q.name}
                                                 </button>
-                                             </span>
-                                          
+                                            </span>
                                         ))
-                                    ) :    
+                                    )
+                                        :    
                                         currentStep >= 8 && currentStep <= 11 ?  (
                                        // Multiple select Answers buttons   
                                             buttonQuestions.map((q) => (
@@ -185,20 +245,7 @@ const ProfileForm = () => {
                                                                 : ''
                                                             }
                                                     `}
-                                                        // onClick={() => {
-                                                        //     const currentAnswers = answers[questions[currentStep].apiname] || [];
-                                                        //     setAnswers({
-                                                        //         ...answers,
-                                                        //         [questions[currentStep].apiname]: currentAnswers.includes(q.name)
-                                                        //             ? currentAnswers.filter((item) => item !== q.name) // Remove if already selected
-                                                        //             : [...currentAnswers, q.name], // Add if not selected
-                                                        //     });
-                                                        // }}
-                                                        // onClick={() => handleAnswerClick(q.name, currentStep, questions, answers, setAnswers)}
-                                                        //////
-                                                        //
-                                                        //
-                                                        //test
+
                                                         onClick={() => {
                                                             const { apiname } = questions[currentStep];
                                                             const currentAnswers = answers[apiname] || [];
@@ -220,63 +267,59 @@ const ProfileForm = () => {
                                                             setSelectedOptions(updatedAnswers); // Optional: update if needed elsewhere
                                                         }}
 
-
-
-                                                        //test
-                                                        // onClick={() => {
-                                                        //     const currentApiName = questions[currentStep].apiname;
-                                                        //     const currentAnswers = answers[currentApiName] || [];
-
-                                                        //     const updatedAnswers = currentAnswers.includes(q.name)
-                                                        //         ? currentAnswers.filter((item) => item !== q.name)
-                                                        //         : [...currentAnswers, q.name];
-
-                                                        //     const newAnswers = {
-                                                        //         ...answers,
-                                                        //         [currentApiName]: updatedAnswers,
-                                                        //     };
-
-                                                        //     // 👇 Yeh ab sirf us current question (index) ke selected options honge
-                                                        //     const alay = updatedAnswers;
-
-                                                        //     // Console for debugging
-                                                        //     console.log("Updated Answers Object:", newAnswers);
-                                                        //     console.log("Current Question's Selected Options (alay):", alay);
-
-                                                        //     setAnswers(newAnswers);
-                                                        //     setSelectedOptions(alay); // optional: depends on your use case
-                                                        // }}
-                                                        ////////
-                                                        //test2
-                                                        
-
-
-                                                        // onClick={() =>
-                                                        //     handleOptionSelect(q.name, currentStep, questions, answers, setAnswers, setSelectedOptions)
-                                                        // }
-
                                                     >
                                                         {q.name}
                                                     </button>
-                                                  </span>
-                                               
- 
-
+                                                </span>
                                             ))
-                                    ) : 
-                                    (
-                                        //Input field for Questions
-                                        <div>
-                                                    <input
+                                        ) : currentStep === 12 ? (
+                                            <div className=''>
+                                                <p className='text-[#AE2456] font-bold mb-2'>Example</p>
+                                                <textarea
+                                                    value={answers[q.apiname] || ''}
+                                                    onChange={handleChange}
+                                                    className="border w-full rounded-lg p-4"
+                                                    rows={4}  // You can adjust number of visible lines here
+                                                    placeholder="What's your vibe? Drop a topic!"
+                                                />
+
+                                                    <div className=' text-center mt-4'>
+                                                        <button className='px-20 py-3 border-2 rounded-4xl text-white bg-[#AE2456]'
+                                                            onClick={handleNext} >Continue</button>
+                                                    </div>
+                                                </div>
+                                            ) : currentStep === 13 ? (
+                                                // File upload input field
+                                                <div>
+                                                    {/* <input
                                                         type={q.input}
                                                         value={answers[q.apiname] || ''}
-                                                        // value="this is hardcoded"
                                                         onChange={handleChange}
-                                                        className="mb-1 border-b-2 border-[#AE2456] pt-4 sm:pt-6 w-full focus:outline-none text-base sm:text-lg"
-                                                    />
-                                                    <p className='text-[#444444] text-xs'>You can type your answer here</p>
-                                        </div>
-                                    )
+                                                        className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                                    /> */}
+                                                    <ImageUploader />
+
+                                                    </div>
+                                                )
+                                                    : currentStep === 14 ? (
+                                                        <GalleryStyle sendToParent={receiveFromChild} />
+
+                                                    )
+                                                        :
+                                                        (
+
+                                                            <div>
+                                                                <input
+                                                                    type={q.input}
+                                                                    value={answers[q.apiname] || ''}
+                                                                    // value="this is hardcoded"
+                                                                    onChange={handleChange}
+                                                                    className="mb-1 border-b-2 border-[#AE2456] pt-4 sm:pt-6 w-full focus:outline-none text-base sm:text-lg"
+                                                                />
+                                                                <p className='text-[#444444] text-xs'>You can type your answer here</p>
+                                                            </div>
+
+                                                        )
                                 }
                             </div>
                         ))}
@@ -286,7 +329,7 @@ const ProfileForm = () => {
                 </div>
 
 
-                {!(currentStep >= 4 && currentStep <= 11) && (
+                {!(currentStep >= 4 && currentStep <= 12) && (
                     <div className="mt-6 flex flex-col sm:flex-row justify-between gap-3 sm:gap-0">
 
                         {currentStep !== 0 && (
@@ -320,11 +363,6 @@ const ProfileForm = () => {
 
                 {currentStep >= 8 && currentStep <= 11 ? ( 
                     <div>
-                        {/* <div className='flex  justify-between'><p>You've Chosen</p><p>(0/10)</p></div>
-                        <div className='flex justify-between '>
-                            <div className='borde-2 rounded-4xl' > selected options</div>
-                            <div> Arrow Sign</div>
-                        </div> */}
                         <div className=' text-center'>
                             <button className='px-20 py-3 border-2 rounded-4xl text-white bg-[#AE2456]'
                             onClick={handleNext} >Continue</button>
