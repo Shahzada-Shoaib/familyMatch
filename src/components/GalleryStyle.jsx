@@ -11,7 +11,7 @@ const values = [
     { id: 8, label: 'Family', icon: '👨‍👩‍👧‍👦' },
 ];
 
-const GalleryStyle = ({ sendToParent }) => {
+const GalleryStyle = ({ sendToParent, handleNextFucntion }) => {
     const [selected, setSelected] = useState([]);
 
     const toggleValue = (id) => {
@@ -23,17 +23,35 @@ const GalleryStyle = ({ sendToParent }) => {
     };
 
     // ✅ Send updated value to parent whenever `selected` changes
+    // useEffect(() => {
+    //     if (selected.length > 0) {
+    //         sendToParent(selected);
+    //         console.log("Updated selected values:", selected);
+    //     }
+    // }, [selected]);
     useEffect(() => {
         if (selected.length > 0) {
             sendToParent(selected);
             console.log("Updated selected values:", selected);
         }
+
+        if (selected.length === 3) {
+            handleNextFucntion();
+        }
     }, [selected]);
+
+    // // Define your function outside the useEffect
+    // const handleThreeSelected = () => {
+    //     handleNextFucntion();
+    //     console.log("Exactly 3 items selected!");
+    //     // Add your custom logic here
+    // };
+
 
 
     return (
-        <div className="max-w-3xl mx-auto px-4 py-8 text-center">
-            <h2 className="text-2xl font-semibold mb-2">What are your core values?</h2>
+        <div className="max-w-3xl mx-auto px-4 text-center ">
+            {/* <h2 className="text-2xl font-semibold mb-2">What are your core values?</h2> */}
             <p className="text-gray-600 mb-6">Choose 3 values to share on your profile.</p>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -46,7 +64,7 @@ const GalleryStyle = ({ sendToParent }) => {
                                 : 'border-gray-200 bg-white hover:bg-gray-50'
                             }`}
                     >
-                        <div className="text-3xl mb-2">{icon}</div>
+                        <div className="text-5xl mb-2">{icon}</div>
                         <div className="font-medium">{label}</div>
 
                         {selected.includes(id) && (
