@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import hand from '/icons/hand_icon.png'; // Adjust the path as necessary
 
-function FormCompletionScreen() {
+function FormCompletionScreen({ answers }) {
+
+    useEffect(() => {
+        console.log("completion form data", answers);
+    }, [answers]);
+    // call the api to save the data
   return (
     <div className='text-center flex flex-col items-center justify-center'>
           <img className='w-72 h-72' src={hand} alt="" />

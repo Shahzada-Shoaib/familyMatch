@@ -5,6 +5,7 @@ import ProfileForm from './components/ProfileForm'
 import SignupForm from './components/SignupForm';
 import ApiTesting from './components/ApiTesting';
 import ImageUploader from './components/ImageUploader';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
 
@@ -13,10 +14,12 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage/>} />
-        <Route path="/profile" element={<ProfileForm/>} />
+        <Route path="/profileform" element={<ProfileForm/>} />
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/testing" element={<ApiTesting />} />
         <Route path="/photo" element={<ImageUploader/>} />
+        <Route path="/profilepage" element={< ProfilePage/>} />
+
 
       </Routes>
     </Router>

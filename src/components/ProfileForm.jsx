@@ -3,8 +3,6 @@ import ImageUploader from './ImageUploader';
 import GalleryStyle from './GalleryStyle';
 import TestComponent from './TestComponent';
 import FormCompletionScreen from './FormCompletionScreen';
-import { div, p } from 'framer-motion/client';
-
 
 // const questions = [
 //     { id: 1, apiname:"number0", question: "Hi, Let's get started. When's your Birthday?0",input: 'text' },
@@ -28,25 +26,27 @@ import { div, p } from 'framer-motion/client';
 
 const questions = [
     //signup data
-    { id: 1, apiname: "dob", question: "Hi, Let's get started. When's your Birthday?0", input: 'text' },
-    { id: 2, apiname: "full_name", question: "What's your Full name?1", input: 'text' },
-    { id: 3, apiname: "email", question: "Almost done. What's your email?2", input: 'text' },
-    { id: 4, apiname: "password", question: "Now let's get you set up with a password.3", input: 'text' },
+    { id: 1, apiname: "number0", question: "Hi, Let's get started. When's your Birthday?0", input: 'date' },
+    { id: 2, apiname: "number1", question: "What's your Full name?1", input: 'text' },
+    { id: 3, apiname: "number2", question: "Almost done. What's your email?2", input: 'text' },
+    { id: 4, apiname: "number3", question: "Now let's get you set up with a password.3", input: 'text' },
     //yhn tk signup ho k token aa jae ga
     { id: 5, apiname: "number4", question: "How did you hear about FamilyMatch?4", input: 'text' },
-    { id: 6, apiname: "number5", question: "How would you describe your body type?5", input: 'text' },
+    { id: 6, apiname: "number5", question: "What's your religion?5", input: 'text' },
+    { id: 7, apiname: "number6", question: "How would you describe your body type?6", input: 'text' },
     //suervy started
-    { id: 7, apiname: "number6", question: "Have you ever been married?6", input: 'text' },
-    { id: 8, apiname: "number7", question: "Do you have kids?7", input: 'text' },
-    { id: 9, apiname: "number8", question: 'Do you want kids?8', input: 'text' },
+    { id: 8, apiname: "number7", question: "Have you ever been married?7", input: 'text' },
+    { id: 9, apiname: "number8", question: "Do you have kids?8", input: 'text' },
+    { id: 10, apiname: "number9", question: 'Do you want kids?9', input: 'text' },
     //yhn survey khtm ab blue screeb nthen get profile detail
-    { id: 10, apiname: "number9", question: "Which ethnicity best describe you?9", input: 'text' },
-    { id: 11, apiname: "number10", question: "What interests you?10", input: 'text' },
-    { id: 12, apiname: "number11", question: "Add a topic to your profile.11", input: 'text' },
-    { id: 13, apiname: "number12", question: "Ready to catch someone’s eye? 👀", input: 'text' },
-    { id: 14, apiname: "number13", question: "What are your core values?", input: 'text' },
-    { id: 15, apiname: "number14", question: "", input: 'text'},
-]
+    { id: 11, apiname: "number10", question: "Which ethnicity best describe you?10", input: 'text' },
+    { id: 12, apiname: "number11", question: "What interests you?11", input: 'text' },
+    { id: 13, apiname: "number12", question: "Add a topic to your profile.12", input: 'text' },
+    { id: 14, apiname: "number13", question: "Ready to catch someone’s eye?13 👀", input: 'text' },
+    { id: 15, apiname: "number14", question: "What are your core values?14", input: 'text' },
+    { id: 16, apiname: "number15", question: "", input: 'text'},
+];
+
 
 
 
@@ -150,15 +150,7 @@ const ProfileForm = () => {
     ];
 
 
-    // const singleSelectQuestions = [
-    //     { id: 1, name: "one" },
-    //     { id: 2, name: "two" },
-    //     { id: 6, name: "three three three three" },
-    //     { id: 3, name: "three" },
-    //     { id: 4, name: "one one" },
-    //     { id: 5, name: "two two two" },
-
-    // ]
+    
 
     const singleSelectQuestions = [
         [{ id: 1, name: "Option 1-A" }, { id: 2, name: "Option 1-B" }],     // For step 4
@@ -167,28 +159,6 @@ const ProfileForm = () => {
         [{ id: 7, name: "Option 4-A" }, { id: 8, name: "Option 4-B" }]      // For step 7
     ];
 
-
-
-
-
-    //Api in useEffect
-    // useEffect(() => {
-    //     fetch('/api/refferals', {
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'X-API-KEY': '123456'// or 'x-api-key': 'YOUR_API_KEY_HERE' depending on your API requirements
-    //         }
-    //     })
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             console.log("use effect questions data", data);
-    //             setApiData(data);
-    //             console.log("this is Apidata", ApiData);
-    //         })
-    //         .catch(err => {
-    //             console.error(err);
-    //         });
-    // }, []);
 
 
     useEffect(() => {
@@ -220,10 +190,10 @@ const ProfileForm = () => {
         const { apiname } = questions[currentStep];
         const currentAnswers = answers[apiname] || [];
 
-        const isAlreadySelected = currentAnswers.includes(q.name);
+        const isAlreadySelected = currentAnswers.includes(q.id);
         const updatedAnswers = isAlreadySelected
-            ? currentAnswers.filter((item) => item !== q.name)
-            : [...currentAnswers, q.name];
+            ? currentAnswers.filter((item) => item !== q.id)
+            : [...currentAnswers, q.id];
 
         const newAnswers = {
             ...answers,
@@ -266,16 +236,19 @@ const ProfileForm = () => {
 
                                 {
                                     //Single Select OPtions
-                                    currentStep >= 4 && currentStep <= 8 ? (
+                                    currentStep >= 4 && currentStep <= 9 ? (
                                         ApiData.data[currentStep - 4]?.map((q) => (
                                             <span key={q.id} className={currentStep === 4 ? 'flex justify-center' : ''}>
                                                 <button
                                                     className={`text-[#AE2456] border m-2 py-2 px-6 rounded-3xl w-full sm:w-auto 
-                                             ${answers[questions[currentStep].apiname] === q.name ? 'bg-[#AE2456] text-white' : ''}
+                                             ${answers[questions[currentStep].apiname] === q.id ? 'bg-[#AE2456] text-white' : ''}
                                              `}
                                                     onClick={() => {
-                                                        setAnswers({ ...answers, [questions[currentStep].apiname]: q.name });
-                                                        handleNext();
+                                                        setAnswers({ ...answers, [questions[currentStep].apiname]: q.id });
+                                                        setTimeout(() => {
+                                                            handleNext();
+                                                        }, 1000); // delay in milliseconds (2000 ms = 2 seconds)
+
                                                     }}
                                                 >
                                                     {q.name}
@@ -284,41 +257,43 @@ const ProfileForm = () => {
                                         ))
                                     )
                                         :    
-                                        currentStep === 9 ? (
+                                        currentStep === 10 ? (
                                        // Multiple select Answers buttons   
                                             ApiData?.data?.[5].map((q) => (
                                                     <button
                                                         key={q.id}
                                                         className={` text-black border m-2 py-2 px-6 rounded-3xl sm:w-auto
-                                                    ${(answers[questions[currentStep].apiname] || []).includes(q.name)
+                                                    ${(answers[questions[currentStep].apiname] || []).includes(q.id)
                                                                 ? 'bg-black text-white'
                                                                 : ''
                                                             }
                                                     `}
-
                                                         onClick={() => handleOptionClick(q, questions, currentStep, answers, setAnswers, setSelectedOptions)}   
                                                     >
                                                         {q.name}
                                                     </button>
                                             ))
-                                        ) : currentStep === 10 ? (
+                                        ) : currentStep === 11 ? (
                                                 ApiData?.data?.[6].map((q) => (
                                                     <button
                                                         key={q.id}
-                                                        className={` text-black border m-2 py-2 px-6 rounded-3xl sm:w-auto
-                                                    ${(answers[questions[currentStep].apiname] || []).includes(q.name)
+                                                        className={`text-black border m-2 py-2 px-6 rounded-3xl sm:w-auto
+                                                    ${(answers[questions[currentStep].apiname] || []).includes(q.id)
                                                                 ? 'bg-black text-white'
                                                                 : ''
                                                             }
                                                     `}
-
                                                         onClick={() => handleOptionClick(q, questions, currentStep, answers, setAnswers, setSelectedOptions)}
                                                     >
-                                                        {q.name}
+                                                        <div className='flex items-center gap-1'>
+                                                            <img src={q.image} alt="" className='w-3 h-3 mr-2' />
+                                                            <span>  {q.name} </span>
+                                                        </div>
                                                     </button>
                                                 ))
                                         ) 
-                                        : currentStep === 11 ? (
+                                        //Tesxt area input field
+                                        : currentStep === 12 ? (
                                             <div className=''>
                                                 <p className='text-[#AE2456] font-bold mb-2'>Example</p>
                                                 <textarea
@@ -334,35 +309,27 @@ const ProfileForm = () => {
                                                             onClick={handleNext} >Continue</button>
                                                     </div>
                                                 </div>
-                                            ) : currentStep === 12 ? (
-                                                // File upload input field
+                                            ) : currentStep === 13 ? (
+                                            // File upload input field
                                                 <div>
-                                                    {/* <input
-                                                        type={q.input}
-                                                        value={answers[q.apiname] || ''}
-                                                        onChange={handleChange}
-                                                        className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                                                    /> */}
+
                                                         <ImageUploader onButtonClick={handleNext} />
 
                                                     </div>   
-                                                ) : currentStep === 13 ? (
-                                                    <GalleryStyle sendToParent={receiveFromChild} handleNextFucntion={handleNext} />
                                                 ) : currentStep === 14 ? (
-                                                    <FormCompletionScreen />
+                                                    <GalleryStyle sendToParent={receiveFromChild} handleNextFucntion={handleNext} />
+                                                ) : currentStep === 15 ? (
+                                                    <FormCompletionScreen answers={answers} />
                                                 ) : (
-
+                                            // Text input field
                                                             <div>
                                                                 <input
                                                                     type={q.input}
                                                                     value={answers[q.apiname] || ''}
-                                                                    // value="this is hardcoded"
                                                                     onChange={handleChange}
                                                                     className="mb-1 border-b-2 border-[#AE2456] pt-4 sm:pt-6 w-full focus:outline-none text-base sm:text-lg"
                                                                 />
                                                                 <p className='text-[#444444] text-xs'>You can type your answer here</p>
-                                                                    {/* //test */}
-                                                                    {/* <FormCompletionScreen /> */}
                                                             </div>
 
                                                         )
