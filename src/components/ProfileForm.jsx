@@ -3,47 +3,34 @@ import ImageUploader from './ImageUploader';
 import GalleryStyle from './GalleryStyle';
 import TestComponent from './TestComponent';
 import FormCompletionScreen from './FormCompletionScreen';
+import { validateInput } from '../../utils/validation'; // Adjust path as needed
+import InputField from './InputFields'; // adjust the path as needed
 
-// const questions = [
-//     { id: 1, apiname:"number0", question: "Hi, Let's get started. When's your Birthday?0",input: 'text' },
-//     { id: 2, apiname: "number1", question: "What's your first name?1", input: 'text' },
-//     { id: 3, apiname: "number2", question: "Almost done. What's your email?2", input: 'text' },
-//     { id: 4, apiname: "number3", question: "Now let's get you set up with a password.3", input: 'text' },
-//     { id: 5, apiname: "number4", question: "How did you hear about FamilyMatch?4", input: 'text' },
-//     { id: 6, apiname: "number5", question: "How would you describe your body type?5", input: 'text' },
-//     { id: 7, apiname: "number6", question: "Have you ever been married?6", input: 'text' },
-//     { id: 8, apiname: "number7", question: "Do you have kids?7", input: 'text' },
-//     { id: 9, apiname: "number8", question: 'Do you want kids?8', input: 'text' },
-//     { id: 10, apiname: "number9", question: "Which ethnicity best describe you?9", input: 'text' },
-//     { id: 11, apiname: "number10", question: "What interests you?10", input: 'text' },
-//     { id: 12, apiname: "number11", question: "Add a topic to your profile.11", input: 'text' },
-//     { id: 13, apiname: "number12", question: "Add a topic to your profile.12", input: 'text' },
-//     { id: 14, apiname: "number13", question: "Add a topic to your profile.13", input: 'file' },
-//     { id: 15, apiname: "number14", question: "Add a topic to your profile.14", input: 'text' },
-//     { id: 16, apiname: "number15", question: "Add a topic to your profile.15", input: 'text' },
-//     { id: 17, apiname: "number16", question: "Add a topic to your profile.16", input: 'text' },
-// ];
+
+
+
+
 
 const questions = [
     //signup data
-    { id: 1, apiname: "number0", question: "Hi, Let's get started. When's your Birthday?0", input: 'date' },
-    { id: 2, apiname: "number1", question: "What's your Full name?1", input: 'text' },
-    { id: 3, apiname: "number2", question: "Almost done. What's your email?2", input: 'text' },
-    { id: 4, apiname: "number3", question: "Now let's get you set up with a password.3", input: 'text' },
+    { id: 1, apiname: "dob", question: "When's your Birth date?", input: 'date', validationType: 'birthday' },
+    { id: 2, apiname: "full_name", question: "What's your Full name?", input: 'text', validationType: 'name' },
+    { id: 3, apiname: "email", question: "What's your email?", input: 'email', validationType: 'email1' },
+    { id: 4, apiname: "password", question: "Set up a password.", input: 'password', validationType: 'password' },
     //yhn tk signup ho k token aa jae ga
-    { id: 5, apiname: "number4", question: "How did you hear about FamilyMatch?4", input: 'text' },
-    { id: 6, apiname: "number5", question: "What's your religion?5", input: 'text' },
-    { id: 7, apiname: "number6", question: "How would you describe your body type?6", input: 'text' },
+    { id: 5, apiname: "reffer_id", question: "How did you hear about FamilyMatch?4", input: 'text' },
+    { id: 6, apiname: "religion_id", question: "What's your religion?5", input: 'text' },
+    { id: 7, apiname: "body_type", question: "How would you describe your body type?6", input: 'text' },
     //suervy started
-    { id: 8, apiname: "number7", question: "Have you ever been married?7", input: 'text' },
-    { id: 9, apiname: "number8", question: "Do you have kids?8", input: 'text' },
-    { id: 10, apiname: "number9", question: 'Do you want kids?9', input: 'text' },
+    { id: 8, apiname: "survey_11", question: "Have you ever been married?7", input: 'text' },
+    { id: 9, apiname: "survey_16", question: "Do you have kids?8", input: 'text' },
+    { id: 10, apiname: "survey_17", question: 'Do you want kids?9', input: 'text' },
     //yhn survey khtm ab blue screeb nthen get profile detail
-    { id: 11, apiname: "number10", question: "Which ethnicity best describe you?10", input: 'text' },
-    { id: 12, apiname: "number11", question: "What interests you?11", input: 'text' },
-    { id: 13, apiname: "number12", question: "Add a topic to your profile.12", input: 'text' },
-    { id: 14, apiname: "number13", question: "Ready to catch someone’s eye?13 👀", input: 'text' },
-    { id: 15, apiname: "number14", question: "What are your core values?14", input: 'text' },
+    { id: 11, apiname: "ethnic", question: "Which ethnicity best describe you?10", input: 'text' },
+    { id: 12, apiname: "interests", question: "What interests you?11", input: 'text' },
+    { id: 13, apiname: "bio", question: "Add a topic to your profile.12", input: 'text' },
+    { id: 14, apiname: "profile_pic", question: "Ready to catch someone’s eye?13 👀", input: 'text' },
+    { id: 15, apiname: "cvalues", question: "What are your core values?14", input: 'text' },
     { id: 16, apiname: "number15", question: "", input: 'text'},
 ];
 
@@ -54,8 +41,9 @@ const ProfileForm = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [answers, setAnswers] = useState({});
     const [ApiData, setApiData] = useState([]);
-    //test
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [errors, setErrors] = useState({});
+
 
     const handleNext = () => {
         if (currentStep < questions.length - 1) {
@@ -72,11 +60,33 @@ const ProfileForm = () => {
         }
     };
 
-    const handleChange = (e) => {
-        setAnswers({ ...answers, [questions[currentStep].apiname]: e.target.value });
-        console.log("this is in handleChange", answers);
+
+    //Test from utils
+    const getValidationType = (question) => {
+        switch (question.id) {
+            case 1: return 'birthday';
+            case 2: return 'name';
+            case 3: return 'email';
+            case 4: return 'password';
+            default: return '';
+        }
     };
 
+    const handleChange = (e) => {
+        const { value } = e.target;
+        const currentQuestion = questions[currentStep];
+        const validationType = getValidationType(currentQuestion);
+        const error = validateInput(validationType, value);
+
+        setAnswers({ ...answers, [currentQuestion.apiname]: value });
+        setErrors({ ...errors, [currentQuestion.apiname]: error });
+    };
+
+
+
+
+
+    //test abpve
     const handleFinish = async () => {
         console.log("this is in finish handle", answers);
         handleNext();
@@ -89,12 +99,8 @@ const ProfileForm = () => {
                     'X-API-KEY': '123456' // Change header key & value as needed
                 },
                 body: JSON.stringify(answers)
-                // body: JSON.stringify({
-                //     name: "John Doe",
-                //     email: "john10@example.com",
-                //     password: "securepassword",
-                //     // username: "johndoe"
-                // })
+                // body: JSON.answers
+
             });
 
             if (!response.ok) throw new Error('Network error');
@@ -107,16 +113,9 @@ const ProfileForm = () => {
             // Store the token in localStorage here:
             localStorage.setItem('authToken', data.token);
             console.log("Token stored in localStorage");
-            // if (data.token) {
-            //     localStorage.setItem('authToken', data.token);
-            //     console.log("Token stored in localStorage");
-            // }
-
-
         } catch (error) {
             console.error('Error fetching data:', error);
         };
-        
     };
 
 
@@ -125,39 +124,6 @@ const ProfileForm = () => {
         console.log("Received from child:", data);
         setAnswers({ ...answers, [questions[currentStep].apiname]: data });
     };
-
-
-
-    const buttonQuestions = [
-        // Basic numbers
-        { id: 1, name: "One" },
-        { id: 2, name: "Two" },
-        { id: 3, name: "Three" },
-        { id: 4, name: "Four" },
-        { id: 5, name: "Five" },
-        { id: 6, name: "Six" },
-        { id: 7, name: "Seven" },
-        { id: 8, name: "Eight" },
-        { id: 9, name: "Nine" },
-        { id: 10, name: "Ten" },
-        // // Repeated/compound names
-        { id: 11, name: "Two Two Two" },
-        { id: 12, name: "Three Three Three" },
-        { id: 13, name: "Eleven Eleven" },
-        { id: 14, name: "Twelve Twelve Twelve" },
-        { id: 15, name: "Thirteen Thirteen" },
-        { id: 16, name: "Fifteen Fifteen" },
-    ];
-
-
-    
-
-    const singleSelectQuestions = [
-        [{ id: 1, name: "Option 1-A" }, { id: 2, name: "Option 1-B" }],     // For step 4
-        [{ id: 3, name: "Option 2-A" }, { id: 4, name: "Option 2-B" }],     // For step 5
-        [{ id: 5, name: "Option 3-A" }, { id: 6, name: "Option 3-B" }],     // For step 6
-        [{ id: 7, name: "Option 4-A" }, { id: 8, name: "Option 4-B" }]      // For step 7
-    ];
 
 
 
@@ -259,7 +225,7 @@ const ProfileForm = () => {
                                         :    
                                         currentStep === 10 ? (
                                        // Multiple select Answers buttons   
-                                            ApiData?.data?.[5].map((q) => (
+                                            ApiData?.data?.[6].map((q) => (
                                                     <button
                                                         key={q.id}
                                                         className={` text-black border m-2 py-2 px-6 rounded-3xl sm:w-auto
@@ -274,7 +240,7 @@ const ProfileForm = () => {
                                                     </button>
                                             ))
                                         ) : currentStep === 11 ? (
-                                                ApiData?.data?.[6].map((q) => (
+                                                ApiData?.data?.[7].map((q) => (
                                                     <button
                                                         key={q.id}
                                                         className={`text-black border m-2 py-2 px-6 rounded-3xl sm:w-auto
@@ -317,20 +283,24 @@ const ProfileForm = () => {
 
                                                     </div>   
                                                 ) : currentStep === 14 ? (
-                                                    <GalleryStyle sendToParent={receiveFromChild} handleNextFucntion={handleNext} />
+                                                    <GalleryStyle 
+                                                    sendToParent={receiveFromChild} 
+                                                    handleNextFucntion={handleNext}
+                                                    apiData={ApiData}
+                                                     />
                                                 ) : currentStep === 15 ? (
                                                     <FormCompletionScreen answers={answers} />
                                                 ) : (
                                             // Text input field
-                                                            <div>
-                                                                <input
-                                                                    type={q.input}
-                                                                    value={answers[q.apiname] || ''}
-                                                                    onChange={handleChange}
-                                                                    className="mb-1 border-b-2 border-[#AE2456] pt-4 sm:pt-6 w-full focus:outline-none text-base sm:text-lg"
-                                                                />
-                                                                <p className='text-[#444444] text-xs'>You can type your answer here</p>
-                                                            </div>
+
+                                                                    <InputField
+                                                                        q={q}
+                                                                        answers={answers}
+                                                                        handleChange={handleChange}
+                                                                        errors={errors}
+                                                                    />
+
+
 
                                                         )
                                 }
@@ -362,12 +332,19 @@ const ProfileForm = () => {
                                 Finish
                             </button>
                         ) : (
-                            <button
-                                onClick={handleNext}
-                                className="bg-[#AE2456] text-white py-2 px-6 rounded-3xl w-full sm:w-auto"
-                            >
-                                Next
-                            </button>
+                                <button
+                                    onClick={handleNext}
+                                    className="bg-[#AE2456] text-white py-2 px-6 rounded-3xl w-full sm:w-auto 
+                                    disabled:opacity-60 disabled:bg-[#00000080] disabled:cursor-not-allowed"
+                                    disabled={
+                                        !!errors[questions[currentStep].apiname] ||
+                                        !answers[questions[currentStep].apiname]
+                                    }
+                                >
+                                    Next
+                                </button>
+
+
                         )}
 
                     </div>

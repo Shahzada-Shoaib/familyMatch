@@ -1,17 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const values = [
-    { id: 1, label: 'Compassion', icon: '💖' },
-    { id: 2, label: 'Respect', icon: '🌿' },
-    { id: 3, label: 'Gratitude', icon: '🌟' },
-    { id: 4, label: 'Loyalty', icon: '🔗' },
-    { id: 5, label: 'Kindness', icon: '🌸' },
-    { id: 6, label: 'Ambition', icon: '🚀' },
-    { id: 7, label: 'Humor', icon: '😂' },
-    { id: 8, label: 'Family', icon: '👨‍👩‍👧‍👦' },
-];
-
-const GalleryStyle = ({ sendToParent, handleNextFucntion }) => {
+const GalleryStyle = ({ sendToParent, handleNextFucntion, apiData }) => {
     const [selected, setSelected] = useState([]);
 
     const toggleValue = (id) => {
@@ -22,13 +11,6 @@ const GalleryStyle = ({ sendToParent, handleNextFucntion }) => {
         }
     };
 
-    // ✅ Send updated value to parent whenever `selected` changes
-    // useEffect(() => {
-    //     if (selected.length > 0) {
-    //         sendToParent(selected);
-    //         console.log("Updated selected values:", selected);
-    //     }
-    // }, [selected]);
     useEffect(() => {
         if (selected.length > 0) {
             sendToParent(selected);
@@ -40,22 +22,17 @@ const GalleryStyle = ({ sendToParent, handleNextFucntion }) => {
         }
     }, [selected]);
 
-    // // Define your function outside the useEffect
-    // const handleThreeSelected = () => {
-    //     handleNextFucntion();
-    //     console.log("Exactly 3 items selected!");
-    //     // Add your custom logic here
-    // };
-
-
+    useEffect(() => {
+        console.log("gallery data", apiData.data[8]);
+    }, [apiData]);
 
     return (
-        <div className="max-w-3xl mx-auto px-4 text-center ">
-            {/* <h2 className="text-2xl font-semibold mb-2">What are your core values?</h2> */}
+        <div className="max-w-3xl mx-auto px-4 text-center">
             <p className="text-gray-600 mb-6">Choose 3 values to share on your profile.</p>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {values.map(({ id, label, icon }) => (
+            {/* Scrollable fixed-height grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-[60vh] overflow-y-scroll no-scrollbar">
+                {apiData.data[8].map(({ id, name, image }) => (
                     <div
                         key={id}
                         onClick={() => toggleValue(id)}
@@ -64,8 +41,8 @@ const GalleryStyle = ({ sendToParent, handleNextFucntion }) => {
                                 : 'border-gray-200 bg-white hover:bg-gray-50'
                             }`}
                     >
-                        <div className="text-5xl mb-2">{icon}</div>
-                        <div className="font-medium">{label}</div>
+                        <img src={image} alt={name} className="mx-auto mb-2 max-h-16 object-contain" />
+                        <div className="">{name}</div>
 
                         {selected.includes(id) && (
                             <div className="absolute top-2 right-2 w-5 h-5 bg-blue-500 text-white text-xs rounded-full flex items-center justify-center">
