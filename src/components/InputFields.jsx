@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const InputField = ({ q, answers, handleChange, errors }) => {
+const InputField = ({ q, answers, handleChange, errors, }) => {
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = q.input === 'password';
     const inputType = isPassword && showPassword ? 'text' : q.input;
+
+
 
     return (
         <div>
@@ -25,15 +27,11 @@ const InputField = ({ q, answers, handleChange, errors }) => {
                     </p>
                 )}
             </div>
-           
-
-            
-
             {errors[q.apiname] && (
                 <p className="text-red-500 text-xs mt-1">{errors[q.apiname]}</p>
             )}
 
-            <p className="text-[#444444] text-xs">You can type your answer here</p>
+            <p className="text-[#AE2456] mt-1 text-xs">You can type your answer here</p>
         </div>
     );
 };

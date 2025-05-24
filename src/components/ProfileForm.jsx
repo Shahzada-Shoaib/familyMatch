@@ -13,10 +13,10 @@ import InputField from './InputFields'; // adjust the path as needed
 
 const questions = [
     //signup data
-    { id: 1, apiname: "dob", question: "When's your Birth date?", input: 'date', validationType: 'birthday' },
-    { id: 2, apiname: "full_name", question: "What's your Full name?", input: 'text', validationType: 'name' },
-    { id: 3, apiname: "email", question: "What's your email?", input: 'email', validationType: 'email1' },
-    { id: 4, apiname: "password", question: "Set up a password.", input: 'password', validationType: 'password' },
+    { id: 1, apiname: "dob", question: "When's your Birth date?", input: 'date', validationType: 'birthday', description: "your text would be here" },
+    { id: 2, apiname: "full_name", question: "What's your Full name?", input: 'text', validationType: 'name', description: "your text would be here" },
+    { id: 3, apiname: "email", question: "What's your email?", input: 'email', validationType: 'email1', description: "your text would be here" },
+    { id: 4, apiname: "password", question: "Set up a password.", input: 'password', validationType: 'password', description: "your text would be here" },
     //yhn tk signup ho k token aa jae ga
     { id: 5, apiname: "reffer_id", question: "How did you hear about FamilyMatch?4", input: 'text' },
     { id: 6, apiname: "religion_id", question: "What's your religion?5", input: 'text' },
@@ -329,7 +329,7 @@ const ProfileForm = () => {
                                 onClick={handleFinish}
                                 className="bg-green-600 text-white py-2 px-6 rounded-3xl w-full sm:w-auto"
                             >
-                                Finish
+                                That's it
                             </button>
                         ) : (
                                 <button
@@ -351,7 +351,7 @@ const ProfileForm = () => {
                 )}
 
 
-                {currentStep >= 8 && currentStep <= 11 ? ( 
+                {currentStep >= 10 && currentStep <= 11 ? ( 
                     <div>
                         <div className=' text-center'>
                             <button className='px-20 py-3 border-2 rounded-4xl text-white bg-[#AE2456]'
