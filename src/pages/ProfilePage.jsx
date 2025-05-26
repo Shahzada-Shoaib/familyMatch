@@ -7,7 +7,7 @@ import ProfileSettings from '../components/ProfilePage/ProfileSettings';
 
 function ProfilePage() {
   return (
-      <div className='h-[100vh] bg-[#F2F5F6]'>
+    <div className='min-h-screen bg-[#F2F5F6]'>
         <ProfileHeader/>
         <ProfileHeroSection/>
         <div className='flex'>

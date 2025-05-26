@@ -5,7 +5,7 @@ import { CameraIcon } from '@heroicons/react/24/solid';
 
 function ProfileHeroSection() {
     return (
-        <section className="relative overflow-hidden mx-14 my-8 flex justify-between  bg-white rounded-lg">
+        <section className="relative overflow-hidden mx-14 my-8 flex justify-between  bg-white rounded-lg text-gray-700">
             <div className="flex  py-4">
                 <div className="relative">
                     {/* <div className="absolute left-4 top-4 w-48 h-48 bg-[#D1D6DC] rounded-full flex items-center justify-center shadow-md overflow-hidden">
@@ -54,7 +54,10 @@ function ProfileHeroSection() {
                 </div>
             </div>
 
-            <div className="flex items-start m-3">
+            <div className="flex items-start m-3 gap-2">
+                <button className="bg-black text-[12px] rounded-4xl text-white px-6 py-2 hover:bg-pink-600">
+                    Public view
+                </button>
                 <button className="bg-[#9334EB] text-[12px] rounded-4xl text-white px-6 py-2 hover:bg-[#AE2456]">
                     Edit Profile
                 </button>

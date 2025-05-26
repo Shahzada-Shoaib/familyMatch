@@ -6,6 +6,7 @@ import SignupForm from './components/SignupForm';
 import ApiTesting from './components/ApiTesting';
 import ImageUploader from './components/ImageUploader';
 import ProfilePage from './pages/ProfilePage';
+import PublicProfilePage from './pages/PublicProfilePage';
 
 function App() {
 
@@ -19,8 +20,7 @@ function App() {
         <Route path="/testing" element={<ApiTesting />} />
         <Route path="/photo" element={<ImageUploader/>} />
         <Route path="/profilepage" element={< ProfilePage/>} />
-
-
+        <Route path="/publicview" element={< PublicProfilePage />} />
       </Routes>
     </Router>
   )

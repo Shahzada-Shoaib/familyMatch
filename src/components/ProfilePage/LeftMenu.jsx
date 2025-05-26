@@ -14,15 +14,15 @@ function LeftMenu() {
     ];
 
     return (
-        <div className='w-full max-w-full md:max-w-[25vw] px-4 md:ms-14 bg-white flex flex-col justify-center py-4 rounded-xl overflow-x-hidden box-border'>
+        <div className=' w-full max-w-full md:max-w-[25vw] px-4 md:ms-14 bg-white flex flex-col justify-start rounded-xl overflow-x-hidden box-border'>
             {options.map((option) => {
                 const isActive = selectedId === option.id;
 
                 return (
-                    <div key={option.id} className='flex justify-center'>
+                    <div key={option.id} className=''>
                         <button
                             onClick={() => setSelectedId(option.id)}
-                            className={`rounded-lg w-full my-2 py-3 px-4 gap-2 flex items-center transition-colors duration-200
+                            className={` rounded-lg w-full my-2 py-3 px-4 gap-2 flex items-center transition-colors duration-200
                 ${isActive ? 'bg-[#FEE7F5] text-pink-600' : 'bg-[#F2F5F6] text-black'}`}
                         >
                             <div className='flex items-center'>
@@ -31,7 +31,7 @@ function LeftMenu() {
                     ${isActive ? 'bg-pink-500 border-pink-600' : 'border-gray-400'}`}
                                 ></p>
                             </div>
-                            <p className='text-sm md:text-base'>{option.label}</p>
+                            <p className='text-sm md:text-base text-gray-500'>{option.label}</p>
                         </button>
                     </div>
                 );
