@@ -29,7 +29,6 @@ const GalleryStyle = ({ sendToParent, handleNextFucntion, apiData }) => {
     return (
         <div className="max-w-3xl mx-auto px-4 text-center">
             <p className="text-gray-600 mb-6">Choose 3 values to share on your profile.</p>
-
             {/* Scrollable fixed-height grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-[60vh] overflow-y-scroll no-scrollbar">
                 {apiData.data[8].map(({ id, name, image }) => (

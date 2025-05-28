@@ -1,6 +1,6 @@
 import React from 'react';
 
-function AboutThemSection() {
+function AboutThemSection({data}) {
     const aboutThem = [
         {
             id: 1,
@@ -57,9 +57,8 @@ function AboutThemSection() {
 
     return (
         <div className="my-3 px-4 max-w-3xl mx-auto">
-            <div className="border-y py-10  mb-10">
-                <p className="text-lg font-semibold">One Thing I'm Working On Improving</p>
-                <p className="text-gray-600">Becoming a better version of myself.</p>
+            <div className="border-y border-gray-300 py-10 mb-10">
+                <p className='font-semibold text-gray-700'>{data?.bio}</p>
             </div>
 
             <h2 className="text-2xl font-bold mb-4 ">About Them</h2>

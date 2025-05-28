@@ -4,13 +4,6 @@ import photo3 from '/images/picture2.jpg';
 import whiteCircle from '/whiteCircle.png';
 import downarrow from '/downarrow.png';
 import topImg from '/topImg.png';
-//
-// import downarrow from '../downarrow.png'
-// import topImg from '../topImg.png'
-// import whiteCircle from '../whiteCircle.png'
-// import photo from '../photo1.jpg'
-// import photo3 from '../photo3.jpg'
-//
 
 function familySection() {
   return (

@@ -5,6 +5,8 @@ import TestComponent from './TestComponent';
 import FormCompletionScreen from './FormCompletionScreen';
 import { validateInput } from '../../utils/validation'; // Adjust path as needed
 import InputField from './InputFields'; // adjust the path as needed
+import { setAuthToken } from '../../utils/authToken';
+import { API_KEY } from '../config';
 
 
 
@@ -43,6 +45,8 @@ const ProfileForm = () => {
     const [ApiData, setApiData] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [errors, setErrors] = useState({});
+    // const apiKey = import.meta.env.VITE_X_API_KEY;
+
 
 
     const handleNext = () => {
@@ -96,11 +100,9 @@ const ProfileForm = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-API-KEY': '123456' // Change header key & value as needed
+                    'X-API-KEY': API_KEY // Change header key & value as needed
                 },
                 body: JSON.stringify(answers)
-                // body: JSON.answers
-
             });
 
             if (!response.ok) throw new Error('Network error');
@@ -111,8 +113,15 @@ const ProfileForm = () => {
             console.log("this is data.token", data.token);
 
             // Store the token in localStorage here:
-            localStorage.setItem('authToken', data.token);
+            // localStorage.setItem('authToken', data.token);
+
+            // if (data.token) {
+            //     setAuthToken(data.token); // ✅ store in one place
+            // }
+            data.token && setAuthToken(data.token);
+
             console.log("Token stored in localStorage");
+
         } catch (error) {
             console.error('Error fetching data:', error);
         };
@@ -125,13 +134,17 @@ const ProfileForm = () => {
         setAnswers({ ...answers, [questions[currentStep].apiname]: data });
     };
 
+    useEffect(()=>{
+        console.log("forileform ma api key", API_KEY)
+    })
+
 
 
     useEffect(() => {
         fetch('/api/options', {
             headers: {
                 'Content-Type': 'application/json',
-                'X-API-KEY': '123456',
+                'X-API-KEY': API_KEY,
             }
         })
             .then(res => {
@@ -147,11 +160,6 @@ const ProfileForm = () => {
             });
     }, []);
 
-    useEffect(() => {
-        console.log("ApiData changed:", ApiData?.data?.[6]);
-    }, [ApiData]);
-
-    //test
     const handleOptionClick = (q, questions, currentStep, answers, setAnswers, setSelectedOptions) => {
         const { apiname } = questions[currentStep];
         const currentAnswers = answers[apiname] || [];

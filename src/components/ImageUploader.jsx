@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import camera from "../../public/icons/camera.svg"; // Adjust the path as necessary
+import { getAuthToken } from '../../utils/authToken';
 
 const ImageUploader = ({ onButtonClick }) => {
     const fileInputRef = useRef(null);
@@ -22,6 +23,8 @@ const ImageUploader = ({ onButtonClick }) => {
     };
 
     const handleSubmit = async () => {
+        const token = getAuthToken();
+
         if (!file) {
             alert("No file selected");
             return false;
@@ -33,7 +36,7 @@ const ImageUploader = ({ onButtonClick }) => {
 
         setLoading(true);
 
-        const token = localStorage.getItem("authToken");
+        // const token = localStorage.getItem("authToken");
         if (!token) {
             console.log("No token found, user might not be logged in");
             setLoading(false);

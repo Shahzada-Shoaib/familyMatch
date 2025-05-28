@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-function InterestSection() {
+function InterestSection({data}) {
     const aboutThem = [
         { id: 1, icon: '👤', description: 'Self-growth' },
         { id: 2, icon: '🌍', description: 'Global connections' },
@@ -14,9 +14,13 @@ function InterestSection() {
         { id: 10, icon: '💬', description: 'Clear communicator' }
     ];
 
+    useEffect(() => {
+        console.log("Profile Data in InterestSection:", data);
+    }
+    , [data]);
     return (
         <div className="my-10 px-4 max-w-3xl mx-auto">
-            <div className="border-y py-6 mb-10">
+            <div className="border-y border-gray-300  py-6 mb-10">
                 <p className="text-xl font-semibold mb-4">More</p>
                 <div className="space-y-2">
                     <div className="flex items-center gap-2">
@@ -33,13 +37,13 @@ function InterestSection() {
             <h2 className="text-2xl font-bold mb-6">Interests</h2>
 
             <div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-                {aboutThem.map((item) => (
+                {data?.interests.map((item) => (
                     <div
                         key={item.id}
                         className="flex justify-center items-center gap-3 bg-gray-100 rounded-4xl p-1 shadow-sm hover:shadow-md transition"
                     >
-                        <div className="text-2xl">{item.icon}</div>
-                        <p className="text-gray-800">{item.description}</p>
+                        <img className='w-4 h-4' src={item.image} alt="" />
+                        <p className="text-gray-800">{item.title}</p>
                     </div>
                 ))}
             </div>

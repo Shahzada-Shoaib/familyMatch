@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import image from '/images/picture.jpg'
-// import { picture } from 'framer-motion/client';
 
 function AboutUsSection() {
     const { ref, inView } = useInView({
@@ -12,9 +11,6 @@ function AboutUsSection() {
 
     return (
         <section className=" relative mt-14 py-20 px-6 bg-gradient-to-r from-[#5BCD18] to-[#CD185B] text-white overflow-hidden m-4 rounded-4xl ">
-            {/* Decorative background gradient with opacity */}
-            {/* <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-500 opacity-30 rounded-lg z-0"></div> */}
-
             <div className="container max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10 ">
                 {/* Text Content */}
                 <motion.div
@@ -47,24 +43,12 @@ function AboutUsSection() {
                     transition={{ duration: 1, ease: 'easeOut' }}
                     className="relative w-full"
                 >
-                    {/* <img
-                        src="https://images.unsplash.com/photo-1581093588401-7e0cdfbb6795?auto=format&fit=crop&w=800&q=80"
-                        alt="Team working"
-                        className="rounded-xl shadow-2xl w-full object-cover"
-                    /> */}
-
-                   
+                    
                         <img style={{
                             borderRadius: "87% 13% 70% 26% / 65% 46% 25% 25%",
                         }} src={image} alt="" />
-
-
-                    
                 </motion.div>
             </div>
-
-            {/* Decorative gradient at the bottom */}
-            {/* <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-24 bg-gradient-to-r from-purple-600 to-blue-500 rounded-t-full z-0"></div> */}
         </section>
     );
 }

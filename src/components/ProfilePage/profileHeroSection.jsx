@@ -1,20 +1,13 @@
 import React from 'react';
-import dp from '/images/profilePicture.jpg'; // Adjust the path as necessary
-import camera from '/icons/cameraIcon.png'; // Adjust the path as necessary
+import dp from '/images/profilePicture.jpg'; 
 import { CameraIcon } from '@heroicons/react/24/solid'; 
+import { Link } from 'react-router-dom'; 
 
 function ProfileHeroSection() {
     return (
         <section className="relative overflow-hidden mx-14 my-8 flex justify-between  bg-white rounded-lg text-gray-700">
             <div className="flex  py-4">
                 <div className="relative">
-                    {/* <div className="absolute left-4 top-4 w-48 h-48 bg-[#D1D6DC] rounded-full flex items-center justify-center shadow-md overflow-hidden">
-                        <img
-                            src={dp}
-                            alt="photo"
-                            className="w-full h-full object-cover rounded-full"
-                        />
-                    </div> */}
                     <div className="absolute left-4 top-4 w-48 h-48 group">
                         <div className="w-full h-full bg-[#D1D6DC] rounded-full flex items-center justify-center shadow-md overflow-hidden relative">
                             <img
@@ -55,9 +48,12 @@ function ProfileHeroSection() {
             </div>
 
             <div className="flex items-start m-3 gap-2">
-                <button className="bg-black text-[12px] rounded-4xl text-white px-6 py-2 hover:bg-pink-600">
-                    Public view
-                </button>
+                <Link to="/publicview">
+                    <button className="bg-black text-[12px] rounded-4xl text-white px-6 py-2 hover:bg-pink-600">
+                        Public view
+                    </button>
+                </Link>
+                
                 <button className="bg-[#9334EB] text-[12px] rounded-4xl text-white px-6 py-2 hover:bg-[#AE2456]">
                     Edit Profile
                 </button>

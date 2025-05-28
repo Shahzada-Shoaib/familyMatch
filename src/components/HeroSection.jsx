@@ -1,7 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import image from '/images/picture.jpg'
-// import image2 from '/images/picture2.jpg'
-// import image3 from '/images/picture3.jpg'
 import Header from './header';
 import video from '/video.mp4'
 
@@ -15,7 +11,6 @@ function HeroSection() {
       {/* Video Background */}
       <video
         className="absolute top-0 left-0 z-0 object-cover w-full h-full"
-        // src="https://www.w3schools.com/html/mov_bbb.mp4"
         src={video}
         autoPlay
         muted

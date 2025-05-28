@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import HeroSection from '../components/HeroSection';
 import AboutUsSection from '../components/AboutUsSection';
 import FamilySection from '../components/familySection';
 import Footer from '../components/Footer';
 
 function HomePage() {
+
+  useEffect(()=>{
+    // console.log(process.env.X_API_KEY);
+    console.log(import.meta.env.VITE_X_API_KEY);
+  },[])
   return (
     <>
     <HeroSection/>

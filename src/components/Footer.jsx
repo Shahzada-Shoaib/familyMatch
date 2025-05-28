@@ -26,10 +26,6 @@ function Footer() {
                       <p>Number 1</p>
                       <p>Number 2</p>
                       <div className='flex gap-2'>
-                          {/* <img className='w-8' src={googleLogo} alt="image" />
-                          <img className='w-8' src={linkedin} alt="image" />
-                          <img className='w-8' src={instaLogo} alt="image" /> */}
-
                       </div>
 
                   </div>
