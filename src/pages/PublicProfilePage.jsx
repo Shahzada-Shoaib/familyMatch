@@ -15,7 +15,7 @@ function PublicProfilePage() {
     // const token = localStorage.getItem('authToken');
     const token = getAuthToken();
 
-    console.log("Token from localStorage:", token);
+    // console.log("Token from localStorage:", token);
 
     fetch('api//profile', {
       method: 'GET',

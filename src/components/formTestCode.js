@@ -14,11 +14,11 @@ const ProfileForm = () => {
     const handleNext = () => {
         if (currentStep < questions.length - 1) {
             setCurrentStep(prev => prev + 1);
-            console.log("set current step", currentStep);
-            console.log("set current step", setCurrentStep);
-            console.log("this is answers", answers);
-            console.log("this is setAnswers", setAnswers);
-            console.log("button clicked");
+            // console.log("set current step", currentStep);
+            // console.log("set current step", setCurrentStep);
+            // console.log("this is answers", answers);
+            // console.log("this is setAnswers", setAnswers);
+            // console.log("button clicked");
 
         }
     };

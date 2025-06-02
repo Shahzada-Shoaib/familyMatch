@@ -1,23 +1,19 @@
 import React, { useEffect } from 'react';
 
 function InterestSection({data}) {
-    const aboutThem = [
-        { id: 1, icon: '👤', description: 'Self-growth' },
-        { id: 2, icon: '🌍', description: 'Global connections' },
-        { id: 3, icon: '💡', description: 'Problem solver' },
-        { id: 4, icon: '🎯', description: 'Goal-oriented' },
-        { id: 5, icon: '🎨', description: 'Storytelling' },
-        { id: 6, icon: '🚀', description: 'Go-getter' },
-        { id: 7, icon: '📚', description: 'Lifelong learner' },
-        { id: 8, icon: '🤝', description: 'Team player' },
-        { id: 9, icon: '🧠', description: 'Critical thinker' },
-        { id: 10, icon: '💬', description: 'Clear communicator' }
-    ];
+    // const aboutThem = [
+    //     { id: 1, icon: '👤', description: 'Self-growth' },
+    //     { id: 2, icon: '🌍', description: 'Global connections' },
+    //     { id: 3, icon: '💡', description: 'Problem solver' },
+    //     { id: 4, icon: '🎯', description: 'Goal-oriented' },
+    //     { id: 5, icon: '🎨', description: 'Storytelling' },
+    //     { id: 6, icon: '🚀', description: 'Go-getter' },
+    //     { id: 7, icon: '📚', description: 'Lifelong learner' },
+    //     { id: 8, icon: '🤝', description: 'Team player' },
+    //     { id: 9, icon: '🧠', description: 'Critical thinker' },
+    //     { id: 10, icon: '💬', description: 'Clear communicator' }
+    // ];
 
-    useEffect(() => {
-        console.log("Profile Data in InterestSection:", data);
-    }
-    , [data]);
     return (
         <div className="my-10 px-4 max-w-3xl mx-auto">
             <div className="border-y border-gray-300  py-6 mb-10">

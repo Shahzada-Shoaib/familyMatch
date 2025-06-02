@@ -11,7 +11,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://192.168.0.169/familymatch',
+        // target: 'http://192.168.0.169/familymatch',
+        target: 'https://familymatch.aakilarose.com/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '/api'),
       },

@@ -28,7 +28,7 @@ function FormCompletionScreen({ answers }) {
 
     const normalizedData = normalizeUserData(answers);
 
-    console.log("normal data", normalizedData);
+    // console.log("normal data", normalizedData);
 
 
 

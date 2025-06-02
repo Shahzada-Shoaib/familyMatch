@@ -42,7 +42,7 @@ function LoginForm() {
             if (response.ok) {
                 setMessage({ type: 'success', text: 'Login successful!' });
                 setFormData({ email: '', password: '' });
-                console.log("Login successful:", result.data.token);
+                // console.log("Login successful:", result.data.token);
                 // localStorage.setItem('authToken', result.data.token); // Save token to localStorage
                 result.data.token && setAuthToken(result.data.token)
                 navigate('/profilepage'); // Redirect to profile page

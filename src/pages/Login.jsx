@@ -17,9 +17,9 @@ function Login() {
             console.log("token in login.jsx", token)
         }, [navigate]);
 
-    useEffect(()=>{
-        console.log("this is me jani")
-    })
+    // useEffect(()=>{
+    //     console.log("this is me jani")
+    // })
     
   return (
     <div>

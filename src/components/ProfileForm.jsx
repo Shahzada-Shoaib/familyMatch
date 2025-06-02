@@ -52,14 +52,14 @@ const ProfileForm = () => {
     const handleNext = () => {
         if (currentStep < questions.length - 1) {
             setCurrentStep(prev => prev + 1);
-            console.log("this is in next handle",answers);
+            // console.log("this is in next handle",answers);
         }
     };
 
     const handlePrev = () => {
         if (currentStep > 0) {
             setCurrentStep(prev => prev - 1);
-            console.log("this is in prev handle", answers);
+            // console.log("this is in prev handle", answers);
 
         }
     };
@@ -92,7 +92,7 @@ const ProfileForm = () => {
 
     //test abpve
     const handleFinish = async () => {
-        console.log("this is in finish handle", answers);
+        // console.log("this is in finish handle", answers);
         handleNext();
 
         try {
@@ -108,9 +108,9 @@ const ProfileForm = () => {
             if (!response.ok) throw new Error('Network error');
 
             const data = await response.json();
-            console.log("this is data", data);
-            console.log("this is data.message", data.message);
-            console.log("this is data.token", data.token);
+            // console.log("this is data", data);
+            // console.log("this is data.message", data.message);
+            // console.log("this is data.token", data.token);
 
             // Store the token in localStorage here:
             // localStorage.setItem('authToken', data.token);
@@ -120,7 +120,7 @@ const ProfileForm = () => {
             // }
             data.token && setAuthToken(data.token);
 
-            console.log("Token stored in localStorage");
+            // console.log("Token stored in localStorage");
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -130,13 +130,13 @@ const ProfileForm = () => {
 
     //test
     const receiveFromChild = (data) => {
-        console.log("Received from child:", data);
+        // console.log("Received from child:", data);
         setAnswers({ ...answers, [questions[currentStep].apiname]: data });
     };
 
-    useEffect(()=>{
-        console.log("forileform ma api key", API_KEY)
-    })
+    // useEffect(()=>{
+    //     console.log("forileform ma api key", API_KEY)
+    // })
 
 
 
@@ -152,10 +152,11 @@ const ProfileForm = () => {
                 return res.json();
             })
             .then(data => {
-                console.log("Fetched data:", data);
+                // console.log("Fetched data:", data);
                 setApiData(data);
             })
             .catch(err => {
+                alert(err)
                 console.error("Fetch error:", err);
             });
     }, []);
@@ -174,8 +175,8 @@ const ProfileForm = () => {
             [apiname]: updatedAnswers,
         };
 
-        console.log("Updated Answers Object:", newAnswers);
-        console.log("Current Question's Selected Options:", updatedAnswers);
+        // console.log("Updated Answers Object:", newAnswers);
+        // console.log("Current Question's Selected Options:", updatedAnswers);
 
         setAnswers(newAnswers);
         setSelectedOptions(updatedAnswers);
