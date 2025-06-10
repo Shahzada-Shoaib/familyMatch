@@ -1,62 +1,69 @@
 import React from 'react';
-import dp from '/images/profilePicture.jpg'; 
-import { CameraIcon } from '@heroicons/react/24/solid'; 
-import { Link } from 'react-router-dom'; 
+import dp from '/images/profilePicture.jpg';
+import { CameraIcon } from '@heroicons/react/24/solid';
+import { Link } from 'react-router-dom';
 
 function ProfileHeroSection() {
     return (
-        <section className="relative overflow-hidden mx-14 my-8 flex justify-between  bg-white rounded-lg text-gray-700">
-            <div className="flex  py-4">
-                <div className="relative">
-                    <div className="absolute left-4 top-4 w-48 h-48 group">
-                        <div className="w-full h-full bg-[#D1D6DC] rounded-full flex items-center justify-center shadow-md overflow-hidden relative">
-                            <img
-                                src={dp}
-                                alt="photo"
-                                className="w-full h-full object-cover rounded-full transition duration-300 group-hover:brightness-75"
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-50 transition duration-300 rounded-full">
-                                <CameraIcon className="h-10 w-10 text-white" />
-                            </div>
+        <section className="relative md:mx-16 sm:mx-8 md:my-6 m-2 sm:my-8 bg-white rounded-lg text-gray-700 p-4 sm:p-6 flex flex-col sm:flex-row sm:justify-between ">
+            {/* Left section: Profile Picture & Info */}
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 items-center sm:items-start">
+                {/* Profile Picture */}
+                <div className="relative w-36 h-36 sm:w-48 sm:h-48 group">
+                    <div className="w-full h-full bg-[#D1D6DC] rounded-full flex items-center justify-center shadow-md overflow-hidden relative">
+                        <img
+                            src={dp}
+                            alt="photo"
+                            className="w-full h-full object-cover rounded-full transition duration-300 group-hover:brightness-75"
+                        />
+                        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-50 transition duration-300 rounded-full">
+                            <CameraIcon className="h-10 w-10 text-white" />
                         </div>
                     </div>
-
                 </div>
 
-                <div className="pl-62 space-y-6">
-                    <div className="space-y-1">
-                        <h1 className="font-bold text-3xl">John Doe</h1>
-                        <p className='text-[14px]'>28 years old, New York, NY</p>
-                        <p className="text-green-600">Online</p>
+                {/* User Info */}
+                <div className="text-center sm:text-left space-y-3">
+                    <div>
+                        <h1 className="font-bold text-2xl sm:text-3xl">John Doe</h1>
+                        <p className='text-sm sm:text-[14px]'>28 years old, New York, NY</p>
+                        <p className="text-green-600 text-sm">Online</p>
                     </div>
 
-                    <div className="flex gap-8">
+                    {/* Stats */}
+                    <div className="flex gap-6 sm:gap-8 justify-center sm:justify-start mb-2">
                         <div className='leading-none text-center'>
                             <p className="font-bold text-lg">85%</p>
-                            <label className='text-[14px]'>Profile Completion</label>
+                            <label className='text-sm'>Profile Completion</label>
                         </div>
                         <div className='leading-none text-center'>
                             <p className="font-bold text-lg">247</p>
-                            <label className='text-[14px]'>Profile Views</label>
+                            <label className='text-sm'>Profile Views</label>
                         </div>
-                        <div className='leading-none'>
-                            <p className="font-bold text-lg text-center">52</p>
-                            <label className='text-[14px]'>Matches</label>
+                        <div className='leading-none text-center'>
+                            <p className="font-bold text-lg">52</p>
+                            <label className='text-sm'>Matches</label>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="flex items-start m-3 gap-2">
+            {/* Right section: Buttons */}
+            <div className="flex justify-center  sm:mt-0 gap-3">
                 <Link to="/publicview">
-                    <button className="bg-black text-[12px] rounded-4xl text-white px-6 py-2 hover:bg-pink-600">
+                    <button className="bg-black text-xs rounded-full text-white px-5 py-2 hover:bg-pink-600">
                         Public view
                     </button>
                 </Link>
-                
-                <button className="bg-[#9334EB] text-[12px] rounded-4xl text-white px-6 py-2 hover:bg-[#AE2456]">
+                <Link to="/publicview">
+                    <button className="bg-[#9334EB] text-xs rounded-full text-white px-5 py-2 hover:bg-pink-600">
+                        Edit Profile
+                    </button>
+                </Link>
+    
+                {/* <button className="bg-[#9334EB] text-xs rounded-full text-white px-5 py-2 hover:bg-[#AE2456]">
                     Edit Profile
-                </button>
+                </button> */}
             </div>
         </section>
     );

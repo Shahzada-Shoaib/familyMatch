@@ -17,9 +17,9 @@ function ProfilePage() {
     <div className='min-h-screen bg-[#F2F5F6]'>
         <ProfileHeader/>
         <ProfileHeroSection/>
-        <div className='flex'>
+        <div className=' m-2'>
               <LeftMenu />
-              <ProfileSettings/>
+              {/* <ProfileSettings/> */}
 
         </div>
     </div>

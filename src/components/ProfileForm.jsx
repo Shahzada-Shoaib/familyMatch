@@ -52,14 +52,12 @@ const ProfileForm = () => {
     const handleNext = () => {
         if (currentStep < questions.length - 1) {
             setCurrentStep(prev => prev + 1);
-            // console.log("this is in next handle",answers);
         }
     };
 
     const handlePrev = () => {
         if (currentStep > 0) {
             setCurrentStep(prev => prev - 1);
-            // console.log("this is in prev handle", answers);
 
         }
     };
@@ -92,7 +90,6 @@ const ProfileForm = () => {
 
     //test abpve
     const handleFinish = async () => {
-        // console.log("this is in finish handle", answers);
         handleNext();
 
         try {
@@ -108,20 +105,8 @@ const ProfileForm = () => {
             if (!response.ok) throw new Error('Network error');
 
             const data = await response.json();
-            // console.log("this is data", data);
-            // console.log("this is data.message", data.message);
-            // console.log("this is data.token", data.token);
-
-            // Store the token in localStorage here:
-            // localStorage.setItem('authToken', data.token);
-
-            // if (data.token) {
-            //     setAuthToken(data.token); // ✅ store in one place
-            // }
+            //if data.token setAuth
             data.token && setAuthToken(data.token);
-
-            // console.log("Token stored in localStorage");
-
         } catch (error) {
             console.error('Error fetching data:', error);
         };
@@ -129,14 +114,11 @@ const ProfileForm = () => {
 
 
     //test
-    const receiveFromChild = (data) => {
-        // console.log("Received from child:", data);
+    const onSelectedGalleryOption = (data) => {
         setAnswers({ ...answers, [questions[currentStep].apiname]: data });
     };
 
-    // useEffect(()=>{
-    //     console.log("forileform ma api key", API_KEY)
-    // })
+
 
 
 
@@ -174,9 +156,6 @@ const ProfileForm = () => {
             ...answers,
             [apiname]: updatedAnswers,
         };
-
-        // console.log("Updated Answers Object:", newAnswers);
-        // console.log("Current Question's Selected Options:", updatedAnswers);
 
         setAnswers(newAnswers);
         setSelectedOptions(updatedAnswers);
@@ -293,7 +272,7 @@ const ProfileForm = () => {
                                                     </div>   
                                                 ) : currentStep === 14 ? (
                                                     <GalleryStyle 
-                                                    sendToParent={receiveFromChild} 
+                                                    handleSelectedValues={onSelectedGalleryOption} 
                                                     handleNextFucntion={handleNext}
                                                     apiData={ApiData}
                                                      />

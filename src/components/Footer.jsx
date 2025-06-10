@@ -38,6 +38,7 @@ function Footer() {
               <p>
                   All Rights are Reserved</p>
           </div>
+          
       </div>    
   )
 }

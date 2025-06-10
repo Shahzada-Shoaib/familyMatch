@@ -1,41 +1,97 @@
 import React, { useState } from 'react';
+import {
+    FaUser,
+    FaInfoCircle,
+    FaChartBar,
+    FaCamera,
+    FaEye,
+    FaHeart,
+    FaStar,
+    FaSmile
+} from 'react-icons/fa';
+
+import ProfileSettings from './ProfileSettings';
+import AboutMeProfileSection from './AboutMeProfileSection';
+import MatchDataSection from './MatchDataSection';
+import PhotoSection from './PhotoSection';
+import ViewSection from './ViewSection';
+import LikesSection from './LikesSection';
+import FavoritesSection from './FavoritesSection';
+import WinksSection from './WinksSection';
 
 function LeftMenu() {
-    const [selectedId, setSelectedId] = useState(null);
+    const [selectedId, setSelectedId] = useState(3); // default to 'Personal'
 
     const options = [
-        { id: 1, label: "About me" },
-        { id: 2, label: "Projects" },
-        { id: 3, label: "Skills" },
-        { id: 4, label: "People Who liked" },
-        { id: 5, label: "Your likes" },
-        { id: 6, label: "settings" }
-
+        { id: 1, label: "Personal", icon: <FaUser /> },
+        { id: 2, label: "About me", icon: <FaInfoCircle /> },
+        { id: 3, label: "Match Data", icon: <FaChartBar /> },
+        { id: 4, label: "Photo", icon: <FaCamera /> },
+        { id: 5, label: "Views", icon: <FaEye /> },
+        { id: 6, label: "Likes", icon: <FaHeart /> },
+        { id: 7, label: "Favorites", icon: <FaStar /> },
+        { id: 8, label: "Winks", icon: <FaSmile /> },
     ];
 
-    return (
-        <div className=' w-full max-w-full md:max-w-[25vw] px-4 md:ms-14 bg-white flex flex-col justify-start rounded-xl overflow-x-hidden box-border'>
-            {options.map((option) => {
-                const isActive = selectedId === option.id;
+    // Render component based on selectedId
+    const renderSelectedComponent = () => {
+        switch (selectedId) {
+            case 1:
+                return <ProfileSettings />;
+            case 2:
+                return <AboutMeProfileSection />;
+            // Add other components here as needed:
+            case 3: return <MatchDataSection/>;
+            case 4: return <PhotoSection/>;
+            case 5: return < ViewSection/>;
+            case 6: return <LikesSection/>;
+            case 7: return <FavoritesSection/>;
+            case 8: return <WinksSection/> ;
 
-                return (
-                    <div key={option.id} className=''>
-                        <button
-                            onClick={() => setSelectedId(option.id)}
-                            className={` rounded-lg w-full my-2 py-3 px-4 gap-2 flex items-center transition-colors duration-200
-                ${isActive ? 'bg-[#FEE7F5] text-pink-600' : 'bg-[#F2F5F6] text-black'}`}
-                        >
-                            <div className='flex items-center'>
-                                <p
-                                    className={`w-3 h-3 rounded-full border-2 mr-2
-                    ${isActive ? 'bg-pink-500 border-pink-600' : 'border-gray-400'}`}
-                                ></p>
-                            </div>
-                            <p className='text-sm md:text-base text-gray-500'>{option.label}</p>
-                        </button>
-                    </div>
-                );
-            })}
+            // ...
+            default:
+                return <div>Select an option from the menu</div>;
+        }
+    };
+
+    return (
+        <div className='w-full flex '>
+            {/* Left Sidebar */}
+            <div className='md:w-full  me-3 max-w-full md:max-w-[25vw] px-4 md:ms-14 bg-white flex flex-col justify-start rounded-xl overflow-x-hidden box-border'>
+                {options.map((option) => {
+                    const isActive = selectedId === option.id;
+                    return (
+                        <div key={option.id} className=''>
+                            {/* <button
+                                onClick={() => setSelectedId(option.id)}
+                                className={`rounded-lg w-full my-2 py-3 px-4 gap-3 flex items-center transition-colors duration-200
+                                    ${isActive ? 'bg-[#FEE7F5] text-pink-600' : 'bg-[#F2F5F6] text-black'}`}
+                            >
+                                <div className={`text-lg ${isActive ? 'text-pink-600' : 'text-gray-500'}`}>
+                                    {option.icon}
+                                </div>
+                                <p className='text-sm md:text-base'>{option.label}</p>
+                            </button> */}
+                            <button
+                                onClick={() => setSelectedId(option.id)}
+                                className={`rounded-lg w-full my-2 py-3 px-4 gap-3 flex items-center transition-colors duration-200
+        ${isActive ? 'bg-[#FEE7F5] text-pink-600' : 'bg-[#F2F5F6] text-black'}`}
+                            >
+                                <div className={`text-lg ${isActive ? 'text-pink-600' : 'text-gray-500'}`}>
+                                    {option.icon}
+                                </div>
+                                <p className='hidden md:block text-sm md:text-base'>{option.label}</p>
+                            </button>
+
+                        </div>
+                    );
+                })}
+            </div>
+
+            {/* Right Content Panel */}
+            <div className='w-full md:pe-14'>
+                {renderSelectedComponent()}
+            </div>
         </div>
     );
 }

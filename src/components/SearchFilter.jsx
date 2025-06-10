@@ -35,6 +35,10 @@ const SearchFilter = forwardRef(({ searchResultData, clearProfileData, }, ref) =
         },
     });
 
+    console.log('useFetch data:', data?.data);
+
+
+
     const updateFilter = (key, value) => {
         setFilters((prev) => ({ ...prev, [key]: value }));
     };
@@ -89,7 +93,7 @@ const SearchFilter = forwardRef(({ searchResultData, clearProfileData, }, ref) =
 
     return (
         <div
-            className={`transition-all duration-500 h-[650px] sticky top-10 mx-12 mt-6`}
+            className={`transition-all duration-500 h-[650px] sticky top-10 mx-12 mt-6 border`}
             style={{
                 width: isSearched ? '35%' : '100%',
                 height: isSearched ? '650px' : 'auto',
@@ -220,7 +224,7 @@ const SearchFilter = forwardRef(({ searchResultData, clearProfileData, }, ref) =
                                 className="bg-[#9334EB] hover:bg-[#AE2456] text-white px-6 py-2 rounded-3xl flex items-center gap-2 shadow-md"
                             >
                                 <FaSearch /> Search
-                            </button>
+                        </button>
                     )}
 
                 </div>

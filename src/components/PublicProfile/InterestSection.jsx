@@ -33,7 +33,7 @@ function InterestSection({data}) {
             <h2 className="text-2xl font-bold mb-6">Interests</h2>
 
             <div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-                {data?.interests.map((item) => (
+                {data?.interests?.map((item) => (
                     <div
                         key={item.id}
                         className="flex justify-center items-center gap-3 bg-gray-100 rounded-4xl p-1 shadow-sm hover:shadow-md transition"

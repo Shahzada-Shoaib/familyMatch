@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import pic from '/images/onlineMoney2.jpg'
 
 
 function ApiTesting() {
@@ -77,6 +78,13 @@ function ApiTesting() {
             >
                 API test
             </button>
+            {/* <div className='border'>
+                <img className='w-full h-[400px]' src={pic} alt="" />
+            </div> */}
+            <div className="border w-full h-[500px] overflow-hidden">
+                <img className="w-full h-full object-cover" src={pic} alt="" />
+            </div>
+
         </div>
     );
 }

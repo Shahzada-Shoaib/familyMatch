@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const GalleryStyle = ({ sendToParent, handleNextFucntion, apiData }) => {
+const GalleryStyle = ({ handleSelectedValues, handleNextFucntion, apiData }) => {
     const [selected, setSelected] = useState([]);
 
     const toggleValue = (id) => {
@@ -13,7 +13,7 @@ const GalleryStyle = ({ sendToParent, handleNextFucntion, apiData }) => {
 
     useEffect(() => {
         if (selected.length > 0) {
-            sendToParent(selected);
+            handleSelectedValues(selected);
             console.log("Updated selected values:", selected);
         }
 
@@ -22,9 +22,9 @@ const GalleryStyle = ({ sendToParent, handleNextFucntion, apiData }) => {
         }
     }, [selected]);
 
-    useEffect(() => {
-        console.log("gallery data", apiData.data[8]);
-    }, [apiData]);
+    // useEffect(() => {
+    //     console.log("gallery data", apiData.data[8]);
+    // }, [apiData]);
 
     return (
         <div className="max-w-3xl mx-auto px-4 text-center">

@@ -20,6 +20,7 @@ const useFetch = (url, config = {}) => {
                     ...config,
                 });
                 setData(response.data);
+                console.log('Data fetched:', response.data);
             } catch (err) {
                 if (axios.isCancel(err)) return;
                 setError(err);

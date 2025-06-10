@@ -36,9 +36,8 @@ const ImageUploader = ({ onButtonClick }) => {
 
         setLoading(true);
 
-        // const token = localStorage.getItem("authToken");
         if (!token) {
-            alert("You're logged in")
+            alert("You're Not logged in")
             console.log("No token found, user might not be logged in");
             setLoading(false);
             return false;
@@ -54,7 +53,6 @@ const ImageUploader = ({ onButtonClick }) => {
             });
 
             const data = await response.json();
-            // console.log("API Response:", data);
 
             if (data.status === true) {
                 alert("Image uploaded successfully! Media ID: " + data.media_id);

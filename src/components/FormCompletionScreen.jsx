@@ -28,12 +28,10 @@ function FormCompletionScreen({ answers }) {
 
     const normalizedData = normalizeUserData(answers);
 
-    // console.log("normal data", normalizedData);
 
 
 
     const handleSubmit = async (e) => {
-        // const token = localStorage.getItem('authToken');
         const token = getAuthToken();
         e.preventDefault();
 
@@ -48,11 +46,11 @@ function FormCompletionScreen({ answers }) {
             .then((res) => res.json())
             .then((result) => {
                 console.log('Response:', result);
-                // Navigate manually after successful response
                 navigate('/profilepage');
             })
             .catch((error) => {
                 console.error('Error:', error);
+                alert("Submission Failed", error)
             });
     };
 
