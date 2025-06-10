@@ -14,7 +14,7 @@ const ProfileCard = ({profile}) => {
                 <img
                     src={profile.profile_image}
                     alt={profile?.full_name}
-                    className="sm:w-full sm:h-46 object-cover rounded-3xl  border-2 border-white shadow-md mb-4"
+                    className="w-full h-46 object-cover rounded-3xl  border-2 border-white shadow-md mb-4"
                 />
                 <div className=''>
                     <h2 className="text-xl font-bold text-gray-800">

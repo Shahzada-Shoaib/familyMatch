@@ -93,11 +93,12 @@ const SearchFilter = forwardRef(({ searchResultData, clearProfileData, }, ref) =
 
     return (
         <div
-            className={`transition-all duration-500 h-[650px] sticky top-10 mx-12 mt-6 border`}
-            style={{
-                width: isSearched ? '35%' : '100%',
-                height: isSearched ? '650px' : 'auto',
-            }}
+            className={`transition-all duration-500 h-[650px] top-10 md:mx-12 mt-6 
+                ${isSearched ? 'md:w-[35%] md:h-[650px]' : 'w-full h-auto'} border `}
+            // style={{
+            //     width: isSearched ? '35%' : '100%',
+            //     height: isSearched ? '650px' : 'auto',
+            // }}
         >
             <div
                 className={`backdrop-blur-md rounded-2xl shadow-2xl bg-cover bg-center transition-all duration-500`}

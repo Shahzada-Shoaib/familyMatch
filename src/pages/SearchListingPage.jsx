@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import SearchFilter from '../components/SearchFilter'
 import ProfileCard from '../components/ProfileCard'
-import Header from '../components/header';
+// import Header from '../components/header';
 import ProfileHeader from '../components/ProfilePage/ProfileHeader';
 import  { useRef } from 'react';
 
@@ -54,9 +54,9 @@ function SearchListingPage() {
     
   return (
       <div 
-          className="min-h-screen border bg-cover bg-repeat-y bg-center"          >
+          className="min-h-screen  bg-cover bg-repeat-y bg-center border"          >
           <ProfileHeader />
-          <div className='flex gap-4'>
+          <div className='lg:flex gap-4'>
               <SearchFilter 
             //   onLoadingChange={handleLoadingChange}
               clearProfileData={clearProfileData} 
