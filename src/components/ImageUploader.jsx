@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import camera from "../../public/icons/camera.svg"; // Adjust the path as necessary
+import camera from "/icons/camera.svg"; // Adjust the path as necessary
 import { getAuthToken } from '../../utils/authToken';
 
 const ImageUploader = ({ onButtonClick }) => {
