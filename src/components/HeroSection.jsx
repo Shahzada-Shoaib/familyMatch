@@ -1,4 +1,4 @@
-import Header from './header';
+import Header from './Header';
 import video from '/video.mp4'
 
 function HeroSection() {
