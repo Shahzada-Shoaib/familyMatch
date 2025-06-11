@@ -8,16 +8,16 @@ export default defineConfig({
     tailwindcss(),
   ],
   //Added this proxy so that we can use the api without any CORS issues
-  server: {
-    proxy: {
-      '/api': {
-        // target: 'http://192.168.0.169/familymatch',
-        target: 'https://familymatch.aakilarose.com/',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '/api'),
-      },
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       // target: 'http://192.168.0.169/familymatch',
+  //       target: 'https://familymatch.aakilarose.com/',
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/api/, '/api'),
+  //     },
+  //   },
+  // },
 })
 
 
