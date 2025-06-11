@@ -6,6 +6,7 @@ import TextSection from '../components/PublicProfile/TextSection';
 import MoreLikeThem from '../components/PublicProfile/MoreLikeThem';
 import ProfileHeader from '../components/ProfilePage/ProfileHeader';
 import { getAuthToken } from '../../utils/authToken';
+import { API_BASE_URL } from '../config'
 
 function PublicProfilePage() {
 
@@ -14,10 +15,12 @@ function PublicProfilePage() {
   useEffect(() => {
     // const token = localStorage.getItem('authToken');
     const token = getAuthToken();
+    console.log("api base url in publicprofilepage", API_BASE_URL )
 
-    // console.log("Token from localStorage:", token);
+    console.log("Token from localStorage:", token);
 
-    fetch('api//profile', {
+    fetch(`${API_BASE_URL}/profile`, {
+      // fetch('api/profile', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

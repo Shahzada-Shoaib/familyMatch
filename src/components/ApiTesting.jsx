@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import pic from '/images/onlineMoney2.jpg'
+import {API_BASE_URL} from '/src/config'
 
 
 function ApiTesting() {
@@ -48,26 +49,56 @@ function ApiTesting() {
     //         });
     // }
 
-        function getData2() {
-            const params = {
-                key1: 'value1',
-                key2: 'value2',
-                // add more key-value pairs as needed
-            };
+    useEffect(()=>{
+        console.log("baseURL is", API_BASE_URL);
+    })
 
-            axios.get('/api/search', {
-                headers: {
-                    'X-API-KEY': '123456'
-                },
-                body: params // axios will convert this object to query string automatically
+    //  function getData2() {
+    //         const params = {
+    //             key1: 'value1',
+    //             key2: 'value2',
+    //             // add more key-value pairs as needed
+    //         };
+
+    //         axios.get('/api/search', {
+    //             headers: {
+    //                 'X-API-KEY': '123456'
+    //             },
+    //             body: params // axios will convert this object to query string automatically
+    //         })
+    //             .then(response => {
+    //                 console.log('Data:', response.data);
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error:', error);
+    //             });
+    //     }
+
+    //
+    function getData2() {
+        const params = {
+            key1: 'value1',
+            key2: 'value2',
+            // add more key-value pairs as needed
+        };
+
+        axios.get(`${API_BASE_URL}/search`, {
+            headers: {
+                'X-API-KEY': '123456'
+            },
+            body: params // axios will convert this object to query string automatically
+        })
+            .then(response => {
+                console.log('Data:', response.data);
             })
-                .then(response => {
-                    console.log('Data:', response.data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+
+
+
 
 
     return (

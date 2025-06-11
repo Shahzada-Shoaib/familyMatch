@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fa';
 import { API_KEY } from '../config';
 import axios from 'axios';
+import { API_BASE_URL } from '../config'
 
 const SearchFilter = forwardRef(({ searchResultData, clearProfileData, }, ref) => {
     const [filters, setFilters] = useState({
@@ -29,7 +30,7 @@ const SearchFilter = forwardRef(({ searchResultData, clearProfileData, }, ref) =
     const [loadingSearch, setLoadingSearch] = useState(false);
     const [isSearched, setIsSearched] = useState(false);
 
-    const { data, loading, error } = useFetch('/api/search', {
+    const { data, loading, error } = useFetch(`${API_BASE_URL}/search`, {
         headers: {
             'X-API-KEY': '123456',
         },
@@ -54,7 +55,7 @@ const SearchFilter = forwardRef(({ searchResultData, clearProfileData, }, ref) =
         }
         setLoadingSearch(true);
 
-        axios.get('/api/results', {
+        axios.get(`${API_BASE_URL}/results`, {
             headers: {
                 'X-API-KEY': API_KEY
             },
@@ -93,8 +94,8 @@ const SearchFilter = forwardRef(({ searchResultData, clearProfileData, }, ref) =
 
     return (
         <div
-            className={`transition-all duration-500 h-[650px] top-10 md:mx-12 mt-6 
-                ${isSearched ? 'md:w-[35%] md:h-[650px]' : 'w-full h-auto'} border `}
+            className={`transition-all duration-500 h-[650px] top-10 md:mx-12 m-6 mt-6 
+                ${isSearched ? 'md:w-[35%] md:h-[650px]' : ' h-auto'}  lg:sticky`}
             // style={{
             //     width: isSearched ? '35%' : '100%',
             //     height: isSearched ? '650px' : 'auto',
@@ -213,7 +214,7 @@ const SearchFilter = forwardRef(({ searchResultData, clearProfileData, }, ref) =
                     </div>
                 </FilterCard>
 
-                <div className="w-full flex justify-end mt-6">
+                <div className="w-full flex justify-end mt-3">
                     {loadingSearch ? (
                         <div className="flex items-center gap-2">
                             <span className="loader"></span>

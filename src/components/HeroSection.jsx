@@ -1,5 +1,6 @@
 import Header from './Header';
 import video from '/video.mp4'
+import { Link } from 'react-router-dom';
 
 function HeroSection() {
  
@@ -32,7 +33,11 @@ function HeroSection() {
                 Family For Yours
               </h1>
               <div className="mt-4 text-left">
-                <button className="border-2 px-10 font-bold py-1 rounded-3xl bg-[#CD185B] text-white hover:border-[#CD185B]">GET STARTED</button>
+                <Link to="/search">
+                  <button className="border-2 px-10 font-bold py-1 rounded-3xl bg-[#CD185B] text-white hover:border-[#CD185B]">
+                    GET STARTED
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

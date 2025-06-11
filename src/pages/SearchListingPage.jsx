@@ -54,7 +54,7 @@ function SearchListingPage() {
     
   return (
       <div 
-          className="min-h-screen  bg-cover bg-repeat-y bg-center border"          >
+          className="min-h-screen  bg-cover bg-repeat-y bg-center "          >
           <ProfileHeader />
           <div className='lg:flex gap-4'>
               <SearchFilter 

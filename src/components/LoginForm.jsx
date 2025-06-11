@@ -1,6 +1,8 @@
 import React, { useEffect, useState,  } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { setAuthToken } from '../../utils/authToken';
+import { API_BASE_URL } from '../config';
+import { API_KEY } from '../config'
 
 
 function LoginForm() {
@@ -12,7 +14,7 @@ function LoginForm() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
     const navigate = useNavigate();
-    const apiKey = import.meta.env.VITE_X_API_KEY;
+    // const apiKey = import.meta.env.VITE_X_API_KEY;
 
     const handleChange = (e) => {
         setFormData(prev => ({
@@ -28,10 +30,10 @@ function LoginForm() {
         console.log("Logging in with", formData);
 
         try {
-            const response = await fetch('/api/login', {
+            const response = await fetch(`${API_BASE_URL}/login`, {
                 method: 'POST',
                 headers: {
-                    'X-API-KEY': apiKey,
+                    'X-API-KEY': API_KEY,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData)

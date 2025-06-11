@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import camera from "/icons/camera.svg"; // Adjust the path as necessary
 import { getAuthToken } from '../../utils/authToken';
+import { API_BASE_URL } from '../config'
 
 const ImageUploader = ({ onButtonClick }) => {
     const fileInputRef = useRef(null);
@@ -44,7 +45,7 @@ const ImageUploader = ({ onButtonClick }) => {
         }
 
         try {
-            const response = await fetch("/api/upload", {
+            const response = await fetch(`${API_BASE_URL}/upload`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,

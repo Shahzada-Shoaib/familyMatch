@@ -3,6 +3,8 @@ import hand from '/icons/hand_icon.png';
 import { Link } from 'react-router-dom'; 
 import { useNavigate } from 'react-router-dom';
 import { getAuthToken } from '../../utils/authToken';
+import { API_BASE_URL } from '../config'
+
 
 
 
@@ -35,7 +37,7 @@ function FormCompletionScreen({ answers }) {
         const token = getAuthToken();
         e.preventDefault();
 
-        fetch('api/update-profile', {
+        fetch(`${API_BASE_URL}/update-profile`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,

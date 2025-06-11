@@ -7,6 +7,7 @@ import { validateInput } from '../../utils/validation'; // Adjust path as needed
 import InputField from './InputFields'; // adjust the path as needed
 import { setAuthToken } from '../../utils/authToken';
 import { API_KEY } from '../config';
+import { API_BASE_URL } from '../config';
 
 
 
@@ -93,7 +94,7 @@ const ProfileForm = () => {
         handleNext();
 
         try {
-            const response = await fetch('/api/signup', {
+            const response = await fetch(`${API_BASE_URL}/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -123,7 +124,7 @@ const ProfileForm = () => {
 
 
     useEffect(() => {
-        fetch('/api/options', {
+        fetch(`${API_BASE_URL}/options`, {
             headers: {
                 'Content-Type': 'application/json',
                 'X-API-KEY': API_KEY,
