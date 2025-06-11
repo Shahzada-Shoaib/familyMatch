@@ -21,19 +21,19 @@ const questions = [
     { id: 3, apiname: "email", question: "What's your email?", input: 'email', validationType: 'email1', description: "your text would be here" },
     { id: 4, apiname: "password", question: "Set up a password.", input: 'password', validationType: 'password', description: "your text would be here" },
     //yhn tk signup ho k token aa jae ga
-    { id: 5, apiname: "reffer_id", question: "How did you hear about FamilyMatch?4", input: 'text' },
-    { id: 6, apiname: "religion_id", question: "What's your religion?5", input: 'text' },
-    { id: 7, apiname: "body_type", question: "How would you describe your body type?6", input: 'text' },
+    { id: 5, apiname: "reffer_id", question: "How did you hear about FamilyMatch?", input: 'text' },
+    { id: 6, apiname: "religion_id", question: "What's your religion?", input: 'text' },
+    { id: 7, apiname: "body_type", question: "How would you describe your body type?", input: 'text' },
     //suervy started
-    { id: 8, apiname: "survey_11", question: "Have you ever been married?7", input: 'text' },
-    { id: 9, apiname: "survey_16", question: "Do you have kids?8", input: 'text' },
-    { id: 10, apiname: "survey_17", question: 'Do you want kids?9', input: 'text' },
+    { id: 8, apiname: "survey_11", question: "Have you ever been married?", input: 'text' },
+    { id: 9, apiname: "survey_16", question: "Do you have kids?", input: 'text' },
+    { id: 10, apiname: "survey_17", question: 'Do you want kids?', input: 'text' },
     //yhn survey khtm ab blue screeb nthen get profile detail
-    { id: 11, apiname: "ethnic", question: "Which ethnicity best describe you?10", input: 'text' },
-    { id: 12, apiname: "interests", question: "What interests you?11", input: 'text' },
-    { id: 13, apiname: "bio", question: "Add a topic to your profile.12", input: 'text' },
-    { id: 14, apiname: "profile_pic", question: "Ready to catch someone’s eye?13 👀", input: 'text' },
-    { id: 15, apiname: "cvalues", question: "What are your core values?14", input: 'text' },
+    { id: 11, apiname: "ethnic", question: "Which ethnicity best describe you?", input: 'text' },
+    { id: 12, apiname: "interests", question: "What interests you?", input: 'text' },
+    { id: 13, apiname: "bio", question: "One topic. Infinite vibes. What’s yours?", input: 'text' },
+    { id: 14, apiname: "profile_pic", question: "Ready to catch someone’s eye? 👀", input: 'text' },
+    { id: 15, apiname: "cvalues", question: "What are your core values?", input: 'text' },
     { id: 16, apiname: "number15", question: "", input: 'text'},
 ];
 
@@ -281,13 +281,12 @@ const ProfileForm = () => {
                                                     <FormCompletionScreen answers={answers} />
                                                 ) : (
                                             // Text input field
-
-                                                                    <InputField
-                                                                        q={q}
-                                                                        answers={answers}
-                                                                        handleChange={handleChange}
-                                                                        errors={errors}
-                                                                    />
+                                                    <InputField
+                                                    q={q}
+                                                    answers={answers}
+                                                    handleChange={handleChange}
+                                                    errors={errors}
+                                                    />
 
 
 
