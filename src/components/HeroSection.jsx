@@ -1,3 +1,4 @@
+import Button from './Button';
 import Header from './Header';
 import video from '/video.mp4'
 import { Link } from 'react-router-dom';
@@ -34,9 +35,14 @@ function HeroSection() {
               </h1>
               <div className="mt-4 text-left">
                 <Link to="/search">
-                  <button className="border-2 px-10 font-bold py-1 rounded-3xl bg-[#CD185B] text-white hover:border-[#CD185B]">
+                  {/* <button className="border-2 px-10 font-bold py-1 rounded-3xl bg-[#CD185B] text-white hover:border-[#CD185B]">
                     GET STARTED
-                  </button>
+                  </button> */}
+                  <Button 
+                  variant='primary'
+                  className='px-14'> 
+                    GET STARTED
+                  </Button>
                 </Link>
               </div>
             </div>

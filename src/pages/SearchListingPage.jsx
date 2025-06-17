@@ -53,30 +53,17 @@ function SearchListingPage() {
 
     
   return (
-      <div 
-          className="min-h-screen  bg-cover bg-repeat-y bg-center "          >
-          <ProfileHeader />
-          <div className='lg:flex gap-4'>
+      <div className="min-h-screen  bg-cover bg-repeat-y bg-center " >
+          <div className='border sticky top-0 z-1 bg-white'>
+              <ProfileHeader />
+          </div>
+          <div className='lg:flex justify-center items-start mx-auto p-6 space-y-4 lg:space-y-0 lg:space-x-4'>
               <SearchFilter 
             //   onLoadingChange={handleLoadingChange}
               clearProfileData={clearProfileData} 
               ref={searchFilterRef} 
               searchResultData={handleDataFromChild} 
               />
-              {/* {profileData.length > 0 && (
-                <div>
-                      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-w-6xl gap-4 p-6">
-                          {profileData.map((profile) => (
-                              <ProfileCard key={profile?.id} profile={profile} />
-                          ))}
-                      </div>
-                        <div className=' flex justify-center'>
-                            <button 
-                                className='border px-10 py-3 rounded-4xl hover:bg-[#AE2456] hover:text-white'
-                            onClick={loadMoreResults}>Load More</button>
-                        </div>
-                </div>
-              )} */}
 
               {isSearched && profileData.length > 0 && (
                   <div>
@@ -107,8 +94,6 @@ function SearchListingPage() {
                       <p className="text-sm text-gray-400">Try tweaking your filters — magic might happen! ✨</p>
                   </div>
               )}
-
-            
           </div>
     </div>
   )

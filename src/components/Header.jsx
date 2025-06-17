@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { removeAuthToken, getAuthToken } from '../../utils/authToken'
+import Button from "./Button";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,47 +24,57 @@ function Header() {
 
   return (
     <div>
-      <header className="inse-0 backdrop-blur-md bg-white-200 rounded-[80px] m-6 shadow-2xl px-10 flex items-center justify-between">
+      <header className=" container inse-0 bg-white-200 m-6  px-10 flex items-center justify-between">
         <div className="text-2xl text-white font-bold">
-          Family Match
+          FamilyMatch
         </div>
 
-        <nav className="space-x-6 hidden md:flex text-white text-xl">
+        {/* <nav className="space-x-6 hidden md:flex text-white text-xl">
           <a href="#" className="hover:text-blue-600">Home</a>
           <a href="#" className="hover:text-blue-600">About</a>
           <a href="#" className="hover:text-blue-600">Services</a>
           <a href="#" className="hover:text-blue-600">Contact</a>
-        </nav>
+        </nav> */}
 
         <div className="justify-between py-8 hidden md:flex">
           <div className="flex gap-2">
             {isLoggedIn ? (
               <>
-              <button
+              {/* profile */}
+                <Link to="/profilepage">
+                  <Button variant="secondary">PROFILE</Button>
+                </Link>
+              {/* <button
                 onClick={() => navigate("/profilepage")}
                 className="border-2 px-8 py-1 rounded-3xl text-white hover:opacity-80"
               >
                 PROFILE
-              </button>
-                <button
+              </button> */}
+                {/* <button
                   onClick={handleLogout}
                   className="border-2 px-8 py-1 rounded-3xl text-white hover:opacity-80"
                 >
                   LOGOUT
-                </button>
+                </button> */}
+                {/* <Link to="/profilepage"> */}
+                  <Button 
+                  onClick={handleLogout}
+                  variant="secondary">LOG OUT</Button>
+                {/* </Link> */}
               </>
 
             ) : (
               <>
                 <Link to="/login">
-                  <button className="border-2 px-8 py-1 rounded-3xl text-white hover:opacity-80">
-                    MEMBER LOGIN
-                  </button>
+                 <Button variant="secondary">MEMBER LOGIN</Button> 
                 </Link>
                 <Link to="/signup">
-                  <button className="border-[#CD185B] px-8 py-1 rounded-3xl bg-[#CD185B] text-white hover:opacity-80">
+                  {/* <button className="border-[#CD185B] px-8 py-1 rounded-3xl bg-[#CD185B] text-white hover:opacity-80">
                     REGISTER
-                  </button>
+                  </button> */}
+                  <Button variant="primary">
+                      REGISTER
+                  </Button>
                 </Link>
               </>
             )}

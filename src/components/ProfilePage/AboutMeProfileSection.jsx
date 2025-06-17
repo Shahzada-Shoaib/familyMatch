@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaUser, FaUsers, FaTrashAlt, FaBriefcase, FaBirthdayCake, FaUserTie, FaHome } from "react-icons/fa";
+import axios from 'axios';
+import { getAuthToken } from "../../../utils/authToken";
 
 const AboutMeProfileSection = () => {
     const [activeTab, setActiveTab] = useState("me");
@@ -19,6 +21,8 @@ const AboutMeProfileSection = () => {
     });
 
     const [familyMembers, setFamilyMembers] = useState([]);
+        const [profileData, setProfileData] = useState(null);
+    
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -58,6 +62,44 @@ const AboutMeProfileSection = () => {
         setFamilyMembers([]);
         setFamilyMemberInput({ name: "", relation: "", age: "", occupation: "" });
     };
+
+
+
+    // to show data here
+    useEffect(() => {
+        if (profileData) {
+            setFormData({
+                fullName: profileData.full_name || '',
+                dob: profileData.dob || '',
+                location: profileData.country || '',
+                bio: profileData.bio || '',
+
+                // add other fields as needed
+            });
+        }
+    }, [profileData]);
+
+
+      useEffect(() => {
+            const fetchProfile = async () => {
+                const token = getAuthToken();
+    
+                try {
+                    const response = await axios.get('https://familymatch.aakilarose.com/api/profile', {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+    
+                    console.log('aboutme api porifle:', response.data); // ✅ log directly
+                    setProfileData(response.data.data); // update state
+                } catch (error) {
+                    console.error('Error fetching profile:', error.response?.data || error.message);
+                }
+            };
+    
+            fetchProfile();
+        }, []);
 
     return (
         <div className="w-full max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
@@ -111,7 +153,7 @@ const AboutMeProfileSection = () => {
                             type="date"
                             id="dob"    
                             name="dob"
-                            value={formData.age}
+                            value={formData.dob}
                             onChange={handleInputChange}
                             placeholder="Enter your age"
                             className="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
@@ -126,6 +168,7 @@ const AboutMeProfileSection = () => {
                         name="gender"
                         value={formData.gender}
                         onChange={handleInputChange}
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
                          />
                     </div>
 

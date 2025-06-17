@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     FaUser,
     FaInfoCircle,
@@ -18,9 +18,14 @@ import ViewSection from './ViewSection';
 import LikesSection from './LikesSection';
 import FavoritesSection from './FavoritesSection';
 import WinksSection from './WinksSection';
+import axios from 'axios';
+
 
 function LeftMenu() {
-    const [selectedId, setSelectedId] = useState(3); // default to 'Personal'
+    const [selectedId, setSelectedId] = useState(1); // default to 'Personal'
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true); // Optional: for loading state
+    const [error, setError] = useState(null);  
 
     const options = [
         { id: 1, label: "Personal", icon: <FaUser /> },
@@ -37,22 +42,46 @@ function LeftMenu() {
     const renderSelectedComponent = () => {
         switch (selectedId) {
             case 1:
-                return <ProfileSettings />;
+                return <ProfileSettings data={data} />;
             case 2:
                 return <AboutMeProfileSection />;
             // Add other components here as needed:
             case 3: return <MatchDataSection/>;
             case 4: return <PhotoSection/>;
-            case 5: return < ViewSection/>;
+            case 5: return <ViewSection/>;
             case 6: return <LikesSection/>;
             case 7: return <FavoritesSection/>;
             case 8: return <WinksSection/> ;
-
             // ...
             default:
                 return <div>Select an option from the menu</div>;
         }
     };
+
+    useEffect(() => {
+        axios.get('https://familymatch.aakilarose.com/api/search', {
+
+            headers: {
+                'X-API-KEY': '123456'
+            },
+            // body: params // axios will convert this object to query string automatically
+        })
+            .then(response => {
+                console.log('Data:', response.data);
+                setData(response.data);
+                setLoading(false); // Set loading to false after data is fetched
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        // fetchData();
+    }, []);
+    // Optional UI rendering
+    // if (loading) return <p>Loading...</p>;
+    // if (error) return <p>Error: {error}</p>;
+
+
 
     return (
         <div className='w-full flex '>
@@ -62,16 +91,6 @@ function LeftMenu() {
                     const isActive = selectedId === option.id;
                     return (
                         <div key={option.id} className=''>
-                            {/* <button
-                                onClick={() => setSelectedId(option.id)}
-                                className={`rounded-lg w-full my-2 py-3 px-4 gap-3 flex items-center transition-colors duration-200
-                                    ${isActive ? 'bg-[#FEE7F5] text-pink-600' : 'bg-[#F2F5F6] text-black'}`}
-                            >
-                                <div className={`text-lg ${isActive ? 'text-pink-600' : 'text-gray-500'}`}>
-                                    {option.icon}
-                                </div>
-                                <p className='text-sm md:text-base'>{option.label}</p>
-                            </button> */}
                             <button
                                 onClick={() => setSelectedId(option.id)}
                                 className={`rounded-lg w-full my-2 py-3 px-4 gap-3 flex items-center transition-colors duration-200

@@ -16,7 +16,6 @@ function PublicProfilePage() {
     // const token = localStorage.getItem('authToken');
     const token = getAuthToken();
     console.log("api base url in publicprofilepage", API_BASE_URL )
-
     console.log("Token from localStorage:", token);
 
     fetch(`${API_BASE_URL}/profile`, {

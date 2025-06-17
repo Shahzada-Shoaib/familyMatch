@@ -1,119 +1,92 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import pic from '/images/onlineMoney2.jpg'
 import {API_BASE_URL} from '/src/config'
+import Button from './Button';
 
 
 function ApiTesting() {
 
-
-    // async function getData() {
-    //     try {
-    //         const response = await fetch('/api/search', {
-    //             method: 'GET',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'X-API-KEY': '123456' // Change header key & value as needed
-    //             },
-    //             body: JSON.stringify({
-    //                 email: "raheel@test.com",
-    //                 password: "12345",
-    //                 // username: "johndoe"
-    //             })
-
-    //         });
-
-    //         if (!response.ok) throw new Error('Network error');
-
-    //         const data = await response.json();
-    //         console.log("this is data", data);
-    //         console.log("this is data.message", data.message);
-
-    //     } catch (error) {
-    //         console.error('Error fetching data:', error);
-    //     }
-    // }
+    const [apiData, setApiData] = useState(null);
 
 
-    // function getData2() {
-    //     axios.get('/api/search', {
-    //         headers: {
-    //             'X-API-KEY': '123456'
-    //         }
-    //     })
-    //         .then(response => {
-    //             console.log('Data:', response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error:', error);
-    //         });
-    // }
+    const normalizeWithABC = (data) => {
+        const ABCKeys = ['allergy', 'blood_groups'];
+        const result = { ABC: {} };
 
-    useEffect(()=>{
-        console.log("baseURL is", API_BASE_URL);
-    })
+        for (const key in data) {
+            const cleaned = data[key].map(({ id, name }) => ({ id, name }));
 
-    //  function getData2() {
-    //         const params = {
-    //             key1: 'value1',
-    //             key2: 'value2',
-    //             // add more key-value pairs as needed
-    //         };
+            if (ABCKeys.includes(key)) {
+                result.ABC[key] = cleaned;
+            } else {
+                result[key] = cleaned;
+            }
+        }
 
-    //         axios.get('/api/search', {
-    //             headers: {
-    //                 'X-API-KEY': '123456'
-    //             },
-    //             body: params // axios will convert this object to query string automatically
-    //         })
-    //             .then(response => {
-    //                 console.log('Data:', response.data);
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error:', error);
-    //             });
-    //     }
+        return result;
+    };
 
-    //
-    function getData2() {
-        const params = {
-            key1: 'value1',
-            key2: 'value2',
-            // add more key-value pairs as needed
+    // const normalized = normalizeWithABC(response.data.data);
+    // const normalized = normalizeWithABC(apiResponse.data);
+    const normalized = normalizeWithABC(apiData);
+
+
+    // response.data.data
+    console.log("normal in apitesting", normalized);
+
+
+
+
+    // useEffect(()=>{
+    //     console.log("api data", apiData);
+    // }, [apiData])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('https://familymatch.aakilarose.com/api/profile_options', {
+                    headers: {
+                        'X-API-KEY': '123456'
+                    }
+                });
+
+                console.log('Dataddsds:', response.data.data);
+                console.log('Blood Groups:', response.data.data.blood_groups);
+
+                setApiData(response.data.data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
         };
 
-        axios.get(`${API_BASE_URL}/search`, {
-            headers: {
-                'X-API-KEY': '123456'
-            },
-            body: params // axios will convert this object to query string automatically
-        })
-            .then(response => {
-                console.log('Data:', response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        fetchData(); // call the async function
+    }, []);
+
+
+    function abc() {
+        console.log("abc function called");
     }
-
-
-
-
-
-
     return (
         <div>
-            <button
-                onClick={getData2}
-                className="border px-5 py-3 rounded-3xl bg-[#CD185B] font-bold text-white"
-            >
-                API test
-            </button>
-            {/* <div className='border'>
-                <img className='w-full h-[400px]' src={pic} alt="" />
-            </div> */}
+    
             <div className="border w-full h-[500px] overflow-hidden">
                 <img className="w-full h-full object-cover" src={pic} alt="" />
+            </div>
+
+    
+
+                <Button variant="primary"  onClick={abc}>
+                    Hellow
+                </Button>   
+            <div className="p-6 space-y-4">
+                <Button variant="primary">Primary</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="outline">Outline</Button>
+                {/* <Button variant="danger" icon={FaTrash}>Delete</Button> */}
+                <Button variant="cancel">Cancel</Button>
+                {/* <Button icon={FaPlus}>Add</Button> */}
+                <Button isLoading>Loading...</Button>
             </div>
 
         </div>
