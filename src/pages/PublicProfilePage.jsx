@@ -1,53 +1,59 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import DpSection from '../components/PublicProfile/DpSection';
 import AboutThemSection from '../components/PublicProfile/AboutThemSection';
 import InterestSection from '../components/PublicProfile/InterestSection';
 import TextSection from '../components/PublicProfile/TextSection';
 import MoreLikeThem from '../components/PublicProfile/MoreLikeThem';
 import ProfileHeader from '../components/ProfilePage/ProfileHeader';
+
 import { getAuthToken } from '../../utils/authToken';
-import { API_BASE_URL } from '../config'
+import { API_BASE_URL } from '../config';
+
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 function PublicProfilePage() {
-
+  const { id } = useParams(); // id will be undefined if not in URL
   const [profileData, setProfileData] = useState(null);
 
   useEffect(() => {
-    // const token = localStorage.getItem('authToken');
-    const token = getAuthToken();
-    console.log("api base url in publicprofilepage", API_BASE_URL )
-    console.log("Token from localStorage:", token);
-
-    fetch(`${API_BASE_URL}/profile`, {
-      // fetch('api/profile', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
+    const fetchProfile = async () => {
+      try {
+        if (id) {
+          // ✅ User came from search/listing page – fetch public profile by ID
+          const response = await axios.get(`${API_BASE_URL}/user-profile/${id}`);
+          setProfileData(response.data.data);
+          console.log("Public profile data loaded by ID:", response.data.data);
+        } else {
+          // ✅ User came from propage – fetch own profile using token
+          const token = getAuthToken();
+          const response = await axios.get(`${API_BASE_URL}/profile`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          });
+          setProfileData(response.data.data);
+          console.log("Own profile data loaded:", response.data.data);
         }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Data:', data);
-        setProfileData(data.data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }, []); 
+      } catch (error) {
+        console.error("Failed to load profile:", error);
+      }
+    };
 
+    fetchProfile();
+  }, [id]); // re-run effect only if `id` changes
+
+  if (!profileData) return <div className='h-[100vh] flex justify-center items-center'>
+    <div className='loader'></div>
+  </div>;
 
   return (
     <>
-    <ProfileHeader/>
+      <ProfileHeader />
       <div className='md:flex justify-center'>
-        <div className=''>
-          <DpSection data={profileData}/>
+        <div>
+          <DpSection data={profileData} />
           <AboutThemSection data={profileData} />
           <InterestSection data={profileData} />
           <TextSection />
@@ -55,8 +61,7 @@ function PublicProfilePage() {
         <MoreLikeThem />
       </div>
     </>
-    
-  )
+  );
 }
 
 export default PublicProfilePage;

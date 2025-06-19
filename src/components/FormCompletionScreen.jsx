@@ -51,7 +51,6 @@ function FormCompletionScreen({ answers }) {
                 navigate('/profilepage');
             })
             .catch((error) => {
-                console.error('Error:', error);
                 alert("Submission Failed", error)
             });
     };

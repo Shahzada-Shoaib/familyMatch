@@ -27,7 +27,6 @@ function LoginForm() {
         e.preventDefault();
         setLoading(true);
         setMessage(null);
-        console.log("Logging in with", formData);
 
         try {
             const response = await fetch(`${API_BASE_URL}/login`, {
@@ -45,6 +44,7 @@ function LoginForm() {
                 setMessage({ type: 'success', text: 'Login successful!' });
                 setFormData({ email: '', password: '' });
                 result.data.token && setAuthToken(result.data.token)
+                console.log("Token set in localStorage", result.data.token);
                 navigate('/profilepage'); // Redirect to profile page
             } else {
                 setMessage({ type: 'error', text: result.message || 'Login failed.' });

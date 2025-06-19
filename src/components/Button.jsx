@@ -12,7 +12,7 @@ const variantClasses = {
     secondary: "border-2 border-white rounded-3xl text-white hover:opacity-70",
     outline: "border border-gray-400 text-gray-600 hover:bg-gray-100",
     danger: "bg-red-600 text-white hover:bg-red-700",
-    cancel: "bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-300",
+    cancel: "bg-gray-100 text-gray-600 rounded-3xl hover:bg-gray-200 border border-gray-300 focus:outline-none",
 };
 
 // ✅ Reusable Button Component
@@ -30,7 +30,7 @@ function Button({
             {...props}
             disabled={isLoading || disabled}
             className={cn(
-                "inline-flex items-center justify-center px-8 py-2 text-sm font-bold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2",
+                "inline-flex items-center justify-center px-8 py-2 text-sm font-bold transition-all duration-200",
                 variantClasses[variant],
                 (isLoading || disabled) && "opacity-50 cursor-not-allowed",
                 className

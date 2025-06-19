@@ -22,6 +22,8 @@ function App() {
         <Route path="/" element={<HomePage/>} />
         {/* <Route path="/signup" element={<ProfileForm/>} /> */}
         <Route path="/publicview" element={<PublicProfilePage/>} />
+        <Route path="/publicview/:id" element={<PublicProfilePage />} />
+
         {/* <Route path="/login" element={<LoginForm/>} /> */}
         <Route path="/login" element={<Login/>} />
 

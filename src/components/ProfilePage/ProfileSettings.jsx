@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaUserAlt, FaHeart, FaStar, FaHeartbeat } from "react-icons/fa";
+import Button from "../Button";
+import axios from 'axios';
+
 
 const ProfileSettings = () => {
     const [activeTab, setActiveTab] = useState("Personal");
@@ -41,8 +44,6 @@ const ProfileSettings = () => {
                 }
 
                 const result = await response.json();
-                // console.log("API Response:", result);
-
                 if (result.status && result.data) {
                     // Transform API data to match our component structure
                     const transformedData = {
@@ -51,7 +52,6 @@ const ProfileSettings = () => {
                         Interests: result.data.interests || [],
                         Health: result.data.health || [],
                     };
-
                     // Transform the data structure to match our existing format
                     const processedData = {};
                     Object.keys(transformedData).forEach((key) => {
@@ -151,12 +151,34 @@ const ProfileSettings = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     console.log("Form Data:", formData);
+    //     console.log("Normalized Form Data:", normalizedFormData);
+    //     alert("Form submitted! Check the console.");
+    // };
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form Data:", formData);
-        console.log("Normalized Form Data:", normalizedFormData);
-        alert("Form submitted! Check the console.");
+
+        try {
+            const response = await axios.post('https://familymatch.aakilarose.com/api/update-profile', normalizedFormData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': 'Bearer YOUR_TOKEN_HERE' // if required
+                }
+            });
+
+            console.log("API Response:", response.data);
+            alert("Form submitted successfully!");
+        } catch (error) {
+            console.error("Error submitting form:", error);
+            alert("Failed to submit form.");
+        }
     };
+
+
 
     if (loading) {
         return (
@@ -286,19 +308,17 @@ const ProfileSettings = () => {
 
                 {/* Buttons */}
                 <div className="col-span-1 sm:col-span-2 flex flex-col sm:flex-row justify-end items-center gap-4 mt-6">
-                    <button
+                    <Button
+                        variant="cancel"
                         type="button"
-                        onClick={handleCancel}
-                        className="w-full sm:w-auto px-6 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition"
-                    >
+                        onClick={handleCancel}>
                         Cancel
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                         type="submit"
-                        className="w-full sm:w-auto px-6 py-2 bg-pink-600 text-white rounded-md hover:bg-pink-700 transition"
-                    >
+                        variant="primary">
                         Save Changes
-                    </button>
+                    </Button>
                 </div>
             </form>
         </div>

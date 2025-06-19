@@ -1,19 +1,22 @@
 import React from 'react';
 import { FaMapMarkerAlt, FaHeart, FaBook, FaMusic, FaEnvelope, FaPrayingHands, FaRing } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileCard = ({profile}) => {
+    const navigate = useNavigate();
+
+    const handleclick = () => {
+        navigate(`/publicview/${profile.user_id}`);
+    }
 
     return (
-        <div className="max-w-sm w-full h-auto p-2 rounded-3xl backdrop-blur-md bg-[#AE2456]/10  border-white/20 shadow-lg hover:shadow-xl transition flex flex-col justify-between">
-            {/* <div className='bg-black w-full h-8'>
-
-            </div> */}
-
+        <div className="max-w-sm w-full h-auto p-2 rounded-3xl backdrop-blur-md bg-[#AE2456]/10  border-white/20 shadow-lg hover:shadow-xl transition flex flex-col justify-between"
+            onClick={handleclick}>
             {/* Top Section */}
             <div className="flex flex-col items-center text-center ">
                 <img
-                    src={profile.profile_image}
-                    alt={profile?.full_name}
+                    src={profile?.profile_image}
+                    alt={profile?.full_name || 'Profile Image'}
                     className="w-full h-46 object-cover rounded-3xl  border-2 border-white shadow-md mb-4"
                 />
                 <div className=''>

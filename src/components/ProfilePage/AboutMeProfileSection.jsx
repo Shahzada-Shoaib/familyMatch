@@ -91,10 +91,10 @@ const AboutMeProfileSection = () => {
                         }
                     });
     
-                    console.log('aboutme api porifle:', response.data); // ✅ log directly
                     setProfileData(response.data.data); // update state
                 } catch (error) {
-                    console.error('Error fetching profile:', error.response?.data || error.message);
+                    // console.error('Error fetching profile:', error.response?.data || error.message);
+                    alert('Error fetching profile:', error.response?.data || error.message)
                 }
             };
     

@@ -38,8 +38,8 @@ const ImageUploader = ({ onButtonClick }) => {
         setLoading(true);
 
         if (!token) {
-            alert("You're Not logged in")
-            console.log("No token found, user might not be logged in");
+            alert("You're Not logged in, Signup again")
+            // console.log("No token found, user might not be logged in");
             setLoading(false);
             return false;
         }
@@ -63,7 +63,7 @@ const ImageUploader = ({ onButtonClick }) => {
                 return false;
             }
         } catch (error) {
-            console.error("Upload error:", error);
+            // console.error("Upload error:", error);
             alert("Upload failed: " + error.message);
             return false;
         } finally {

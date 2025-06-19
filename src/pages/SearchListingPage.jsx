@@ -84,7 +84,7 @@ function SearchListingPage() {
               )}
 
               {isSearched && profileData.length === 0 && (
-                  <div className="text-center text-gray-500 mt-10 w-full flex flex-col items-center justify-center space-y-4 p-6 rounded-lg">
+                  <div className="flex flex-col items-center justify-center text-center text-gray-500 w-full h-[70vh] space-y-4 p-6 rounded-lg">
                       <img
                           src="https://cdn-icons-png.flaticon.com/512/6134/6134065.png"
                           alt="No results"

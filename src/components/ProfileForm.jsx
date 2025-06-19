@@ -135,7 +135,6 @@ const ProfileForm = () => {
                 return res.json();
             })
             .then(data => {
-                // console.log("Fetched data:", data);
                 setApiData(data);
             })
             .catch(err => {

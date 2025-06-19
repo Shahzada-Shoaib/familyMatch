@@ -18,8 +18,6 @@ function ProfileHeroSection() {
                         Authorization: `Bearer ${token}`
                     }
                 });
-
-                console.log('API Response:', response.data); // ✅ log directly
                 setProfileData(response.data.data); // update state
             } catch (error) {
                 console.error('Error fetching profile:', error.response?.data || error.message);
