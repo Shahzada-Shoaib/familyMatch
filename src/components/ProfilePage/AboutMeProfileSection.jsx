@@ -1,40 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { FaUser, FaUsers, FaTrashAlt, FaBriefcase, FaBirthdayCake, FaUserTie, FaHome } from "react-icons/fa";
+import {
+    FaUser, FaUsers, FaTrashAlt, FaBriefcase,
+    FaBirthdayCake, FaUserTie, FaHome
+} from "react-icons/fa";
 import axios from 'axios';
 import { getAuthToken } from "../../../utils/authToken";
 
 const AboutMeProfileSection = () => {
     const [activeTab, setActiveTab] = useState("me");
-
     const [formData, setFormData] = useState({
         fullName: "",
         dob: "",
         location: "",
         bio: "",
+        gender: ""
     });
 
     const [familyMemberInput, setFamilyMemberInput] = useState({
         name: "",
         relation: "",
-        age: "",
+        dob: "",
         occupation: "",
     });
 
-    const [familyMembers, setFamilyMembers] = useState([]);
-        const [profileData, setProfileData] = useState(null);
-    
+    const [allFamilyMembers, setAllFamilyMembers] = useState([]);
+    const [profileData, setProfileData] = useState(null);
+    const token = getAuthToken();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleFamilyInputChange = (e) => {
         const { name, value } = e.target;
-        setFamilyMemberInput((prev) => ({ ...prev, [name]: value }));
+        setFamilyMemberInput(prev => ({ ...prev, [name]: value }));
     };
 
-    const addFamilyMember = (e) => {
+    const addFamilyMember = async (e) => {
         e.preventDefault();
 
         if (!familyMemberInput.name.trim()) {
@@ -42,30 +45,97 @@ const AboutMeProfileSection = () => {
             return;
         }
 
-        setFamilyMembers((prev) => [...prev, familyMemberInput]);
-        setFamilyMemberInput({ name: "", relation: "", age: "", occupation: "" });
+        try {
+            const form = new FormData();
+            Object.entries(familyMemberInput).forEach(([key, value]) => {
+                form.append(key, value);
+            });
+
+            const response = await axios.post(
+                'https://familymatch.aakilarose.com/api/childern/add',
+                form,
+                {
+                    headers: {
+                        'X-API-KEY': '123456',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+
+            const newMember = {
+                id: response.data.data?.id || Date.now(),
+                name: familyMemberInput.name,
+                relation: familyMemberInput.relation,
+                dob: familyMemberInput.dob,
+                occupation: familyMemberInput.occupation,
+            };
+
+            setAllFamilyMembers(prev => [...prev, newMember]);
+            setFamilyMemberInput({ name: "", relation: "", dob: "", occupation: "" });
+
+        } catch (error) {
+            alert(error.response?.data?.message || error.message);
+        }
     };
 
-    const deleteFamilyMember = (index) => {
-        setFamilyMembers((prev) => prev.filter((_, i) => i !== index));
+    const deleteFamilyMember = async (id) => {
+        console.log("Deleting member with ID:", id);
+        if (!window.confirm("Are you sure you want to delete this member?")) return;
+
+        try {
+            const res = await axios.get(
+                `https://familymatch.aakilarose.com/api/delete-childern/${id}`,
+                // { id },
+                {
+                    headers: {
+                        'X-API-KEY': '123456',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+
+            if (res.data.status) {
+                setAllFamilyMembers(prev => prev.filter(member => member.id !== id));
+            } else {
+                alert("Failed to delete member.");
+            }
+        } catch (error) {
+            alert(error.response?.data?.message || error.message);
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("About Me Data:", formData);
-        console.log("Family Members:", familyMembers);
-        alert("Data saved! Check the console.");
+        console.log("Saved:", formData, allFamilyMembers);
+        alert("Data saved successfully!");
     };
 
     const handleCancel = () => {
-        setFormData({ fullName: "", age: "", location: "", bio: "" });
-        setFamilyMembers([]);
-        setFamilyMemberInput({ name: "", relation: "", age: "", occupation: "" });
+        setFormData({ fullName: "", dob: "", location: "", bio: "", gender: "" });
+        setAllFamilyMembers([]);
+        setFamilyMemberInput({ name: "", relation: "", dob: "", occupation: "" });
     };
 
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const res = await axios.get('https://familymatch.aakilarose.com/api/profile', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
 
+                const data = res.data.data;
+                setProfileData(data);
 
-    // to show data here
+                if (data?.childerns?.length) {
+                    setAllFamilyMembers(data.childerns);
+                }
+            } catch (err) {
+                alert("Failed to load profile");
+            }
+        };
+        fetchProfile();
+    }, []);
+
     useEffect(() => {
         if (profileData) {
             setFormData({
@@ -73,274 +143,73 @@ const AboutMeProfileSection = () => {
                 dob: profileData.dob || '',
                 location: profileData.country || '',
                 bio: profileData.bio || '',
-
-                // add other fields as needed
+                gender: profileData.gender || ''
             });
         }
     }, [profileData]);
 
-
-      useEffect(() => {
-            const fetchProfile = async () => {
-                const token = getAuthToken();
-    
-                try {
-                    const response = await axios.get('https://familymatch.aakilarose.com/api/profile', {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
-    
-                    setProfileData(response.data.data); // update state
-                } catch (error) {
-                    // console.error('Error fetching profile:', error.response?.data || error.message);
-                    alert('Error fetching profile:', error.response?.data || error.message)
-                }
-            };
-    
-            fetchProfile();
-        }, []);
-
     return (
-        <div className="w-full max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-            {/* Tabs */}
-            <div className="flex border-b border-gray-300 mb-8">
+        <div className="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+            <div className="flex border-b mb-6">
                 <button
                     onClick={() => setActiveTab("me")}
-                    className={`flex items-center gap-2 px-6 py-3 font-semibold transition-colors ${activeTab === "me"
-                            ? "border-b-4 border-pink-600 text-pink-600"
-                            : "text-gray-600 hover:text-pink-500"
-                        }`}
+                    className={`px-6 py-3 font-semibold ${activeTab === "me" ? "border-b-4 border-pink-600 text-pink-600" : "text-gray-600"}`}
                 >
-                    <FaUser size={20} />
-                    About Me
+                    <FaUser /> About Me
                 </button>
                 <button
                     onClick={() => setActiveTab("family")}
-                    className={`flex items-center gap-2 px-6 py-3 font-semibold transition-colors ${activeTab === "family"
-                            ? "border-b-4 border-pink-600 text-pink-600"
-                            : "text-gray-600 hover:text-pink-500"
-                        }`}
+                    className={`px-6 py-3 font-semibold ${activeTab === "family" ? "border-b-4 border-pink-600 text-pink-600" : "text-gray-600"}`}
                 >
-                    <FaUsers size={20} />
-                    About My Family
+                    <FaUsers /> About My Family
                 </button>
             </div>
 
-            {/* Tab Content */}
             {activeTab === "me" && (
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                        <label htmlFor="fullName" className="flex items-center gap-2 text-gray-600 font-medium mb-2">
-                            <FaUserTie /> Full Name
-                        </label>
-                        <input
-                            type="text"
-                            id="fullName"
-                            name="fullName"
-                            value={formData.fullName}
-                            onChange={handleInputChange}
-                            placeholder="Enter your full name"
-                            className="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="dob" className="flex items-center gap-2 text-gray-600 font-medium mb-2">
-                            <FaBirthdayCake /> Date of Birth
-                        </label>
-                        <input
-                            type="date"
-                            id="dob"    
-                            name="dob"
-                            value={formData.dob}
-                            onChange={handleInputChange}
-                            placeholder="Enter your age"
-                            className="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="gender"> Gender</label>
-                        <input 
-                        type="text"
-                        id="gender"
-                        name="gender"
-                        value={formData.gender}
-                        onChange={handleInputChange}
-                        className="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
-                         />
-                    </div>
-
-                    <div>
-                        <label htmlFor="location" className="flex items-center gap-2 text-gray-600 font-medium mb-2">
-                            <FaHome /> Location
-                        </label>
-                        <input
-                            type="text"
-                            id="location"
-                            name="location"
-                            value={formData.location}
-                            onChange={handleInputChange}
-                            placeholder="City or Country"
-                            className="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
-                        />
-                    </div>
-
-                    <div className="sm:col-span-2">
-                        <label htmlFor="bio" className="text-gray-600 font-medium mb-2 block">
-                            Short Bio
-                        </label>
-                        <textarea
-                            id="bio"
-                            name="bio"
-                            value={formData.bio}
-                            onChange={handleInputChange}
-                            rows={5}
-                            placeholder="Write a short bio about yourself"
-                            className="w-full rounded-md border border-gray-300 px-4 py-3 text-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-pink-500"
-                        />
-                    </div>
+                    <input type="text" name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="Full Name" className="border p-2 rounded" />
+                    <input type="date" name="dob" value={formData.dob} onChange={handleInputChange} className="border p-2 rounded" />
+                    <input type="text" name="gender" value={formData.gender} onChange={handleInputChange} placeholder="Gender" className="border p-2 rounded" />
+                    <input type="text" name="location" value={formData.location} onChange={handleInputChange} placeholder="Location" className="border p-2 rounded" />
+                    <textarea name="bio" value={formData.bio} onChange={handleInputChange} rows={4} placeholder="Short Bio" className="border p-2 rounded col-span-2" />
                 </form>
             )}
 
             {activeTab === "family" && (
                 <>
-                    <form onSubmit={addFamilyMember} className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-                        <div>
-                            <label htmlFor="name" className="flex items-center gap-2 text-gray-600 font-medium mb-2">
-                                <FaUserTie /> Name
-                            </label>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                value={familyMemberInput.name}
-                                onChange={handleFamilyInputChange}
-                                placeholder="Family member's name"
-                                className="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
-                                required
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor="relation" className="flex items-center gap-2 text-gray-600 font-medium mb-2">
-                                <FaUsers /> Relation
-                            </label>
-                            <input
-                                type="text"
-                                id="relation"
-                                name="relation"
-                                value={familyMemberInput.relation}
-                                onChange={handleFamilyInputChange}
-                                placeholder="Relation (e.g. Father, Sister)"
-                                className="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor="age" className="flex items-center gap-2 text-gray-600 font-medium mb-2">
-                                <FaBirthdayCake /> Age
-                            </label>
-                            <input
-                                type="number"
-                                id="age"
-                                name="age"
-                                value={familyMemberInput.age}
-                                onChange={handleFamilyInputChange}
-                                placeholder="Age"
-                                className="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor="occupation" className="flex items-center gap-2 text-gray-600 font-medium mb-2">
-                                <FaBriefcase /> Occupation
-                            </label>
-                            <input
-                                type="text"
-                                id="occupation"
-                                name="occupation"
-                                value={familyMemberInput.occupation}
-                                onChange={handleFamilyInputChange}
-                                placeholder="Occupation / Role"
-                                className="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
-                            />
-                        </div>
-
-                        <div className="sm:col-span-2 flex justify-end">
-                            <button
-                                type="submit"
-                                className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-2 rounded-md transition"
-                            >
-                                Add Family Member
-                            </button>
+                    <form onSubmit={addFamilyMember} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <input type="text" name="name" value={familyMemberInput.name} onChange={handleFamilyInputChange} placeholder="Name" className="border p-2 rounded" required />
+                        <input type="text" name="relation" value={familyMemberInput.relation} onChange={handleFamilyInputChange} placeholder="Relation" className="border p-2 rounded" />
+                        <input type="date" name="dob" value={familyMemberInput.dob} onChange={handleFamilyInputChange} className="border p-2 rounded" />
+                        <input type="text" name="occupation" value={familyMemberInput.occupation} onChange={handleFamilyInputChange} placeholder="Occupation" className="border p-2 rounded" />
+                        <div className="sm:col-span-2 text-right">
+                            <button type="submit" className="bg-pink-600 text-white px-4 py-2 rounded">Add Member</button>
                         </div>
                     </form>
 
-                    {/* Family Members List */}
-                    {familyMembers.length > 0 && (
-                        <div>
-                            <h3 className="text-2xl font-semibold text-gray-700 mb-6">Family Members</h3>
-                            <ul className="space-y-6">
-                                {familyMembers.map((member, idx) => (
-                                    <li
-                                        key={idx}
-                                        className="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200"
-                                    >
-                                        {/* Placeholder avatar image */}
-                                        <img
-                                            src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
-                                                member.name
-                                            )}&background=ec4899&color=fff&size=64`}
-                                            alt={member.name}
-                                            className="w-16 h-16 rounded-full mr-6 flex-shrink-0"
-                                        />
-
-                                        <div className="flex-grow">
-                                            <p className="text-lg font-semibold text-gray-800">{member.name}</p>
-                                            <p className="text-gray-600 flex items-center gap-2">
-                                                <FaUsers /> {member.relation || "Relation not specified"}
-                                            </p>
-                                            <p className="text-gray-600 flex items-center gap-2">
-                                                <FaBirthdayCake /> {member.age || "Age not specified"}
-                                            </p>
-                                            <p className="text-gray-600 flex items-center gap-2">
-                                                <FaBriefcase /> {member.occupation || "Occupation not specified"}
-                                            </p>
-                                        </div>
-
-                                        <button
-                                            onClick={() => deleteFamilyMember(idx)}
-                                            className="ml-6 p-2 rounded-full text-white bg-red-600 hover:bg-red-700 transition"
-                                            aria-label={`Delete family member ${member.name}`}
-                                        >
-                                            <FaTrashAlt size={18} />
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                    {allFamilyMembers.length > 0 && (
+                        <ul className="space-y-4">
+                            {allFamilyMembers.map((member, index) => (
+                                <li key={index} className="flex items-center justify-between p-4 border rounded bg-gray-50">
+                                    <div>
+                                        <p className="font-bold">{member.name}</p>
+                                        <p>{member.relation}</p>
+                                        <p>{member.dob}</p>
+                                        <p>{member.occupation}</p>
+                                    </div>
+                                    <button onClick={() => deleteFamilyMember(member.id)} className="text-red-600 hover:text-red-800">
+                                        <FaTrashAlt />
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
                     )}
                 </>
             )}
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row justify-end items-center gap-4 mt-12">
-                <button
-                    type="button"
-                    onClick={handleCancel}
-                    className="px-6 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
-                >
-                    Cancel
-                </button>
-                <button
-                    type="button"
-                    onClick={handleSubmit}
-                    className="px-6 py-2 rounded-md bg-pink-600 text-white hover:bg-pink-700 transition"
-                >
-                    Save Changes
-                </button>
+            <div className="flex justify-end gap-4 mt-8">
+                <button onClick={handleCancel} className="px-4 py-2 bg-gray-200 rounded">Cancel</button>
+                <button onClick={handleSubmit} className="px-4 py-2 bg-pink-600 text-white rounded">Save Changes</button>
             </div>
         </div>
     );

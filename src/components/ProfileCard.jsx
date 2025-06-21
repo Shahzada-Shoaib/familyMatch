@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaMapMarkerAlt, FaHeart, FaBook, FaMusic, FaEnvelope, FaPrayingHands, FaRing } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaHeart, FaBook, FaMusic, FaEnvelope, FaPrayingHands, FaSmileWink, FaRing } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const ProfileCard = ({profile}) => {
@@ -60,13 +60,37 @@ const ProfileCard = ({profile}) => {
 
                 {/* CTA Buttons */}
                 <div className="mt-5 flex gap-3 justify-center px-2">
-                    <button className="bg-[#9334EB] text-white px-4 py-2 rounded-3xl hover:bg-[#AE2456]/90 text-sm font-medium flex items-center gap-2">
-                        <FaEnvelope /> Message
-                    </button>
-                    <button className="border border-[#AE2456] text-[#AE2456] px-4 py-2 rounded-3xl hover:bg-[#AE2456]/10 text-sm font-medium flex items-center gap-2">
-                        <FaHeart /> Like
-                    </button>
+                    {/* Envelope Button */}
+                    <div className="relative group">
+                        <button className="bg-[#9334EB] text-white px-4 py-2 rounded-3xl hover:bg-[#AE2456]/90 text-sm font-medium flex items-center gap-2">
+                            <FaEnvelope />
+                        </button>
+                        <span className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
+                            Send Message
+                        </span>
+                    </div>
+
+                    {/* Heart Button */}
+                    <div className="relative group">
+                        <button className="border border-[#AE2456] text-[#AE2456] px-4 py-2 rounded-3xl hover:bg-[#AE2456]/10 text-sm font-medium flex items-center gap-2">
+                            <FaHeart />
+                        </button>
+                        <span className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
+                            Like Profile
+                        </span>
+                    </div>
+
+                    {/* Wink Button */}
+                    <div className="relative group">
+                        <button className="bg-[#AE2456] text-white px-4 py-2 rounded-3xl hover:bg-[#AE2456]/90 text-sm font-medium flex items-center gap-2">
+                            <FaSmileWink />
+                        </button>
+                        <span className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
+                            Send Wink 😉
+                        </span>
+                    </div>
                 </div>
+
             </div>
 
 

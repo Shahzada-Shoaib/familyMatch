@@ -151,12 +151,6 @@ const ProfileSettings = () => {
         }));
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     console.log("Form Data:", formData);
-    //     console.log("Normalized Form Data:", normalizedFormData);
-    //     alert("Form submitted! Check the console.");
-    // };
 
 
     const handleSubmit = async (e) => {

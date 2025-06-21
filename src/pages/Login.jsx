@@ -1,26 +1,24 @@
-import React ,{ useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginForm from '../components/LoginForm'
+import LoginForm from '../components/LoginForm';
 import { getAuthToken } from '../../utils/authToken';
 
-
 function Login() {
+  const navigate = useNavigate();
 
-     const navigate = useNavigate();
+  useEffect(() => {
+    const token = getAuthToken();
+    if (token) {
+      navigate('/profilepage');
+    }
+    console.log('token in login.jsx', token);
+  }, [navigate]);
 
-      useEffect(() => {
-            const token = getAuthToken();
-            if (token) {
-                navigate('/profilepage');
-            }
-            console.log("token in login.jsx", token)
-        }, [navigate]);
-    
   return (
     <div>
-        <LoginForm/>
+      <LoginForm />
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;

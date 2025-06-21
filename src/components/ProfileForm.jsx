@@ -89,7 +89,7 @@ const ProfileForm = () => {
 
 
 
-    //test abpve
+   
     const handleFinish = async () => {
         handleNext();
 
@@ -114,7 +114,7 @@ const ProfileForm = () => {
     };
 
 
-    //test
+
     const onSelectedGalleryOption = (data) => {
         setAnswers({ ...answers, [questions[currentStep].apiname]: data });
     };

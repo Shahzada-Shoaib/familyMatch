@@ -1,94 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import pic from '/images/onlineMoney2.jpg'
-import {API_BASE_URL} from '/src/config'
+import pic from '/images/onlineMoney2.jpg';
 import Button from './Button';
-
+import { API_BASE_URL } from '../config';
 
 function ApiTesting() {
+    const [apiData, setApiData] = useState({
+        name: 'Shoaib shoaib',
+        dob: '01-01-2001',
+        relation: 'son'
+    });
 
-    const [apiData, setApiData] = useState(null);
-
-
-    const normalizeWithABC = (data) => {
-        const ABCKeys = ['allergy', 'blood_groups'];
-        const result = { ABC: {} };
-
-        for (const key in data) {
-            const cleaned = data[key].map(({ id, name }) => ({ id, name }));
-
-            if (ABCKeys.includes(key)) {
-                result.ABC[key] = cleaned;
-            } else {
-                result[key] = cleaned;
-            }
-        }
-
-        return result;
-    };
-
-    // const normalized = normalizeWithABC(response.data.data);
-    // const normalized = normalizeWithABC(apiResponse.data);
-    const normalized = normalizeWithABC(apiData);
-
-
-    // response.data.data
-    console.log("normal in apitesting", normalized);
-
-
-
-
-    // useEffect(()=>{
-    //     console.log("api data", apiData);
-    // }, [apiData])
+    const token = 'eyJ1c2VyX2lkIjoiOTEiLCJ0aW1lc3RhbXAiOjE3NTA0MDAyOTl9';
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('https://familymatch.aakilarose.com/api/profile_options', {
-                    headers: {
-                        'X-API-KEY': '123456'
-                    }
-                });
+        console.log("api data", apiData);
+    }, [apiData]);
 
-                console.log('Dataddsds:', response.data.data);
-                console.log('Blood Groups:', response.data.data.blood_groups);
-
-                setApiData(response.data.data);
-            } catch (error) {
-                console.error('Error:', error);
+    const fetchData = async () => {
+        try {
+            // 1. Create FormData and append fields
+            const formData = new FormData();
+            for (const key in apiData) {
+                formData.append(key, apiData[key]);
             }
-        };
 
-        fetchData(); // call the async function
-    }, []);
+            // 2. Post with formData
+            const response = await axios.post(
+                'https://familymatch.aakilarose.com/api/childern/add',
+                formData,
+                {
+                    headers: {
+                        'X-API-KEY': '123456',
+                        'Authorization': `Bearer ${token}`
+                        // Do NOT set Content-Type manually — let Axios handle it
+                    }
+                }
+            );
 
+            console.log('Response:', response.data);
+            setApiData(response.data);
+        } catch (error) {
+            if (error.response) {
+                console.error('API error:', error.response.status, error.response.data);
+            } else {
+                console.error('Network error:', error.message);
+            }
+        }
+    };
 
-    function abc() {
-        console.log("abc function called");
-    }
     return (
         <div>
-    
             <div className="border w-full h-[500px] overflow-hidden">
                 <img className="w-full h-full object-cover" src={pic} alt="" />
             </div>
 
-    
-
-                <Button variant="primary"  onClick={abc}>
-                    Hellow
-                </Button>   
-            <div className="p-6 space-y-4">
-                <Button variant="primary">Primary</Button>
-                <Button variant="secondary">Secondary</Button>
-                <Button variant="outline">Outline</Button>
-                {/* <Button variant="danger" icon={FaTrash}>Delete</Button> */}
-                <Button variant="cancel">Cancel</Button>
-                {/* <Button icon={FaPlus}>Add</Button> */}
-                <Button isLoading>Loading...</Button>
-            </div>
-
+            <Button variant="primary" onClick={fetchData}>
+                Hellow
+            </Button>
         </div>
     );
 }
