@@ -5,6 +5,7 @@ import {
 } from "react-icons/fa";
 import axios from 'axios';
 import { getAuthToken } from "../../../utils/authToken";
+import Button from "../Button";
 
 const AboutMeProfileSection = () => {
     const [activeTab, setActiveTab] = useState("me");
@@ -183,19 +184,32 @@ const AboutMeProfileSection = () => {
                         <input type="date" name="dob" value={familyMemberInput.dob} onChange={handleFamilyInputChange} className="border p-2 rounded" />
                         <input type="text" name="occupation" value={familyMemberInput.occupation} onChange={handleFamilyInputChange} placeholder="Occupation" className="border p-2 rounded" />
                         <div className="sm:col-span-2 text-right">
-                            <button type="submit" className="bg-pink-600 text-white px-4 py-2 rounded">Add Member</button>
+                            <Button type="submit" variant="primary">Add Member</Button>
+                            {/* <button type="submit" className="bg-pink-600 text-white px-4 py-2 rounded">Add Member</button> */}
                         </div>
                     </form>
 
                     {allFamilyMembers.length > 0 && (
                         <ul className="space-y-4">
                             {allFamilyMembers.map((member, index) => (
-                                <li key={index} className="flex items-center justify-between p-4 border rounded bg-gray-50">
-                                    <div>
-                                        <p className="font-bold">{member.name}</p>
-                                        <p>{member.relation}</p>
-                                        <p>{member.dob}</p>
-                                        <p>{member.occupation}</p>
+                                <li key={index} className="flex items-center justify-between p-4 shadow-md rounded bg-gray-50">
+                                    <div className="space-y-1">
+                                        <div className="flex">
+                                            <p className="w-24 font-semibold">Name:</p>
+                                            <p className="font-bold">{member.name}</p>
+                                        </div>
+                                        <div className="flex">
+                                            <p className="w-24 font-semibold">Relation:</p>
+                                            <p>{member.relation}</p>
+                                        </div>
+                                        <div className="flex">
+                                            <p className="w-24 font-semibold">DOB:</p>
+                                            <p>{member.dob}</p>
+                                        </div>
+                                        <div className="flex">
+                                            <p className="w-24 font-semibold">Occupation:</p>
+                                            <p>{member.occupation}</p>
+                                        </div>
                                     </div>
                                     <button onClick={() => deleteFamilyMember(member.id)} className="text-red-600 hover:text-red-800">
                                         <FaTrashAlt />
@@ -208,8 +222,10 @@ const AboutMeProfileSection = () => {
             )}
 
             <div className="flex justify-end gap-4 mt-8">
-                <button onClick={handleCancel} className="px-4 py-2 bg-gray-200 rounded">Cancel</button>
-                <button onClick={handleSubmit} className="px-4 py-2 bg-pink-600 text-white rounded">Save Changes</button>
+                <Button variant="cancel" onClick={handleCancel} > cancel</Button>
+                {/* <button onClick={handleCancel} className="px-4 py-2 bg-gray-200 rounded">Cancel</button> */}
+                <Button variant="primary" onClick={handleSubmit} >Save Changes</Button>
+                {/* <button onClick={handleSubmit} className="px-4 py-2 bg-pink-600 text-white rounded">Save Changes</button> */}
             </div>
         </div>
     );
