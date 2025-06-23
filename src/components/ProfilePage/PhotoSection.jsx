@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-    UserCircleIcon,
     TrashIcon,
     CameraIcon,
     PhotoIcon,
@@ -15,15 +14,7 @@ const defaultFamilyPhotos = [
 ];
 
 const PhotoSection = () => {
-    const [dp, setDp] = useState(null);
     const [familyPhotos, setFamilyPhotos] = useState(defaultFamilyPhotos);
-
-    const handleDpChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setDp(URL.createObjectURL(file));
-        }
-    };
 
     const handleFamilyPhotosChange = (e) => {
         const files = Array.from(e.target.files);
@@ -42,7 +33,6 @@ const PhotoSection = () => {
     };
 
     const handleReset = () => {
-        setDp(null);
         setFamilyPhotos(defaultFamilyPhotos);
     };
 
@@ -52,38 +42,6 @@ const PhotoSection = () => {
                 <CameraIcon className="h-7 w-7 text-pink-600" />
                 Photo Settings
             </h2>
-
-            {/* Profile Picture */}
-            <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-600 mb-2 flex items-center gap-1">
-                    <UserCircleIcon className="h-5 w-5 text-gray-500" />
-                    Profile Picture (DP)
-                </label>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                    <label className="cursor-pointer">
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleDpChange}
-                            className="hidden"
-                        />
-                        <div className="w-20 h-20 rounded-full border bg-gray-100 flex items-center justify-center overflow-hidden hover:shadow">
-                            {dp ? (
-                                <img
-                                    src={dp}
-                                    alt="Profile"
-                                    className="w-full h-full object-cover"
-                                />
-                            ) : (
-                                <UserCircleIcon className="h-12 w-12 text-gray-400" />
-                            )}
-                        </div>
-                    </label>
-                    <p className="text-sm text-gray-500 flex items-center gap-1">
-                        📁 Click to upload your profile photo
-                    </p>
-                </div>
-            </div>
 
             {/* Family Photos */}
             <div className="mb-6">

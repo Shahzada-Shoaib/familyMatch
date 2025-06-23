@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import dp from '/images/profilePicture.jpg';
 import { CameraIcon } from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
@@ -7,42 +7,99 @@ import { getAuthToken } from '../../../utils/authToken';
 
 function ProfileHeroSection() {
     const [profileData, setProfileData] = useState(null);
+    const fileInputRef = useRef(null);
+
+    // Fetch user profile
+    const fetchProfile = async () => {
+        const token = getAuthToken();
+        try {
+            const response = await axios.get('https://familymatch.aakilarose.com/api/profile', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setProfileData(response.data.data);
+        } catch (error) {
+            console.error('Error fetching profile:', error.response?.data || error.message);
+        }
+    };
 
     useEffect(() => {
-        const fetchProfile = async () => {
-            const token = getAuthToken();
-
-            try {
-                const response = await axios.get('https://familymatch.aakilarose.com/api/profile', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                setProfileData(response.data.data); // update state
-            } catch (error) {
-                console.error('Error fetching profile:', error.response?.data || error.message);
-            }
-        };
-
         fetchProfile();
     }, []);
 
-    // Optional: log once the state is updated
-    useEffect(() => {
-        if (profileData) {
-            console.log('Updated profileData:', profileData);
+    // Trigger file picker
+    const handleImageClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    // Handle file upload
+    const handleFileChange = async (e) => {
+        const token = getAuthToken();
+        const selectedFile = e.target.files[0];
+        if (!selectedFile || !token) return;
+
+        const tempImageURL = URL.createObjectURL(selectedFile);
+        const oldImage = profileData?.img;
+
+        // 1. Show selected image immediately
+        setProfileData(prev => ({
+            ...prev,
+            img: tempImageURL
+        }));
+
+        const formData = new FormData();
+        formData.append("image", selectedFile);
+        formData.append("type", "Profile");
+
+        try {
+            const response = await axios.post(
+                'https://familymatch.aakilarose.com/api/upload',
+                formData,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            if (response.data.status === true) {
+                alert("Image uploaded successfully!");
+
+            } else {
+                throw new Error(response.data.message || "Upload failed");
+            }
+        } catch (error) {
+            alert("Upload failed: " + (error.message || "Unknown error"));
+
+            // 2. Revert to old image if upload failed
+            setProfileData(prev => ({
+                ...prev,
+                img: oldImage
+            }));
         }
-    }, [profileData]);
+    };
+
 
     return (
         <section className="relative md:mx-16 sm:mx-8 md:my-6 m-2 sm:my-8 bg-white rounded-lg text-gray-700 p-4 sm:p-6 flex flex-col sm:flex-row sm:justify-between">
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 items-center sm:items-start">
-                {/* Profile Picture */}
+
+                {/* Profile Picture Upload */}
                 <div className="relative w-36 h-36 sm:w-48 sm:h-48 group">
-                    <div className="w-full h-full bg-[#D1D6DC] rounded-full flex items-center justify-center shadow-md overflow-hidden relative">
+                    {/* Hidden file input */}
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        accept="image/*"
+                        className="hidden"
+                    />
+
+                    {/* Profile Image */}
+                    <div
+                        onClick={handleImageClick}
+                        className="w-full h-full bg-[#D1D6DC] rounded-full flex items-center justify-center shadow-md overflow-hidden relative border cursor-pointer"
+                    >
                         <img
-                            src={profileData?.img}
-                            alt="photo"
+                            src={profileData?.img || dp}
+                            alt="profile"
                             className="w-full h-full object-cover rounded-full transition duration-300 group-hover:brightness-75"
                         />
                         <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-50 transition duration-300 rounded-full">
