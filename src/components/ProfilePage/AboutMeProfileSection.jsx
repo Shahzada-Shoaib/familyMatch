@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-    FaUser, FaUsers, FaTrashAlt, FaBriefcase,
-    FaBirthdayCake, FaUserTie, FaHome
+    FaUser, FaUsers, FaTrashAlt
 } from "react-icons/fa";
 import axios from 'axios';
 import { getAuthToken } from "../../../utils/authToken";
@@ -80,13 +79,11 @@ const AboutMeProfileSection = () => {
     };
 
     const deleteFamilyMember = async (id) => {
-        console.log("Deleting member with ID:", id);
         if (!window.confirm("Are you sure you want to delete this member?")) return;
 
         try {
             const res = await axios.get(
                 `https://familymatch.aakilarose.com/api/delete-childern/${id}`,
-                // { id },
                 {
                     headers: {
                         'X-API-KEY': '123456',
@@ -107,14 +104,8 @@ const AboutMeProfileSection = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Saved:", formData, allFamilyMembers);
+        console.log("Saved:", formData);
         alert("Data saved successfully!");
-    };
-
-    const handleCancel = () => {
-        setFormData({ fullName: "", dob: "", location: "", bio: "", gender: "" });
-        setAllFamilyMembers([]);
-        setFamilyMemberInput({ name: "", relation: "", dob: "", occupation: "" });
     };
 
     useEffect(() => {
@@ -173,6 +164,10 @@ const AboutMeProfileSection = () => {
                     <input type="text" name="gender" value={formData.gender} onChange={handleInputChange} placeholder="Gender" className="border p-2 rounded" />
                     <input type="text" name="location" value={formData.location} onChange={handleInputChange} placeholder="Location" className="border p-2 rounded" />
                     <textarea name="bio" value={formData.bio} onChange={handleInputChange} rows={4} placeholder="Short Bio" className="border p-2 rounded col-span-2" />
+
+                    <div className="sm:col-span-2 flex justify-end gap-4">
+                        <Button type="submit" variant="primary">Save Changes</Button>
+                    </div>
                 </form>
             )}
 
@@ -185,7 +180,6 @@ const AboutMeProfileSection = () => {
                         <input type="text" name="occupation" value={familyMemberInput.occupation} onChange={handleFamilyInputChange} placeholder="Occupation" className="border p-2 rounded" />
                         <div className="sm:col-span-2 text-right">
                             <Button type="submit" variant="primary">Add Member</Button>
-                            {/* <button type="submit" className="bg-pink-600 text-white px-4 py-2 rounded">Add Member</button> */}
                         </div>
                     </form>
 
@@ -220,13 +214,6 @@ const AboutMeProfileSection = () => {
                     )}
                 </>
             )}
-
-            <div className="flex justify-end gap-4 mt-8">
-                <Button variant="cancel" onClick={handleCancel} > cancel</Button>
-                {/* <button onClick={handleCancel} className="px-4 py-2 bg-gray-200 rounded">Cancel</button> */}
-                <Button variant="primary" onClick={handleSubmit} >Save Changes</Button>
-                {/* <button onClick={handleSubmit} className="px-4 py-2 bg-pink-600 text-white rounded">Save Changes</button> */}
-            </div>
         </div>
     );
 };

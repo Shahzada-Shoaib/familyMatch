@@ -4,6 +4,7 @@ import { CameraIcon } from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { getAuthToken } from '../../../utils/authToken';
+import { handleImageUpload } from './handleImageUpload'
 
 function ProfileHeroSection() {
     const [profileData, setProfileData] = useState(null);
@@ -34,47 +35,79 @@ function ProfileHeroSection() {
     };
 
     // Handle file upload
-    const handleFileChange = async (e) => {
-        const token = getAuthToken();
-        const selectedFile = e.target.files[0];
-        if (!selectedFile || !token) return;
+    // const handleFileChange = async (e) => {
+    //     const token = getAuthToken();
+    //     const selectedFile = e.target.files[0];
+    //     if (!selectedFile || !token) return;
 
-        const tempImageURL = URL.createObjectURL(selectedFile);
+    //     const tempImageURL = URL.createObjectURL(selectedFile);
+    //     const oldImage = profileData?.img;
+
+    //     // 1. Show selected image immediately
+    //     setProfileData(prev => ({
+    //         ...prev,
+    //         img: tempImageURL
+    //     }));
+
+    //     const formData = new FormData();
+    //     formData.append("image", selectedFile);
+    //     formData.append("type", "Profile");
+
+    //     try {
+    //         const response = await axios.post(
+    //             'https://familymatch.aakilarose.com/api/upload',
+    //             formData,
+    //             { headers: { Authorization: `Bearer ${token}` } }
+    //         );
+
+    //         if (response.data.status === true) {
+    //             alert("Image uploaded successfully!");
+
+    //         } else {
+    //             throw new Error(response.data.message || "Upload failed");
+    //         }
+    //     } catch (error) {
+    //         alert("Upload failed: " + (error.message || "Unknown error"));
+
+    //         // 2. Revert to old image if upload failed
+    //         setProfileData(prev => ({
+    //             ...prev,
+    //             img: oldImage
+    //         }));
+    //     }
+    // };
+
+    // const handleFileChange=()=>{
+    //     handleImageUpload();
+    // }
+
+    const handleFileChange = (e) => {
         const oldImage = profileData?.img;
 
-        // 1. Show selected image immediately
-        setProfileData(prev => ({
-            ...prev,
-            img: tempImageURL
-        }));
-
-        const formData = new FormData();
-        formData.append("image", selectedFile);
-        formData.append("type", "Profile");
-
-        try {
-            const response = await axios.post(
-                'https://familymatch.aakilarose.com/api/upload',
-                formData,
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-
-            if (response.data.status === true) {
+        handleImageUpload({
+            e,
+            endpoint: 'https://familymatch.aakilarose.com/api/upload',
+            type: 'Profile',
+            onPreview: (tempImageURL) => {
+                setProfileData(prev => ({
+                    ...prev,
+                    img: tempImageURL
+                }));
+            },
+            onSuccess: (res) => {
+                console.log("Image uploaded successfully:", res);
                 alert("Image uploaded successfully!");
-
-            } else {
-                throw new Error(response.data.message || "Upload failed");
+            },
+            onError: (error) => {
+                alert("Upload failed: " + (error.message || "Unknown error"));
+                setProfileData(prev => ({
+                    ...prev,
+                    img: oldImage
+                }));
             }
-        } catch (error) {
-            alert("Upload failed: " + (error.message || "Unknown error"));
-
-            // 2. Revert to old image if upload failed
-            setProfileData(prev => ({
-                ...prev,
-                img: oldImage
-            }));
-        }
+        });
     };
+
 
 
     return (
