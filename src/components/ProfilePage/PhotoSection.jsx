@@ -10,14 +10,20 @@ import { API_BASE_URL } from "../../config";
 import axios from "axios";
 import { getAuthToken } from "../../../utils/authToken";
 
-const defaultFamilyPhotos = [
-    "https://placehold.co/300x200?text=Family+1",
-    "https://placehold.co/300x200?text=Family+2",
-    "https://placehold.co/300x200?text=Family+3",
-];
+// const defaultFamilyPhotos = [
+//     "https://placehold.co/300x200?text=Family+1",
+//     "https://placehold.co/300x200?text=Family+2",
+//     "https://placehold.co/300x200?text=Family+3",
+// ];
+
+// const defaultFamilyPhotos = [
+//     { id: 1, img: "https://placehold.co/300x200?text=Family+1" },
+//     { id: 2, img: "https://placehold.co/300x200?text=Family+2" },
+//     { id: 3, img: "https://placehold.co/300x200?text=Family+3" },
+// ];
 
 const PhotoSection = () => {
-    const [familyPhotos, setFamilyPhotos] = useState(defaultFamilyPhotos);
+    const [familyPhotos, setFamilyPhotos] = useState([]);
     const [uploadingIndexes, setUploadingIndexes] = useState([]);
     const fileInputRef = useRef(null);
 
@@ -29,62 +35,123 @@ const PhotoSection = () => {
         fileInputRef.current.click();
     };
 
+    // const handleFamilyPhotosChange = async (e) => {
+    //     const files = Array.from(e.target.files);
+
+    //     for (const file of files) {
+    //         const tempUrl = URL.createObjectURL(file);
+    //         const newIndex = familyPhotos.length;
+
+    //         // Set temp preview and mark uploading
+    //         setFamilyPhotos((prev) => [...prev, tempUrl]);
+    //         setUploadingIndexes((prev) => [...prev, newIndex]);
+
+    //         const fakeEvent = { target: { files: [file] } };
+    //         await handleImageUpload({
+    //             e: fakeEvent,
+    //             endpoint: `${API_BASE_URL}/upload`,
+    //             type: 'Family',
+    //             onPreview: () => { }, // already handled above
+    //             onSuccess: (res) => {
+    //                 const uploadedUrl = res?.data?.data?.url;
+    //                 console.log("res?.data?.data?.url", res.gallery)
+    //                 console.log("Uploaded URL:", uploadedUrl);
+    //                 if (uploadedUrl) {
+    //                     setFamilyPhotos((prev) => {
+    //                         const updated = [...prev];
+    //                         updated[newIndex] = uploadedUrl;
+    //                         return updated;
+    //                     });
+    //                 }
+
+    //                 // ✅ Remove loader after success
+    //                 setUploadingIndexes((prev) =>
+    //                     prev.filter((i) => i !== newIndex)
+    //                 );
+    //             },
+    //             onError: (err) => {
+    //                 alert('Failed to upload image: ' + err.message);
+    //                 setFamilyPhotos((prev) =>
+    //                     prev.filter((_, index) => index !== newIndex)
+    //                 );
+
+    //                 // ✅ Also remove from uploading indexes on error
+    //                 setUploadingIndexes((prev) =>
+    //                     prev.filter((i) => i !== newIndex)
+    //                 );
+    //             },
+    //         });
+
+    //     }
+    // };
+
     const handleFamilyPhotosChange = async (e) => {
         const files = Array.from(e.target.files);
 
         for (const file of files) {
             const tempUrl = URL.createObjectURL(file);
-            const newIndex = familyPhotos.length;
+            const newId = Date.now() + Math.floor(Math.random() * 1000); // simple unique number
 
-            // Set temp preview and mark uploading
-            setFamilyPhotos((prev) => [...prev, tempUrl]);
-            setUploadingIndexes((prev) => [...prev, newIndex]);
+            // Add temp photo preview
+            setFamilyPhotos((prev) => [...prev, { id: newId, img: tempUrl }]);
+            setUploadingIndexes((prev) => [...prev, newId]); // use uploadingIds instead
 
             const fakeEvent = { target: { files: [file] } };
+
             await handleImageUpload({
                 e: fakeEvent,
                 endpoint: `${API_BASE_URL}/upload`,
                 type: 'Family',
-                onPreview: () => { }, // already handled above
+                onPreview: () => { }, // already handled
                 onSuccess: (res) => {
                     const uploadedUrl = res?.data?.data?.url;
-                    console.log("res?.data?.data?.url", res.gallery)
-                    console.log("Uploaded URL:", uploadedUrl);
                     if (uploadedUrl) {
-                        setFamilyPhotos((prev) => {
-                            const updated = [...prev];
-                            updated[newIndex] = uploadedUrl;
-                            return updated;
-                        });
+                        setFamilyPhotos((prev) =>
+                            prev.map((photo) =>
+                                photo.id === newId ? { ...photo, img: uploadedUrl } : photo
+                            )
+                        );
                     }
 
-                    // ✅ Remove loader after success
                     setUploadingIndexes((prev) =>
-                        prev.filter((i) => i !== newIndex)
+                        prev.filter((id) => id !== newId)
                     );
                 },
                 onError: (err) => {
                     alert('Failed to upload image: ' + err.message);
-                    setFamilyPhotos((prev) =>
-                        prev.filter((_, index) => index !== newIndex)
-                    );
 
-                    // ✅ Also remove from uploading indexes on error
+                    setFamilyPhotos((prev) =>
+                        prev.filter((photo) => photo.id !== newId)
+                    );
                     setUploadingIndexes((prev) =>
-                        prev.filter((i) => i !== newIndex)
+                        prev.filter((id) => id !== newId)
                     );
                 },
             });
-
         }
     };
 
 
-    const removeFamilyPhoto = (indexToRemove) => {
-        setFamilyPhotos((prev) =>
-            prev.filter((_, index) => index !== indexToRemove)
-        );
+
+    const removeFamilyPhoto = async (id) => {
+        try {
+            const token = getAuthToken();
+
+            await axios.get(`${API_BASE_URL}/delete-img/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            // ✅ Re-fetch the updated photo list
+            await fetchProfile();
+
+        } catch (error) {
+            console.error("Failed to delete photo:", error.response?.data || error.message);
+            alert("Failed to delete photo. Please try again.");
+        }
     };
+
 
     const fetchProfile = async () => {
         const token = getAuthToken();
@@ -96,6 +163,7 @@ const PhotoSection = () => {
             });
             // setProfileData(response.data.data);
             console.log("response.data.data", response.data.data.gallery);
+            setFamilyPhotos(response.data.data.gallery);
         } catch (error) {
             console.error('Error fetching profile:', error.response?.data || error.message);
         }
@@ -105,9 +173,6 @@ const PhotoSection = () => {
         fetchProfile();
     }, []);
 
-    useEffect(() => {
-        fetchProfile();
-    })
     return (
         <div className="w-full px-6 py-8 bg-white shadow-md rounded-xl max-w-6xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
@@ -140,7 +205,7 @@ const PhotoSection = () => {
                     </div>
 
                     {/* Family Photos */}
-                    {familyPhotos.map((photo, index) => (
+                    {/* {familyPhotos.map((photo, index) => (
                         <div
                             key={index}
                             className="relative group rounded-lg overflow-hidden shadow hover:shadow-lg transition"
@@ -162,6 +227,32 @@ const PhotoSection = () => {
                                         >
                                             <TrashIcon className="h-5 w-5 text-red-500" />
                                         </button>
+                                </>
+                            )}
+                        </div>
+                    ))} */}
+                    {familyPhotos.map((photo) => (
+                        <div
+                            key={photo.id }
+                            className="relative group rounded-lg overflow-hidden shadow hover:shadow-lg transition"
+                        >
+                            {uploadingIndexes.includes(photo.id) ? (
+                                <div className="w-full h-32 flex items-center justify-center bg-gray-100">
+                                    <div className="loader" />
+                                </div>
+                            ) : (
+                                <>
+                                    <img
+                                        src={photo.img}
+                                        alt={`Family ${photo.id + 1}`}
+                                        className="w-full h-32 object-cover"
+                                    />
+                                    <button
+                                        onClick={() => removeFamilyPhoto(photo.id)}
+                                        className="absolute top-1 right-1 bg-white rounded-full p-1 shadow hidden group-hover:block"
+                                    >
+                                        <TrashIcon className="h-5 w-5 text-red-500" />
+                                    </button>
                                 </>
                             )}
                         </div>
