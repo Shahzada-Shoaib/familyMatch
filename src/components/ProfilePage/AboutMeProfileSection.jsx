@@ -4,12 +4,14 @@ import {
 } from "react-icons/fa";
 import axios from 'axios';
 import { getAuthToken } from "../../../utils/authToken";
+import { API_BASE_URL } from "../../config";
+
 import Button from "../Button";
 
 const AboutMeProfileSection = () => {
     const [activeTab, setActiveTab] = useState("me");
     const [formData, setFormData] = useState({
-        fullName: "",
+        full_name: "",
         dob: "",
         location: "",
         bio: "",
@@ -52,7 +54,7 @@ const AboutMeProfileSection = () => {
             });
 
             const response = await axios.post(
-                'https://familymatch.aakilarose.com/api/childern/add',
+                `${API_BASE_URL}/childern/add`,
                 form,
                 {
                     headers: {
@@ -83,7 +85,7 @@ const AboutMeProfileSection = () => {
 
         try {
             const res = await axios.get(
-                `https://familymatch.aakilarose.com/api/delete-childern/${id}`,
+                `${API_BASE_URL}/delete-childern/${id}`,
                 {
                     headers: {
                         'X-API-KEY': '123456',
@@ -102,16 +104,62 @@ const AboutMeProfileSection = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     console.log("Saved:", formData);
+    //     alert("Data saved successfully!");
+    // };
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     try {
+    //         const token = getAuthToken(); // your custom function to get auth token
+    //         const response = await axios.post(`${API_BASE_URL}/update-profile`, formData, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //                 'Content-Type': 'application/json',
+    //             },
+    //         });
+
+    //         console.log('Saved:', response.data);
+    //         alert('Data saved successfully!');
+    //     } catch (error) {
+    //         console.error('Error saving data:', error);
+    //         alert('Something went wrong!');
+    //     }
+    // };
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Saved:", formData);
-        alert("Data saved successfully!");
+
+        try {
+            const token = getAuthToken(); // your auth token logic
+
+            // Convert JSON to FormData
+            const formDataToSend = new FormData();
+            for (const key in formData) {
+                formDataToSend.append(key, formData[key]);
+            }
+
+            const response = await axios.post(`${API_BASE_URL}/update-profile`, formDataToSend, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    // DO NOT set Content-Type here. Let browser handle it.
+                },
+            });
+
+            console.log('Saved:', response.data);
+            alert('Data saved successfully!');
+        } catch (error) {
+            console.error('Error saving data:', error);
+            alert('Something went wrong!');
+        }
     };
+
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.get('https://familymatch.aakilarose.com/api/profile', {
+                const res = await axios.get(`${API_BASE_URL}/profile`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
@@ -131,7 +179,7 @@ const AboutMeProfileSection = () => {
     useEffect(() => {
         if (profileData) {
             setFormData({
-                fullName: profileData.full_name || '',
+                full_name: profileData.full_name || '',
                 dob: profileData.dob || '',
                 location: profileData.country || '',
                 bio: profileData.bio || '',
@@ -159,7 +207,7 @@ const AboutMeProfileSection = () => {
 
             {activeTab === "me" && (
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <input type="text" name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="Full Name" className="border p-2 rounded" />
+                    <input type="text" name="full_name" value={formData.full_name} onChange={handleInputChange} placeholder="Full Name" className="border p-2 rounded" />
                     <input type="date" name="dob" value={formData.dob} onChange={handleInputChange} className="border p-2 rounded" />
                     <input type="text" name="gender" value={formData.gender} onChange={handleInputChange} placeholder="Gender" className="border p-2 rounded" />
                     <input type="text" name="location" value={formData.location} onChange={handleInputChange} placeholder="Location" className="border p-2 rounded" />

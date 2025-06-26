@@ -1,12 +1,19 @@
 import React from 'react';
 import { FaMapMarkerAlt, FaHeart, FaBook, FaMusic, FaEnvelope, FaPrayingHands, FaSmileWink, FaRing } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { getAuthToken } from '../../utils/authToken';
 
 const ProfileCard = ({profile}) => {
     const navigate = useNavigate();
 
     const handleclick = () => {
-        navigate(`/publicview/${profile.user_id}`);
+        const token = getAuthToken();
+        if (token){
+            navigate(`/publicview/${profile.user_id}`);
+        } else {
+            navigate('/login');
+            console.log("User not logged in, redirecting to login page");
+        }
     }
 
     return (
@@ -31,14 +38,8 @@ const ProfileCard = ({profile}) => {
                
             </div>
 
-
-
             <div className='p-6'>
                 <div className="mt-4 text-sm text-gray-700 space-y-2 px-2">
-                    {/* <p className="flex items-center gap-2">
-                    <FaHeart className="text-[#AE2456]" />
-                    Looking for: <span className="font-medium">{profile?.goal}</span>
-                </p> */}
                     <p className="flex items-center gap-2">
                         <FaBook className="text-[#AE2456]" />
                         Education: <span className="font-medium">{profile?.qualification}</span>
@@ -90,14 +91,7 @@ const ProfileCard = ({profile}) => {
                         </span>
                     </div>
                 </div>
-
             </div>
-
-
-            {/* Info */}
-          
-
-
         </div>
     );
 };

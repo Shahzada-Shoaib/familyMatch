@@ -15,7 +15,7 @@ function Login() {
   }, [navigate]);
 
   return (
-    <div>
+    <div className="bg-[url('/images')] bg-cover bg-center min-h-screen">
       <LoginForm />
     </div>
   );

@@ -128,7 +128,7 @@ function ProfileHeroSection() {
                     {/* Profile Image */}
                     <div
                         onClick={handleImageClick}
-                        className="w-full h-full bg-[#D1D6DC] rounded-full flex items-center justify-center shadow-md overflow-hidden relative border cursor-pointer"
+                        className="w-full h-full bg-[#D1D6DC] rounded-full flex items-center justify-center shadow-lg overflow-hidden relative  cursor-pointer"
                     >
                         <img
                             src={profileData?.img || dp}

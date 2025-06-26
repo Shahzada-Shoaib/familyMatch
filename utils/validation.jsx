@@ -29,6 +29,7 @@ export const validateInput = (type, value) => {
             if (!/[A-Z]/.test(value)) return 'Include at least one uppercase letter.';
             if (!/[a-z]/.test(value)) return 'Include at least one lowercase letter.';
             if (!/[0-9]/.test(value)) return 'Include at least one number.';
+            if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) return 'Include at least one special character.';
             break;
         }
     }

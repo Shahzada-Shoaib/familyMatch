@@ -46,7 +46,22 @@ const ProfileForm = () => {
     const [ApiData, setApiData] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [errors, setErrors] = useState({});
-    // const apiKey = import.meta.env.VITE_X_API_KEY;
+// For creating functiion to moving to the next page when next button is not dis
+    const isNextEnabled =
+        !errors[questions[currentStep]?.apiname] &&
+        !!answers[questions[currentStep]?.apiname];
+
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'Enter' && isNextEnabled && !(currentStep >= 4 && currentStep <= 15)) {
+                handleNext();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isNextEnabled, currentStep]);
 
 
 
@@ -84,10 +99,6 @@ const ProfileForm = () => {
         setAnswers({ ...answers, [currentQuestion.apiname]: value });
         setErrors({ ...errors, [currentQuestion.apiname]: error });
     };
-
-
-
-
 
    
     const handleFinish = async () => {
@@ -161,6 +172,7 @@ const ProfileForm = () => {
         setSelectedOptions(updatedAnswers);
     };
 
+    
 
 
     return (
@@ -330,8 +342,6 @@ const ProfileForm = () => {
                                 >
                                     Next
                                 </button>
-
-
                         )}
 
                     </div>

@@ -4,6 +4,8 @@ import AboutUsSection from '../components/AboutUsSection';
 import FamilySection from '../components/familySection';
 import Footer from '../components/Footer';
 import Button from '../components/Button';
+import { Link } from 'react-router-dom';
+
 
 function HomePage() {
 
@@ -18,13 +20,11 @@ function HomePage() {
                   dicta voluptates quibusdam, pariatur, rem debitis laboriosam assumenda <br />
                   ducimus odio magni vero doloremque eligendi.
               </p>
-
-              <Button variant="primary" className="px-18 py-3 rounded-3xl text-white font-bold">
-                   Click here to find your Family's Match! &rarr;
-              </Button>
-              {/* <button className="border px-5 py-3 rounded-3xl bg-[#CD185B] font-bold text-white">
-                  
-              </button> */}
+        <Link to="/search">
+          <Button variant='primary' className='px-14'>
+            Click here to find your Family's Match! &rarr;
+          </Button>
+        </Link>
           </div>
     <Footer/>
     </div>

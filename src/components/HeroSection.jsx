@@ -35,9 +35,6 @@ function HeroSection() {
               </h1>
               <div className="mt-4 text-left">
                 <Link to="/search">
-                  {/* <button className="border-2 px-10 font-bold py-1 rounded-3xl bg-[#CD185B] text-white hover:border-[#CD185B]">
-                    GET STARTED
-                  </button> */}
                   <Button 
                   variant='primary'
                   className='px-14'> 

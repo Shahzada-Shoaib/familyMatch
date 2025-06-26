@@ -5,6 +5,14 @@ import Button from './Button';
 import { API_BASE_URL } from '../config';
 
 function ApiTesting() {
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            console.log('Enter key was pressed!');
+            // Add your logic here
+        }
+    };
+
     const [apiData, setApiData] = useState({
         name: 'Shoaib shoaib',
         dob: '01-01-2001',
@@ -58,6 +66,11 @@ function ApiTesting() {
             <Button variant="primary" onClick={fetchData}>
                 Hellow
             </Button>
+            <input
+                type="text"
+                onKeyDown={handleKeyDown}
+                placeholder="Type something and press Enter"
+            />
         </div>
     );
 }
