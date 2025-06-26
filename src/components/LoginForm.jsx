@@ -59,7 +59,8 @@ function LoginForm() {
 
 
     return (
-        <div className="bg-[url('/images/coupleImage.jpg')]  bg-cover min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        // <div className='border'>
+        <>
             <form
                 onSubmit={handleSubmit}
                 className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md"
@@ -125,7 +126,9 @@ function LoginForm() {
                     {loading ? 'Signing in...' : 'Sign In'}
                 </button>
             </form>
-        </div>
+        </>
+           
+        // </div>
     );
 }
 

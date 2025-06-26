@@ -51,7 +51,7 @@ const ProfileForm = () => {
         !errors[questions[currentStep]?.apiname] &&
         !!answers[questions[currentStep]?.apiname];
 
-
+// go to the next page by pressing enter key when next button is not disabled
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.key === 'Enter' && isNextEnabled && !(currentStep >= 4 && currentStep <= 15)) {
@@ -298,10 +298,7 @@ const ProfileForm = () => {
                                                     handleChange={handleChange}
                                                     errors={errors}
                                                     />
-
-
-
-                                                        )
+                                                      )
                                 }
                             </div>
                         ))}
