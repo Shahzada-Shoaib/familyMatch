@@ -86,8 +86,8 @@ const SearchFilter = forwardRef(
 
         return (
             <div
-                className={`transition-all duration-500 top-10 mx-4 sm:mx-6 md:mx-12 ${isSearched ? "md:w-[35%] md:h-[650px]" : "h-auto"
-                    } lg:sticky `}
+                className={`transition-all duration-500 top-6 mx-0 sm:mx-6 md:mx-0 ${isSearched ? "md:w-[35%] md:h-[650px]" : "h-auto"
+                    } lg:sticky`}
             >
                 <div
                     className={`backdrop-blur-md rounded-2xl shadow-2xl bg-cover bg-center transition-all duration-500 p-6 w-full md:w-[500px] flex ${isSearched ? "flex-col" : "flex-wrap"

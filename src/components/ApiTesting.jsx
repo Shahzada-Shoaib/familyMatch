@@ -6,54 +6,32 @@ import { API_BASE_URL } from '../config';
 
 function ApiTesting() {
 
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            console.log('Enter key was pressed!');
-            // Add your logic here
-        }
-    };
 
-    const [apiData, setApiData] = useState({
-        name: 'Shoaib shoaib',
-        dob: '01-01-2001',
-        relation: 'son'
-    });
 
-    const token = 'eyJ1c2VyX2lkIjoiOTEiLCJ0aW1lc3RhbXAiOjE3NTA0MDAyOTl9';
+    const apiCall = async () => {
+        const token = 'eyJ1c2VyX2lkIjoiOTEiLCJ0aW1lc3RhbXAiOjE3NTA5MzI5NTN9';
+        const profile_id = 91;
 
-    useEffect(() => {
-        console.log("api data", apiData);
-    }, [apiData]);
-
-    const fetchData = async () => {
         try {
-            // 1. Create FormData and append fields
+            // Create and populate FormData
             const formData = new FormData();
-            for (const key in apiData) {
-                formData.append(key, apiData[key]);
-            }
+            formData.append('profile_id', profile_id);
 
-            // 2. Post with formData
             const response = await axios.post(
-                'https://familymatch.aakilarose.com/api/childern/add',
+                'https://familymatch.aakilarose.com/api/likes',
                 formData,
                 {
                     headers: {
-                        'X-API-KEY': '123456',
-                        'Authorization': `Bearer ${token}`
-                        // Do NOT set Content-Type manually — let Axios handle it
-                    }
+                        Authorization: `Bearer ${token}`,
+                        // Don't set Content-Type manually — Axios handles it with FormData
+                    },
                 }
             );
 
-            console.log('Response:', response.data);
-            setApiData(response.data);
+            console.log('API Response:', response.data);
+            console.log('Token:', token);
         } catch (error) {
-            if (error.response) {
-                console.error('API error:', error.response.status, error.response.data);
-            } else {
-                console.error('Network error:', error.message);
-            }
+            console.error('Error fetching data:', error.response?.data || error.message);
         }
     };
 
@@ -63,14 +41,10 @@ function ApiTesting() {
                 <img className="w-full h-full object-cover" src={pic} alt="" />
             </div>
 
-            <Button variant="primary" onClick={fetchData}>
+            <Button variant="primary" onClick={apiCall}>
                 Hellow
             </Button>
-            <input
-                type="text"
-                onKeyDown={handleKeyDown}
-                placeholder="Type something and press Enter"
-            />
+
         </div>
     );
 }

@@ -57,7 +57,7 @@ function SearchListingPage() {
           <div className='border sticky top-0 z-1 bg-white'>
               <ProfileHeader />
           </div>
-          <div className='lg:flex justify-center items-start mx-auto p-6 space-y-4 lg:space-y-0 lg:space-x-4'>
+          <div className='lg:flex justify-center items-start mx-auto p-6 space-y-4 lg:space-y-0 lg:space-x-4 '>
               <SearchFilter 
             //   onLoadingChange={handleLoadingChange}
               clearProfileData={clearProfileData} 
@@ -66,7 +66,7 @@ function SearchListingPage() {
               />
 
               {isSearched && profileData.length > 0 && (
-                  <div>
+                  <div className='w-full'>
                       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-w-6xl gap-4 p-6">
                           {profileData.map((profile) => (
                               <ProfileCard key={profile?.id} profile={profile} />
