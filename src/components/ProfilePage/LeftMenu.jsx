@@ -32,7 +32,7 @@ function LeftMenu() {
         { id: 2, label: "About me", icon: <FaInfoCircle /> },
         { id: 3, label: "Match Data", icon: <FaChartBar /> },
         { id: 4, label: "Photo", icon: <FaCamera /> },
-        { id: 5, label: "Views", icon: <FaEye /> },
+        // { id: 5, label: "Views", icon: <FaEye /> },
         { id: 6, label: "Likes", icon: <FaHeart /> },
         { id: 7, label: "Favorites", icon: <FaStar /> },
         { id: 8, label: "Winks", icon: <FaSmile /> },
