@@ -48,9 +48,9 @@ const ProfileCard = ({ profile }) => {
 
             );
 
-            console.log('API Response:', response.data.like_status);
+            console.log('API Response:', response.data.is_like);
             // setIsLiked(response.data.like_status);
-            setIsLiked(profile.is_like);
+            setIsLiked(response.data.is_like);
             console.log('Token:', token);
         } catch (error) {
             console.error('Error fetching data:', error.response?.data || error.message);
