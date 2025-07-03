@@ -14,28 +14,222 @@ import { API_BASE_URL } from '../config';
 
 
 
+// const questions = [
+//     //signup data
+//     { id: 1, apiname: "dob", question: "When's your Birth date?", input: 'date', validationType: 'birthday', description: "your text would be here" },
+//     { id: 2, apiname: "full_name", question: "What’s your name as the main contact for the family?", input: 'text', validationType: 'name', description: "your text would be here" },
+//     { id: 3, apiname: "email", question: "What’s the best email to reach you?", input: 'email', validationType: 'email1', description: "your text would be here" },
+//     { id: 4, apiname: "password", question: "What password would you like for your account?", input: 'password', validationType: 'password', description: "your text would be here" },
+//     //yhn tk signup ho k token aa jae ga
+//     { id: 5, apiname: "reffer_id", question: "How did you hear about FamilyMatch?", input: 'text' },
+//     { id: 6, apiname: "religion_id", question: "What's your religion?", input: 'text' },
+//     { id: 7, apiname: "body_type", question: "How would you describe your body type?", input: 'text' },
+//     //suervy started
+//     { id: 8, apiname: "survey_11", question: "Have you ever been married?", input: 'text' },
+//     { id: 9, apiname: "survey_16", question: "Do you have kids?", input: 'text' },
+//     { id: 10, apiname: "survey_17", question: 'Do you want kids?', input: 'text' },
+//     //yhn survey khtm ab blue screeb nthen get profile detail
+//     { id: 11, apiname: "ethnic", question: "Which ethnicity best describe you?", input: 'text' },
+//     { id: 12, apiname: "interests", question: "What interests you?", input: 'text' },
+//     { id: 13, apiname: "bio", question: "One topic. Infinite vibes. What’s yours?", input: 'text' },
+//     { id: 14, apiname: "profile_pic", question: "Ready to catch someone’s eye? 👀", input: 'text' },
+//     { id: 15, apiname: "cvalues", question: "What are your core values?", input: 'text' },
+//     { id: 16, apiname: "number15", question: "", input: 'text'},
+// ];
+
 const questions = [
-    //signup data
-    { id: 1, apiname: "dob", question: "When's your Birth date?", input: 'date', validationType: 'birthday', description: "your text would be here" },
-    { id: 2, apiname: "full_name", question: "What's your Full name?", input: 'text', validationType: 'name', description: "your text would be here" },
-    { id: 3, apiname: "email", question: "What's your email?", input: 'email', validationType: 'email1', description: "your text would be here" },
-    { id: 4, apiname: "password", question: "Set up a password.", input: 'password', validationType: 'password', description: "your text would be here" },
-    //yhn tk signup ho k token aa jae ga
-    { id: 5, apiname: "reffer_id", question: "How did you hear about FamilyMatch?", input: 'text' },
-    { id: 6, apiname: "religion_id", question: "What's your religion?", input: 'text' },
-    { id: 7, apiname: "body_type", question: "How would you describe your body type?", input: 'text' },
-    //suervy started
-    { id: 8, apiname: "survey_11", question: "Have you ever been married?", input: 'text' },
-    { id: 9, apiname: "survey_16", question: "Do you have kids?", input: 'text' },
-    { id: 10, apiname: "survey_17", question: 'Do you want kids?', input: 'text' },
-    //yhn survey khtm ab blue screeb nthen get profile detail
-    { id: 11, apiname: "ethnic", question: "Which ethnicity best describe you?", input: 'text' },
-    { id: 12, apiname: "interests", question: "What interests you?", input: 'text' },
-    { id: 13, apiname: "bio", question: "One topic. Infinite vibes. What’s yours?", input: 'text' },
-    { id: 14, apiname: "profile_pic", question: "Ready to catch someone’s eye? 👀", input: 'text' },
-    { id: 15, apiname: "cvalues", question: "What are your core values?", input: 'text' },
-    { id: 16, apiname: "number15", question: "", input: 'text'},
-];
+    {
+        "id": 1,
+        "apiname": "dob",
+        "question": "When's your Birth date?",
+        "input": "date",
+        "validationType": "birthday",
+        "description": "your text would be here"
+    },
+    {
+        "id": 2,
+        "apiname": "full_name",
+        "question": "What’s your name as the main contact for the family?",
+        "input": "text",
+        "validationType": "name",
+        "description": "your text would be here"
+    },
+    {
+        "id": 3,
+        "apiname": "email",
+        "question": "What’s the best email to reach you?",
+        "input": "email",
+        "validationType": "email1",
+        "description": "your text would be here"
+    },
+    {
+        "id": 4,
+        "apiname": "password",
+        "question": "What password would you like for your account?",
+        "input": "password",
+        "validationType": "password",
+        "description": "Select strong password"
+    },
+    {
+        "id": 5,
+        "apiname": "family_nickname",
+        "question": "What’s a special name or nickname for your family?",
+        "input": "text",
+        "description": "Something that represents your family vibe."
+    },
+    {
+        "id": 6,
+        "apiname": "home_location",
+        "question": "Where does your family call home?",
+        "input": "dropdown-text",
+        "description": "Type or select your location"
+    },
+    {
+        "id": 7,
+        "apiname": "interest_reason",
+        "question": "Why are you interested in Family Match?",
+        "input": "radio",
+        "options": [
+            "New to the area?",
+            "Expand family options?",
+            "Change in family situation (e.g. divorce, remarriage, new blended family)?",
+            "Change in family interests?",
+            "Other (specify)"
+        ],
+        "description": "Help us understand your reason"
+    },
+    {
+        "id": 8,
+        "apiname": "family_size",
+        "question": "How many family members make up your family?",
+        "input": "radio",
+        "options": ["1", "2", "3", "4", "5+"],
+        "description": "Include yourself too"
+    },
+    {
+        "id": 9,
+        "apiname": "life_stage",
+        "question": "Which of the following best describes your family's current life stage?",
+        "input": "radio",
+        "options": [
+            "Expecting a child",
+            "Raising young kids",
+            "Parenting teens",
+            "Empty nesters",
+            "Multigenerational",
+            "Newly married"
+        ]
+    },
+    {
+        "id": 10,
+        "apiname": "family_status",
+        "question": "What’s your family status?",
+        "input": "radio",
+        "options": [
+            "Married",
+            "Single parent",
+            "Blended family",
+            "Multigenerational",
+            "Other"
+        ]
+    },
+    {
+        "id": 11,
+        "apiname": "family_values",
+        "question": "What values are at the heart of your family?",
+        "input": "checkbox",
+        "options": [
+            "Kindness",
+            "Honesty",
+            "Faith",
+            "Adventure",
+            "Respect",
+            "Creativity",
+            "Others"
+        ]
+    },
+    {
+        "id": 12,
+        "apiname": "ethnicity",
+        "question": "What is your family’s ethnicity?",
+        "input": "checkbox",
+        "options": [
+            "Asian",
+            "Black / African descent",
+            "Hispanic / Latino",
+            "Middle Eastern",
+            "White / Caucasian",
+            "Mixed",
+            "Prefer not to say",
+            "Other"
+        ]
+    },
+    {
+        "id": 13,
+        "apiname": "languages_spoken",
+        "question": "What languages do you speak at home or with friends?",
+        "input": "checkbox",
+        "options": [
+            "English",
+            "Urdu",
+            "Arabic",
+            "Punjabi",
+            "Spanish",
+            "French",
+            "Others"
+        ]
+    },
+    {
+        "id": 14,
+        "apiname": "family_activities",
+        "question": "What activities does your family love doing together?",
+        "input": "checkbox",
+        "options": [
+            "Cooking",
+            "Sports",
+            "Board games",
+            "Traveling",
+            "Watching movies",
+            "Outdoor adventures",
+            "Other"
+        ]
+    },
+    {
+        "id": 15,
+        "apiname": "activities_with_others",
+        "question": "What activities would your family enjoy doing with other families?",
+        "input": "checkbox",
+        "options": [
+            "Picnics",
+            "Cultural events",
+            "Playdates",
+            "Volunteering",
+            "Game nights",
+            "Group travel",
+            "Other"
+        ]
+    },
+    {
+        "id": 16,
+        "apiname": "family_tradition",
+        "question": "What’s a favorite family tradition or celebration you cherish?",
+        "input": "text"
+    },
+    {
+        "id": 17,
+        "apiname": "family_story",
+        "question": "What’s a little something about your family's story or traditions?",
+        "input": "textarea"
+    },
+    {
+        "id": 18,
+        "apiname": "family_photo",
+        "question": "Would you like to share a photo or fun avatar?",
+        "input": "image"
+    }
+]
+
+
 
 
 

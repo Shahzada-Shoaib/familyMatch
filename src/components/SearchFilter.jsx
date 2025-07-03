@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import { API_KEY, API_BASE_URL } from "../config";
 import axios from "axios";
+import { getAuthToken } from "../../utils/authToken";
 
 const SearchFilter = forwardRef(
     ({ searchResultData, clearProfileData }, ref) => {
@@ -39,12 +40,43 @@ const SearchFilter = forwardRef(
         const { data, loading, error } = useFetch(`${API_BASE_URL}/search`, {
             headers: {
                 "X-API-KEY": "123456",
+                "Content-Type": "application/json", 
             },
         });
 
         const updateFilter = (key, value) => {
             setFilters((prev) => ({ ...prev, [key]: value }));
         };
+
+        // const handleSearch = (overrides = {}) => {
+        //     const params = { ...filters, page: 1, ...overrides };
+
+        //     if (overrides.triggeredByButton) {
+        //         clearProfileData();
+        //     }
+
+        //     setLoadingSearch(true);
+
+        //     axios
+        //         .get(`${API_BASE_URL}/results`, {
+        //             headers: {
+        //                 "X-API-KEY": API_KEY,
+        //             },
+        //             params,
+        //         })
+        //         .then((response) => {
+        //             searchResultData(response.data);
+        //             setIsSearched(true);
+        //             setFilters(params);
+        //         })
+        //         .catch((error) => {
+        //             console.error("Error:", error);
+        //         })
+        //         .finally(() => {
+        //             setLoadingSearch(false);
+        //         });
+        // };
+
 
         const handleSearch = (overrides = {}) => {
             const params = { ...filters, page: 1, ...overrides };
@@ -55,11 +87,20 @@ const SearchFilter = forwardRef(
 
             setLoadingSearch(true);
 
+            const token = getAuthToken(); // or from cookies / auth context
+
+            const endpoint = token
+                ? `${API_BASE_URL}/results-login`
+                : `${API_BASE_URL}/results`;
+
+            const headers = {
+                "X-API-KEY": API_KEY,
+                ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+            };
+
             axios
-                .get(`${API_BASE_URL}/results`, {
-                    headers: {
-                        "X-API-KEY": API_KEY,
-                    },
+                .get(endpoint, {
+                    headers,
                     params,
                 })
                 .then((response) => {
@@ -74,6 +115,9 @@ const SearchFilter = forwardRef(
                     setLoadingSearch(false);
                 });
         };
+
+
+
 
         const handleLoadMore = () => {
             const nextPage = filters.page + 1;

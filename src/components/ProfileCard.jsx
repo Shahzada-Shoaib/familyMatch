@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     FaMapMarkerAlt, FaHeart, FaBook, FaMusic,
     FaEnvelope, FaPrayingHands, FaSmileWink, FaRing
@@ -13,6 +13,8 @@ const ProfileCard = ({ profile }) => {
     const navigate = useNavigate();
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [isLiked, setIsLiked] = useState(0);
+
+
 
     const handleClick = () => {
         const token = getAuthToken();
@@ -43,15 +45,24 @@ const ProfileCard = ({ profile }) => {
                         Authorization: `Bearer ${token}`,
                     },
                 }
+
             );
 
             console.log('API Response:', response.data.like_status);
-            setIsLiked(response.data.like_status);
+            // setIsLiked(response.data.like_status);
+            setIsLiked(profile.is_like);
             console.log('Token:', token);
         } catch (error) {
             console.error('Error fetching data:', error.response?.data || error.message);
         }
     };
+
+
+
+    useEffect(() => {
+        console.log("ProfileCard mounted with profile:", profile);
+        setIsLiked(profile.is_like); // Initialize isLiked based on profile data
+    }, [profile]);
 
 
     return (
@@ -129,9 +140,10 @@ const ProfileCard = ({ profile }) => {
                                     setIsLiked(isLiked === 1 ? 0 : 1); // Toggle like state
 
                                 }}
+                               
                             >
                                 <FaHeart />
-                                {/* {isLiked === 1 ? 'Liked' : 'Like'} */}
+                                
                             </button>
                             <span className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
                                 {isLiked === 1 ? 'Liked ❤️' : 'Like'}
