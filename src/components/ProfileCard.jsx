@@ -15,7 +15,8 @@ const ProfileCard = ({ profile }) => {
     const navigate = useNavigate();
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [isLiked, setIsLiked] = useState(0);
-    const [isWinked, setIsWinked] = useState(0); // new state for wink
+    const [clicked, setClicked] = useState(false);
+    // const [isWinked, setIsWinked] = useState(0); // new state for wink
 
     const handleClick = () => {
         const token = getAuthToken();
@@ -55,34 +56,45 @@ const ProfileCard = ({ profile }) => {
     // New function for wink functionality
     const winkProfile = async () => {
         const token = getAuthToken();
+
+        // Trigger animation first
+        setClicked(true);
+
+        // Slight delay before running heavy logic to allow animation to start
+        requestAnimationFrame(() => {
+            setTimeout(() => setClicked(false), 1000); // match animation duration
+        });
+
         try {
-            // Create and populate FormData
             const formData = new FormData();
             formData.append('profile_id', profile.id);
 
-            const response = await axios.post(
-                `${API_BASE_URL}/profile/wink_profile`,
-                formData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+            // Slight delay to avoid blocking render cycle (optional but safer)
+            setTimeout(async () => {
+                const response = await axios.post(
+                    `${API_BASE_URL}/profile/wink_profile`,
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
 
-            console.log('API Response for Wink:', response.data.is_wink);
-            setIsWinked(response.data.is_wink);
-            toast.success("You winked at this user! 😉 You can send unlimited winks.");
-
+                console.log('API Response for Wink:', response.data.is_wink);
+                // toast.success("You winked at this user! 😉 You can send unlimited winks.");
+                toast.success(response.data.message)
+            }, 20); // Delay API call just enough to let animation start
         } catch (error) {
             console.error('Error sending wink:', error.response?.data || error.message);
         }
     };
 
+
     useEffect(() => {
         console.log("ProfileCard mounted with profile:", profile);
         setIsLiked(profile.is_like);   // Initialize isLiked based on profile data
-        setIsWinked(profile.is_wink);   // Initialize isWinked based on profile data (if provided)
+        // setIsWinked(profile.is_wink);   // Initialize isWinked based on profile data (if provided)
     }, [profile]);
 
     return (
@@ -130,7 +142,7 @@ const ProfileCard = ({ profile }) => {
                     </div>
 
                     {/* CTA Buttons */}
-                    <div className="mt-5 flex gap-3 justify-center px-2">
+                    <div className="mt-5 flex gap-6 justify-center px-2 items-center">
                         <div className="relative group">
                             <button className="bg-[#9334EB] text-white px-4 py-2 rounded-3xl hover:bg-[#AE2456]/90 text-sm font-medium flex items-center gap-2">
                                 <FaEnvelope />
@@ -163,23 +175,16 @@ const ProfileCard = ({ profile }) => {
 
                         <div className="relative group">
                             <button
-                                className={`px-4 py-2 rounded-3xl text-sm font-medium flex items-center gap-2 border
-                                    ${isWinked === 1
-                                        ? 'bg-[#AE2456] text-white border-[#AE2456]'
-                                        : 'border-[#AE2456] text-[#AE2456] hover:bg-[#AE2456]/10'
-                                    }`}
+                                className="flex items-center gap-2 text-[#AE2456] "
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    winkProfile();
-                                    // Toggle the wink state immediately for responsive UI:
-                                    setIsWinked(isWinked === 1 ? 0 : 1);
+                                    winkProfile(); // keep your API or logic
+                                    // Add animation/toast here if needed
                                 }}
                             >
-                                <FaSmileWink />
+                                <FaSmileWink className={`w-7 h-7 ${clicked ? 'animate-bounce' : ''}`} />
                             </button>
-                            <span className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
-                                {isWinked === 1 ? 'Wink Sent 😉' : 'Send Wink'}
-                            </span>
+
                         </div>
                     </div>
                 </div>

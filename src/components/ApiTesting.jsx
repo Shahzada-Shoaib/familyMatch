@@ -11,16 +11,15 @@ function ApiTesting() {
 
     const apiCall = async () => {
         const token = 'eyJ1c2VyX2lkIjoiOTEiLCJ0aW1lc3RhbXAiOjE3NTA5MzI5NTN9';
-        const profile_id = 91;
+        // const profile_id = 91;
 
         try {
             // Create and populate FormData
-            const formData = new FormData();
-            formData.append('profile_id', profile_id);
+            // const formData = new FormData();
+            // formData.append('profile_id', profile_id);
 
-            const response = await axios.post(
-                'https://familymatch.aakilarose.com/api/likes',
-                formData,
+            const response = await axios.get(
+                'https://familymatch.aakilarose.com/api/profile/winks',
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
