@@ -1,6 +1,12 @@
 import React from 'react'
-import photo from '/images/picture.jpg'
-import photo3 from '/images/picture2.jpg';
+// import photo from '/images/picture.jpg'
+import family1 from '/images/family1.jpg'
+import family2 from '/images/family2.jpg'
+
+
+// import photo3 from '/images/picture2.jpg';
+import photo3 from '/images/familycombine.jpg';
+
 import whiteCircle from '/whiteCircle.png';
 import downarrow from '/downarrow.png';
 import topImg from '/topImg.png';
@@ -65,7 +71,7 @@ function familySection() {
                           custom={0.4}
                       >
                           <img
-                              src={photo}
+                              src={family2}
                               className="w-[150px] sm:w-[200px] h-[150px] sm:h-[200px] rounded-full object-cover border-4 border-[#3095C8]"
                               alt="Left Circle"
                           />
@@ -96,7 +102,7 @@ function familySection() {
                           custom={0.8}
                       >
                           <img
-                              src={photo}
+                              src={family1}
                               className="w-[150px] sm:w-[200px] h-[150px] sm:h-[200px] rounded-full object-cover border-4 border-[#3095C8]"
                               alt="Right Circle"
                           />
