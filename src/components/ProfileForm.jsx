@@ -396,7 +396,7 @@ const ProfileForm = () => {
 
                                 {
                                     //Single Select OPtions
-                                    currentStep >= 4 && currentStep <= 9 ? (
+                                    currentStep >= 5 && currentStep <= 9 ? (
                                         ApiData.data[currentStep - 4]?.map((q) => (
                                             <span key={q.id} className={currentStep === 4 ? 'flex justify-center' : ''}>
                                                 <button
@@ -502,7 +502,7 @@ const ProfileForm = () => {
                 </div>
 
 
-                {!(currentStep >= 4 && currentStep <= 15) && (
+                {!(currentStep >= 5 && currentStep <= 15) && (
                     <div className="mt-6 flex flex-col sm:flex-row justify-between gap-3 sm:gap-0">
 
                         {currentStep !== 0 && (

@@ -3,6 +3,7 @@ import axios from 'axios';
 import pic from '/images/onlineMoney2.jpg';
 import Button from './Button';
 import { API_BASE_URL } from '../config';
+import toast from 'react-hot-toast';
 
 function ApiTesting() {
 
@@ -35,6 +36,15 @@ function ApiTesting() {
         }
     };
 
+
+
+
+    const handleClick=()=>{
+        toast.success("You winked at this user! 😉 You can send unlimited winks.");
+
+    }
+
+
     return (
         <div>
             <div className="border w-full h-[500px] overflow-hidden">
@@ -44,6 +54,9 @@ function ApiTesting() {
             <Button variant="primary" onClick={apiCall}>
                 Hellow
             </Button>
+
+
+            <Button onClick={handleClick}> wink </Button>
 
         </div>
     );

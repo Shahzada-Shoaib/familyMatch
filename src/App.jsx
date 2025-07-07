@@ -11,6 +11,7 @@ import LoginForm from './components/LoginForm';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import SearchListingPage from './pages/SearchListingPage';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
 
@@ -26,7 +27,6 @@ function App() {
 
         {/* <Route path="/login" element={<LoginForm/>} /> */}
         <Route path="/login" element={<Login/>} />
-
         <Route path="/Profilepage" element={<ProfilePage/>} />
         <Route path="/signup" element={<Signup/>} />
         <Route path="/testing" element={<ApiTesting/>} />
@@ -34,6 +34,7 @@ function App() {
 
 
       </Routes>
+      <Toaster position="top-right" reverseOrder={false} />
     </Router>
   )
 }

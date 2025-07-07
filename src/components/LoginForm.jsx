@@ -65,9 +65,12 @@ function LoginForm() {
                 onSubmit={handleSubmit}
                 className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md"
             >
-                <h2 className="text-2xl font-bold mb-6 text-center">
-                    <span className='text-bold text-4xl'>Family</span>Match
-                </h2>
+                <Link to="/" className=" hover:text-gray-700">
+                    <h2 className="text-2xl font-bold mb-6 text-center">
+                        <span className='text-bold text-4xl'>Family</span>Match
+                    </h2>
+                </Link>
+
 
                 {message && (
                     <div

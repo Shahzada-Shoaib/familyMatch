@@ -130,7 +130,7 @@ const SearchFilter = forwardRef(
 
         return (
             <div
-                className={`transition-all duration-500 top-6 mx-0 sm:mx-6 md:mx-0 ${isSearched ? "md:w-[35%] md:h-[650px]" : "h-auto"
+                className={`transition-all duration-500 top-6 mx-0 sm:mx-6 md:mx-0 ${isSearched ? "md:h-[650px]" : "h-auto"
                     } lg:sticky`}
             >
                 <div

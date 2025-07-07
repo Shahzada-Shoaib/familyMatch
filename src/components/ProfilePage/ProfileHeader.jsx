@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function ProfileHeader() {
     return (
-        <div className='bg-[#9334EB] py-4'>
+        <div className='bg-[#9334eb] py-4'>
             <div className='flex justify-between px-8'>
                 {/* Logo navigates to home */}
                 <Link to="/" className='font-bold text-2xl text-white'>
